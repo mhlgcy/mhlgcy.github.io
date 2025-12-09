@@ -1,131 +1,190 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Portfolio Style Dogstudio – No Loader</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MHLGCY – Portfolio</title>
+
+<!-- Police premium style Dogstudio -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
+
 <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Inter", sans-serif; }
-    body { background: #0a0a0a; overflow-x: hidden; color: white; }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    background: #09090c;
+    color: white;
+    font-family: "Inter", sans-serif;
+    overflow-x: hidden;
+}
 
-    .container {
-        width: 100vw; height: 100vh;
-        display: flex; flex-direction: column;
-        justify-content: center; align-items: center;
-        text-align: center;
-    }
+/* LOGO EN HAUT À GAUCHE */
+#logo {
+    position: fixed;
+    top: 25px;
+    left: 35px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    opacity: 0.8;
+}
 
-    h1 {
-        font-size: 4rem; font-weight: 900; letter-spacing: 4px;
-        text-transform: uppercase;
-        background: linear-gradient(90deg, #00ffc8, #00aaff);
-        -webkit-background-clip: text;
-        color: transparent;
-        animation: fadeIn 1.5s ease;
-    }
+/* SECTION HERO */
+.hero {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
 
-    /* BOITE DE CODE */
-    .code-box {
-        margin-top: 40px;
-        width: 75vw; height: 50vh;
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        border-radius: 20px;
-        backdrop-filter: blur(12px);
-        overflow: hidden;
-        position: relative;
-        box-shadow: 0 0 50px rgba(0, 255, 200, 0.25);
-        transform: perspective(900px) rotateX(8deg);
-        animation: boxFloat 6s ease-in-out infinite;
-    }
+/* TITRE CENTRAL */
+.hero-title {
+    position: absolute;
+    text-align: center;
+    top: 20%;
+    font-family: "Playfair Display", serif;
+    font-size: 4rem;
+    line-height: 1.1;
+    color: white;
+    pointer-events: none;
+}
 
-    .code-line {
-        font-family: "Courier New", monospace;
-        font-size: 1.1rem;
-        opacity: 0.85;
-        color: #00ffc8;
-        white-space: nowrap;
-        position: absolute;
-        animation: scrollCode linear infinite;
-    }
+/* DESCRIPTION À DROITE */
+.hero-right {
+    position: absolute;
+    right: 6%;
+    top: 40%;
+    width: 250px;
+    font-size: 1rem;
+    line-height: 1.6;
+    opacity: 0.85;
+}
 
-    @keyframes scrollCode {
-        0% { transform: translateY(100%); }
-        100% { transform: translateY(-130%); }
-    }
+/* CANVAS 3D AU MILIEU */
+#threejsCanvas {
+    width: 500px;
+    height: 500px;
+}
 
-    @keyframes boxFloat {
-        0%,100% { transform: perspective(900px) rotateX(8deg) translateY(0); }
-        50% { transform: perspective(900px) rotateX(8deg) translateY(-10px); }
-    }
+/* SECTIONS APRÈS SCROLL */
+.section {
+    height: 100vh;
+    padding: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
 
-    .btn {
-        margin-top: 30px;
-        padding: 15px 35px;
-        font-size: 1.2rem;
-        border-radius: 14px;
-        background: #00ffc8;
-        color: #000;
-        text-decoration: none;
-        transition: 0.3s;
-        font-weight: bold;
-        letter-spacing: 1px;
-    }
-    .btn:hover { background: #00bfa0; transform: scale(1.06); }
+.btn {
+    margin: 15px;
+    padding: 15px 35px;
+    background: #00e7c0;
+    color: black;
+    font-weight: 700;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+.btn:hover {
+    background: #00b79a;
+}
 
-    .skills { margin-top: 60px; }
-    .skills-title { font-size: 2rem; margin-bottom: 20px; font-weight: 700; }
-    .skill-item { font-size: 1.3rem; opacity: 0.85; margin: 12px 0; letter-spacing: 2px; }
-
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+/* CONTACT */
+#contact {
+    font-size: 1.5rem;
+    opacity: 0.8;
+}
 </style>
 </head>
 <body>
 
-<div class="container">
-    <h1>MHLGCY</h1>
+<div id="logo">mhl.</div>
 
-    <div class="code-box" id="codeBox"></div>
+<!-- SECTION HERO -->
+<section class="hero">
 
-    <a href="#" class="btn">Mon Jeu Unity</a>
+    <!-- C# 3D -->
+    <canvas id="threejsCanvas"></canvas>
 
-    <div class="skills">
-        <div class="skills-title">Je travaille actuellement sur :</div>
-        <div class="skill-item">C# / Unity</div>
-        <div class="skill-item">HTML / CSS / JavaScript</div>
-        <div class="skill-item">Python</div>
-        <div class="skill-item">SQL / MySQL</div>
+    <!-- TITRE -->
+    <div class="hero-title">
+        Mhlgcy<br>Martin Hangist Legacy
     </div>
-</div>
+
+    <!-- TEXTE À DROITE -->
+    <div class="hero-right">
+        Je suis un développeur créatif travaillant sur plusieurs langages :
+        <br><br>
+        • C# / Unity<br>
+        • HTML / CSS / JS<br>
+        • Python<br>
+        • SQL / MySQL<br><br>
+        Actuellement en développement de mon parcours et de projets interactifs.
+    </div>
+
+</section>
+
+<!-- SECTIONS SUIVANTES -->
+<section class="section">
+    <h2>Projets</h2>
+    <a class="btn" href="#">Lancer mon jeu Unity</a>
+    <a class="btn" href="#">Voir mon portfolio</a>
+</section>
+
+<section class="section" id="contact">
+    Me contacter :<br><br>
+    <a class="btn" href="mailto:tonmail@gmail.com">Envoyer un mail</a>
+</section>
+
+<!-- THREE.JS 3D -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
 <script>
-const codeBox = document.getElementById("codeBox");
+// ----- SETUP -----
+const canvas = document.getElementById("threejsCanvas");
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(50, 1, 0.1, 1000);
+camera.position.z = 5;
 
-const codeLines = [
-"void Update() { MovePlayer(); }",
-"print('Python running...')",
-"SELECT * FROM users;",
-"public class Game { static void Start() {} }",
-"<html><body>Hello</body></html>",
-"def compute(x): return x * 2",
-"if(isCoding) continue;",
-"using UnityEngine;",
-"console.log('Dév en cours...')",
-"CREATE TABLE joueur (id INT, nom TEXT);",
-];
+const renderer = new THREE.WebGLRenderer({ canvas, alpha: true });
+renderer.setSize(500, 500);
 
-function spawnLine() {
-    const line = document.createElement("div");
-    line.className = "code-line";
-    line.textContent = codeLines[Math.floor(Math.random() * codeLines.length)];
-    line.style.top = "100%";
-    line.style.animationDuration = (5 + Math.random() * 4) + "s";
+// ----- OBJET C# 3D -----
+const geometry = new THREE.TorusGeometry(1.5, 0.45, 16, 100);
+const material = new THREE.MeshStandardMaterial({
+    color: 0x00ffc8,
+    metalness: 0.8,
+    roughness: 0.2
+});
+const mesh = new THREE.Mesh(geometry, material);
+scene.add(mesh);
 
-    codeBox.appendChild(line);
-    setTimeout(() => line.remove(), 11000);
+// Lumière
+const light = new THREE.PointLight(0xffffff, 1);
+light.position.set(5, 5, 5);
+scene.add(light);
+
+// Animation
+function animate() {
+    requestAnimationFrame(animate);
+
+    // Rotation automatique
+    mesh.rotation.x += 0.003;
+    mesh.rotation.y += 0.004;
+
+    // Rotation au scroll
+    const scrollY = window.scrollY * 0.0005;
+    mesh.rotation.y += scrollY;
+
+    renderer.render(scene, camera);
 }
-
-setInterval(spawnLine, 450);
+animate();
 </script>
 
 </body>
