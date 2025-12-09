@@ -3,68 +3,145 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mon Site de Programmeur</title>
+  <title>Portfolio Programmateur</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f5f5f5;
+    :root {
+      --bg: #0d0d0d;
+      --card: #1a1a1a;
+      --text: #ffffff;
+      --accent: #6c63ff;
+    }
+
+    * {
       margin: 0;
       padding: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
+      box-sizing: border-box;
+      font-family: "Arial", sans-serif;
     }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
     header {
-      background: #1e1e1e;
-      color: white;
       width: 100%;
-      padding: 20px 0;
-      font-size: 1.8rem;
+      padding: 25px 0;
+      text-align: center;
+      font-size: 2rem;
       font-weight: bold;
+      background: #111;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+      animation: fadeDown 1s ease forwards;
     }
+
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
     .container {
-      max-width: 700px;
-      background: white;
-      margin-top: 40px;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 20px;
     }
-    button {
+
+    .card {
+      background: var(--card);
+      border-radius: 15px;
+      padding: 25px;
+      margin-bottom: 35px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+      animation: fadeUp 1s ease forwards;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h2 {
+      color: var(--accent);
+      margin-bottom: 15px;
+    }
+
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .project {
+      background: #222;
+      padding: 20px;
+      border-radius: 12px;
+      transition: 0.3s;
+      cursor: pointer;
+    }
+
+    .project:hover {
+      transform: scale(1.05);
+      background: #292929;
+    }
+
+    .button {
+      display: inline-block;
       margin-top: 20px;
       padding: 12px 20px;
       font-size: 1rem;
-      border: none;
       border-radius: 8px;
-      background: #007bff;
+      background: var(--accent);
       color: white;
-      cursor: pointer;
+      text-decoration: none;
       transition: 0.3s;
     }
-    button:hover {
-      background: #0056b3;
+
+    .button:hover {
+      background: #554eed;
+    }
+
+    @media(max-width: 600px) {
+      header { font-size: 1.6rem; }
+      .card { padding: 18px; }
     }
   </style>
 </head>
 <body>
-  <header>Bienvenue sur mon site de programmeur</header>
+  <header>Mon Portfolio de Programmeur</header>
 
   <div class="container">
-    <h2>À propos de moi</h2>
-    <p>
-      Bonjour ! Je suis un développeur passionné par la création de solutions modernes,
-      efficaces et élégantes. J'aime travailler avec différentes technologies, apprendre
-      continuellement et construire des projets qui ont du sens.
-    </p>
 
-    <button onclick="lancerSite()">Lancer mon site</button>
+    <div class="card">
+      <h2>À propos de moi</h2>
+      <p>
+        Je suis un jeune programmeur passionné par le développement web, les interfaces modernes,
+        l'expérience utilisateur et la création de projets innovants.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Projet en cours : Parcours</h2>
+      <p>
+        Je travaille actuellement sur un projet appelé <strong>Parcours</strong> : une plateforme interactive
+        permettant de suivre, comprendre et construire son évolution dans différents domaines.
+        Le but est de créer une interface fluide, moderne, avec animations et visualisations de données.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Portfolio</h2>
+      <div class="portfolio-grid">
+        <div class="project">Projet 1 – Application Web</div>
+        <div class="project">Projet 2 – Jeu JavaScript</div>
+        <div class="project">Projet 3 – API Backend</div>
+      </div>
+    </div>
+
+    <div class="card" style="text-align:center;">
+      <a class="button" href="#">Me Contacter</a>
+    </div>
+
   </div>
-
-  <script>
-    function lancerSite() {
-      alert("Ton site est lancé !");
-    }
-  </script>
 </body>
 </html>
