@@ -1,168 +1,420 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Portfolio Style Dogstudio</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>mhlgcy — Portfolio</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700;800&display=swap" rel="stylesheet">
+
 <style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: "Inter", sans-serif;
-    }
-    body {
-        background: #0a0a0a;
-        overflow-x: hidden;
-        color: white;
-    }
+  :root{
+    --bg:#060608;
+    --card:#0f0f13;
+    --accent:#7b5bff;
+    --accent-2:#00ffc8;
+    --glass: rgba(255,255,255,0.03);
+    --muted: rgba(255,255,255,0.65);
+  }
+  html,body{height:100%; margin:0; font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;}
+  body{background:var(--bg); color:#ecf0ff; overflow:hidden; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;}
 
-    /* ZONES */
-    .container {
-        width: 100vw;
-        height: 100vh;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        position: relative;
-        perspective: 1000px;
-    }
+  /* full viewport container */
+  .stage {
+    width:100vw; height:100vh; position:relative; display:flex; align-items:center; justify-content:center;
+  }
 
-    /* TEXTE INTRO */
-    h1 {
-        font-size: 3rem;
-        font-weight: 800;
-        letter-spacing: 3px;
-        text-transform: uppercase;
-        animation: fadeIn 2s ease;
-    }
+  /* moving colorful background (CSS, lightweight) */
+  .bg-grad {
+    position:absolute; inset:0; z-index:0; pointer-events:none;
+    background:
+      radial-gradient(800px 400px at 10% 20%, rgba(123,91,255,0.12), transparent 18%),
+      radial-gradient(700px 350px at 90% 80%, rgba(0,255,200,0.07), transparent 18%),
+      linear-gradient(180deg, rgba(10,10,12,1), rgba(4,4,6,1));
+    filter: blur(14px) saturate(1.2);
+    animation: bgShift 12s linear infinite;
+  }
+  @keyframes bgShift {
+    0%{ transform: translate3d(0,0,0) rotate(0deg);}
+    50%{ transform: translate3d(-6vw,-3vw,0) rotate(4deg);}
+    100%{ transform: translate3d(0,0,0) rotate(0deg);}
+  }
 
-    /* LIGNES DE CODE AU CENTRE */
-    .code-box {
-        margin-top: 40px;
-        width: 70vw;
-        height: 50vh;
-        background: rgba(255, 255, 255, 0.03);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 20px;
-        backdrop-filter: blur(10px);
-        padding: 20px;
-        overflow: hidden;
-        position: relative;
-        box-shadow: 0 0 30px rgba(0,255,200,0.2);
-    }
+  /* small floating particles canvas */
+  #particles { position:absolute; inset:0; z-index:1; pointer-events:none; }
 
-    .code-line {
-        font-family: "Courier New", monospace;
-        font-size: 1rem;
-        opacity: 0.8;
-        color: #00ffc8;
-        animation: scrollCode linear infinite;
-        white-space: nowrap;
-    }
+  /* central overlay UI */
+  .ui {
+    position:absolute; z-index:4; text-align:center; width:100%; display:flex; flex-direction:column; align-items:center; gap:12px; pointer-events:auto;
+  }
 
-    @keyframes scrollCode {
-        0% { transform: translateY(100%);}   
-        100% { transform: translateY(-120%);} 
-    }
+  .brand {
+    font-weight:800; font-size:clamp(28px,5vw,64px); letter-spacing:6px;
+    text-transform:none;
+    color:transparent;
+    -webkit-text-stroke: 1px rgba(255,255,255,0.06);
+    text-shadow: 0 6px 40px rgba(123,91,255,0.06);
+  }
+  .brand .glow { color:var(--accent); text-shadow: 0 6px 30px rgba(123,91,255,0.25); -webkit-text-stroke:0; }
 
-    /* BOUTON */
-    .btn {
-        margin-top: 30px;
-        padding: 15px 30px;
-        font-size: 1.1rem;
-        border-radius: 12px;
-        background: #00ffc8;
-        color: #000;
-        text-decoration: none;
-        transition: 0.3s;
-        font-weight: bold;
-    }
-    .btn:hover {
-        background: #00bfa0;
-        transform: scale(1.05);
-    }
+  /* center HUD (links & languages) */
+  .hud {
+    display:flex; gap:18px; align-items:center; z-index:6; margin-top:6px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border:1px solid rgba(255,255,255,0.04);
+    padding:10px 14px; border-radius:999px; backdrop-filter: blur(6px);
+  }
+  .hud a { color:var(--muted); text-decoration:none; font-weight:600; font-size:14px; padding:6px 8px; }
+  .hud a:hover{ color:var(--accent-2); transform:translateY(-3px); transition:0.25s; }
 
-    /* SKILLS SECTION */
-    .skills {
-        margin-top: 60px;
-        text-align: center;
-        animation: fadeIn 2s ease;
-    }
-    .skills-title {
-        font-size: 2rem;
-        margin-bottom: 20px;
-        font-weight: 700;
-    }
-    .skill-item {
-        font-size: 1.3rem;
-        opacity: 0.8;
-        margin: 10px 0;
-        letter-spacing: 2px;
-        animation: float 4s ease-in-out infinite;
-    }
+  /* left column with small vertical list */
+  .side {
+    position:absolute; left:28px; top:50%; transform:translateY(-50%); z-index:5; display:flex; flex-direction:column; gap:12px;
+  }
+  .side .pill {
+    background:var(--glass); border-radius:10px; padding:8px 10px; border:1px solid rgba(255,255,255,0.04); font-size:13px; color:var(--muted);
+    backdrop-filter: blur(6px);
+  }
 
-    @keyframes fadeIn {
-        from { opacity: 0; }
-        to { opacity: 1; }
-    }
+  /* right side floating icons */
+  .side-right {
+    position:absolute; right:26px; top:50%; transform:translateY(-50%); z-index:5; display:flex; flex-direction:column; gap:12px;
+  }
 
-    @keyframes float {
-        0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-10px); }
-    }
+  /* bottom small instruction */
+  .hint {
+    position: absolute; bottom: 18px; left:50%; transform:translateX(-50%); z-index:6; color:rgba(255,255,255,0.5); font-size:13px;
+    background:rgba(0,0,0,0.25); padding:8px 12px; border-radius:999px; border:1px solid rgba(255,255,255,0.03);
+  }
+
+  /* canvas 3D area (Three.js renders here) */
+  #three-canvas { position:absolute; inset:0; z-index:2; }
+
+  /* loading overlay */
+  #loader {
+    position:absolute; inset:0; z-index:100; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:18px;
+    background:linear-gradient(180deg, rgba(10,10,12,0.9), rgba(6,6,8,0.95));
+  }
+  .spinner {
+    width:80px; height:80px; border-radius:50%; border:6px solid rgba(255,255,255,0.06); border-top-color:var(--accent-2); animation:spin 1s linear infinite;
+    box-shadow:0 0 30px rgba(0,255,200,0.06);
+  }
+  @keyframes spin{ to{ transform:rotate(360deg);} }
+
+  .loader-text { color:var(--muted); font-weight:600; letter-spacing:1px; }
+
+  /* responsive adjustments */
+  @media (max-width:900px){
+    .side{ display:none; }
+    .side-right{ display:none; }
+    .hud{ transform:translateY(6px); }
+    .brand{ letter-spacing:2px; }
+    .hint{ font-size:12px; }
+  }
 </style>
 </head>
 <body>
+  <div class="stage">
+    <div class="bg-grad"></div>
+    <canvas id="particles"></canvas>
 
-<div class="container">
-    <h1>Développeur Créatif</h1>
+    <!-- Three.js canvas -->
+    <canvas id="three-canvas"></canvas>
 
-    <div class="code-box" id="codeBox"></div>
+    <!-- overlay UI -->
+    <div class="ui">
+      <div class="brand"><span class="glow">mhlgcy</span></div>
 
-    <a href="#" class="btn">Mon jeu Unity</a>
-
-    <div class="skills">
-        <div class="skills-title">Compétences actuelles</div>
-        <div class="skill-item">C# / Unity</div>
-        <div class="skill-item">HTML / CSS / JS</div>
-        <div class="skill-item">Python</div>
-        <div class="skill-item">SQL / MySQL</div>
+      <div class="hud">
+        <a id="unityBtn" href="#">Mon jeu Unity</a>
+        <a href="#skills">Langages</a>
+        <a href="#projects">Projets</a>
+      </div>
     </div>
-</div>
 
-<script>
-const codeBox = document.getElementById("codeBox");
+    <!-- side small info -->
+    <div class="side" aria-hidden="true">
+      <div class="pill">C#</div>
+      <div class="pill">Unity</div>
+      <div class="pill">HTML / CSS</div>
+      <div class="pill">Python</div>
+    </div>
 
-// Lignes de code aléatoires stylées
-const codeLines = [
-    "function StartProject() {",
-    "  let progress = 0;",
-    "  while(progress < 100) progress++;",
-    "}",
-    "console.log('Développement en cours...');",
-    "#include <iostream>",
-    "std::cout << 'Hello World';",
-    "def run(): print('Python running')",
-    "SELECT * FROM utilisateurs;",
-    "public void Update() { Move(); }",
-    "if(user.isCoding) keepGoing();",
-];
+    <div class="side-right" aria-hidden="true">
+      <div class="pill">SQL</div>
+      <div class="pill">MySQL</div>
+      <div class="pill">API</div>
+    </div>
 
-function spawnLine() {
-    const line = document.createElement("div");
-    line.className = "code-line";
-    line.textContent = codeLines[Math.floor(Math.random() * codeLines.length)];
-    line.style.top = "100%";
-    line.style.position = "absolute";
-    line.style.animationDuration = (6 + Math.random() * 4) + "s";
-    codeBox.appendChild(line);
+    <div class="hint">Scroll pour faire tourner le C#</div>
 
-    setTimeout(() => line.remove(), 12000);
+    <!-- loader -->
+    <div id="loader">
+      <div class="spinner" role="status" aria-hidden="true"></div>
+      <div class="loader-text">Chargement…</div>
+    </div>
+  </div>
+
+  <!-- content sections (below, accessible by scroll) -->
+  <div style="height:160vh; background:linear-gradient(180deg, transparent, rgba(0,0,0,0.85)); position:relative; z-index:0;">
+    <section id="projects" style="padding:80px 6vw; color:#dfe6ff; z-index:6; position:relative;">
+      <h2 style="font-size:28px; margin-bottom:14px; color:var(--accent);">Projets & Portfolio</h2>
+      <p style="max-width:900px; line-height:1.6; color:rgba(255,255,255,0.78)">
+        (Ici apparaîtront tes projets) — tu peux ajouter des vignettes, liens, GitHub, vidéos ou builds Unity.
+      </p>
+    </section>
+
+    <section id="skills" style="padding:40px 6vw; color:#dfe6ff; position:relative;">
+      <h3 style="color:var(--accent); font-size:22px; margin-bottom:8px">Langages & Technologies</h3>
+      <div style="display:flex; flex-wrap:wrap; gap:10px;">
+        <div style="background:#0e0e12;padding:8px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.03)">C#</div>
+        <div style="background:#0e0e12;padding:8px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.03)">Unity</div>
+        <div style="background:#0e0e12;padding:8px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.03)">HTML</div>
+        <div style="background:#0e0e12;padding:8px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.03)">CSS</div>
+        <div style="background:#0e0e12;padding:8px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.03)">Python</div>
+        <div style="background:#0e0e12;padding:8px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.03)">SQL / MySQL</div>
+      </div>
+    </section>
+  </div>
+
+<script type="module">
+/* -------------------------
+  Three.js Text3D C# + scroll-driven rotation
+   - imports from unpkg (module build)
+   - font loaded from three's example fonts on unpkg
+   - lightweight lighting and environment
+--------------------------*/
+import * as THREE from "https://unpkg.com/three@0.158.0/build/three.module.js";
+import { FontLoader } from "https://unpkg.com/three@0.158.0/examples/jsm/loaders/FontLoader.js";
+import { TextGeometry } from "https://unpkg.com/three@0.158.0/examples/jsm/geometries/TextGeometry.js";
+import { OrbitControls } from "https://unpkg.com/three@0.158.0/examples/jsm/controls/OrbitControls.js";
+
+const UNITY_LINK = "TON_LIEN_UNITY_ICI"; // <- remplace par ton vrai lien
+document.getElementById('unityBtn').addEventListener('click', e => { e.preventDefault(); window.open(UNITY_LINK, '_blank'); });
+
+const canvas = document.getElementById('three-canvas');
+const renderer = new THREE.WebGLRenderer({ canvas, antialias:true, alpha:true });
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.shadowMap.enabled = true;
+renderer.outputEncoding = THREE.sRGBEncoding;
+
+const scene = new THREE.Scene();
+scene.fog = new THREE.FogExp2(0x000006, 0.0025);
+
+// camera
+const camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.1, 1000);
+camera.position.set(0, 0.6, 6);
+
+// lights
+const hemi = new THREE.HemisphereLight(0xaaaaee, 0x080820, 0.6);
+scene.add(hemi);
+
+const dir = new THREE.DirectionalLight(0xffffff, 1.2);
+dir.position.set(5, 10, 7);
+dir.castShadow = true;
+dir.shadow.mapSize.set(1024,1024);
+scene.add(dir);
+
+const amb = new THREE.AmbientLight(0xffffff, 0.12);
+scene.add(amb);
+
+// subtle environment sphere to catch colors
+const envGeo = new THREE.IcosahedronGeometry(60, 3);
+const envMat = new THREE.MeshBasicMaterial({ color: 0x0a0a12, side:THREE.BackSide, transparent:true, opacity:0.6 });
+const envSphere = new THREE.Mesh(envGeo, envMat);
+scene.add(envSphere);
+
+// Create a neon-ish material for the text
+const matNeon = new THREE.MeshStandardMaterial({
+  color: 0x111111,
+  metalness: 0.8,
+  roughness: 0.15,
+  emissive: 0x6cffff,
+  emissiveIntensity: 0.9,
+  envMapIntensity: 0.8
+});
+
+// group for C#
+const txtGroup = new THREE.Group();
+scene.add(txtGroup);
+
+let textMesh;
+const loader = new FontLoader();
+const fontUrl = 'https://unpkg.com/three@0.158.0/examples/fonts/helvetiker_bold.typeface.json';
+
+// load font & build text geometry
+loader.load(fontUrl, (font) => {
+  const geom = new TextGeometry('C#', {
+    font: font,
+    size: 1.8,
+    height: 0.35,
+    curveSegments: 12,
+    bevelEnabled: true,
+    bevelThickness: 0.03,
+    bevelSize: 0.02,
+    bevelOffset: 0,
+    bevelSegments: 5
+  });
+  geom.center();
+
+  // two materials: base + emissive rim
+  const mat1 = matNeon.clone();
+  mat1.emissive = new THREE.Color(0x7b5bff);
+  mat1.emissiveIntensity = 0.9;
+  mat1.color = new THREE.Color(0x0b0b10);
+
+  textMesh = new THREE.Mesh(geom, mat1);
+  textMesh.castShadow = true;
+  textMesh.receiveShadow = true;
+  txtGroup.add(textMesh);
+
+  // add a subtle halo ring behind text
+  const ringGeo = new THREE.RingGeometry(2.5, 3.2, 64);
+  const ringMat = new THREE.MeshBasicMaterial({ color: 0x7b5bff, transparent:true, opacity:0.06, side:THREE.DoubleSide });
+  const ring = new THREE.Mesh(ringGeo, ringMat);
+  ring.rotation.x = Math.PI / 2;
+  ring.position.z = -0.8;
+  txtGroup.add(ring);
+
+  // add small glow planes
+  for(let i=0;i<3;i++){
+    const g = new THREE.PlaneGeometry(6,2.5);
+    const m = new THREE.MeshBasicMaterial({ color: i===0?0x7b5bff:0x00ffc8, transparent:true, opacity:0.025 });
+    const p = new THREE.Mesh(g,m);
+    p.rotation.x = -0.35 - (i*0.03);
+    p.position.z = -1.2 - (i*0.2);
+    txtGroup.add(p);
+  }
+
+  // finished loading visuals
+  hideLoader();
+}, (xhr)=> {
+  // progress callback (optional)
+  // console.log((xhr.loaded / xhr.total) * 100 + "% font loaded");
+}, (err)=> {
+  console.error('Font load error', err);
+  hideLoader();
+});
+
+/* ---------- particles (canvas 2D) ---------- */
+const particlesCanvas = document.getElementById('particles');
+const pctx = particlesCanvas.getContext('2d');
+function resizeParticles(){
+  particlesCanvas.width = innerWidth * devicePixelRatio;
+  particlesCanvas.height = innerHeight * devicePixelRatio;
+  particlesCanvas.style.width = innerWidth+'px';
+  particlesCanvas.style.height = innerHeight+'px';
+  pctx.scale(devicePixelRatio, devicePixelRatio);
+}
+resizeParticles();
+
+const particles = [];
+for(let i=0;i<80;i++){
+  particles.push({
+    x: Math.random()*innerWidth,
+    y: Math.random()*innerHeight,
+    r: 0.6 + Math.random()*2.6,
+    v: 0.1 + Math.random()*0.6,
+    col: Math.random() > 0.5 ? 'rgba(123,91,255,0.09)' : 'rgba(0,255,200,0.06)'
+  });
+}
+function drawParticles(){
+  pctx.clearRect(0,0,innerWidth,innerHeight);
+  particles.forEach(p=>{
+    p.y -= p.v;
+    if(p.y < -10) { p.y = innerHeight + 10; p.x = Math.random()*innerWidth; }
+    pctx.beginPath();
+    pctx.fillStyle = p.col;
+    pctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+    pctx.fill();
+  });
 }
 
-setInterval(spawnLine, 500);
+/* ---------- resize handler ---------- */
+function onResize(){
+  const w = innerWidth, h = innerHeight;
+  camera.aspect = w/h;
+  camera.updateProjectionMatrix();
+  renderer.setSize(w,h);
+  resizeParticles();
+}
+window.addEventListener('resize', onResize, {passive:true});
+onResize();
+
+/* ---------- scroll mapping to rotation ---------- */
+let targetRotX = 0, targetRotY = 0;
+function onScroll(){
+  // compute scroll progress from top to bottom of document
+  const docH = document.documentElement.scrollHeight - window.innerHeight;
+  const scrollPos = window.scrollY;
+  const t = docH>0 ? scrollPos / docH : 0;
+  // map to rotation values (radians)
+  targetRotY = (t - 0.5) * Math.PI * 1.2; // more rotation horizontally
+  targetRotX = (t - 0.5) * 0.5; // slight tilt
+}
+window.addEventListener('scroll', onScroll, {passive:true});
+onScroll();
+
+/* ---------- animation loop ---------- */
+let last = 0;
+function tick(time){
+  requestAnimationFrame(tick);
+  const dt = (time - last) * 0.001;
+  last = time;
+
+  // gentle idle rotation
+  if(txtGroup){
+    txtGroup.rotation.y += 0.18 * dt;
+    // lerp to scroll-target rotation
+    txtGroup.rotation.y += (targetRotY - txtGroup.rotation.y) * Math.min(0.08, 0.3*dt);
+    txtGroup.rotation.x += (targetRotX - txtGroup.rotation.x) * Math.min(0.08, 0.3*dt);
+  }
+
+  // animate env slight spin
+  envSphere.rotation.y += 0.01 * dt;
+
+  // camera subtle bob
+  camera.position.z += (6 - camera.position.z) * 0.06;
+
+  // render
+  renderer.render(scene, camera);
+  drawParticles();
+}
+tick(0);
+
+/* ---------- loader hide ---------- */
+function hideLoader(){
+  const loader = document.getElementById('loader');
+  if(!loader) return;
+  loader.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+  loader.style.opacity = '0';
+  loader.style.transform = 'translateY(-6px)';
+  setTimeout(()=> loader.remove(), 900);
+}
+
+/* safety: hide loader after 6s even if font not loaded */
+setTimeout(hideLoader, 6000);
+
+/* ---------- optional OrbitControls for dev (comment out in prod) ---------- */
+/*
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
+controls.dampingFactor = 0.08;
+controls.minDistance = 3;
+controls.maxDistance = 12;
+*/
+
+/* ---------- simple pointer parallax effect ---------- */
+let px = 0, py = 0;
+window.addEventListener('pointermove', (e) => {
+  const x = (e.clientX / innerWidth) - 0.5;
+  const y = (e.clientY / innerHeight) - 0.5;
+  px = x; py = y;
+  if(txtGroup){
+    txtGroup.rotation.x += (py * 0.05 - txtGroup.rotation.x) * 0.08;
+    txtGroup.rotation.y += (px * 0.7 - txtGroup.rotation.y) * 0.06;
+  }
+}, {passive:true});
 </script>
 
 </body>
