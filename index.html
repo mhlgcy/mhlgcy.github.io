@@ -4,135 +4,79 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>mhlgcy — Portfolio</title>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700;800&display=swap" rel="stylesheet">
-
 <style>
   :root{
     --bg:#060608;
-    --card:#0f0f13;
     --accent:#7b5bff;
     --accent-2:#00ffc8;
-    --glass: rgba(255,255,255,0.03);
-    --muted: rgba(255,255,255,0.65);
+    --muted:rgba(255,255,255,0.7);
   }
-  html,body{height:100%; margin:0; font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;}
-  body{background:var(--bg); color:#ecf0ff; overflow:hidden; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;}
-
-  /* full viewport container */
-  .stage {
-    width:100vw; height:100vh; position:relative; display:flex; align-items:center; justify-content:center;
-  }
-
-  /* moving colorful background (CSS, lightweight) */
-  .bg-grad {
-    position:absolute; inset:0; z-index:0; pointer-events:none;
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0;font-family:"Poppins",system-ui,-apple-system,"Segoe UI",Roboto,Arial;background:var(--bg);color:#fff;overflow-x:hidden}
+  .stage{width:100vw;height:100vh;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
+  .bg-grad{position:absolute;inset:0;z-index:0;pointer-events:none;
     background:
-      radial-gradient(800px 400px at 10% 20%, rgba(123,91,255,0.12), transparent 18%),
-      radial-gradient(700px 350px at 90% 80%, rgba(0,255,200,0.07), transparent 18%),
-      linear-gradient(180deg, rgba(10,10,12,1), rgba(4,4,6,1));
-    filter: blur(14px) saturate(1.2);
-    animation: bgShift 12s linear infinite;
-  }
-  @keyframes bgShift {
-    0%{ transform: translate3d(0,0,0) rotate(0deg);}
-    50%{ transform: translate3d(-6vw,-3vw,0) rotate(4deg);}
-    100%{ transform: translate3d(0,0,0) rotate(0deg);}
-  }
+      radial-gradient(900px 500px at 10% 18%, rgba(123,91,255,0.12), transparent 16%),
+      radial-gradient(800px 420px at 92% 82%, rgba(0,255,200,0.07), transparent 16%),
+      linear-gradient(180deg,#040406,#08080a);
+    filter:blur(14px) saturate(1.1);
+    animation:bgShift 14s linear infinite}
+  @keyframes bgShift{0%{transform:translate3d(0,0,0)}50%{transform:translate3d(-6vw,-3vw,0) rotate(3deg)}100%{transform:translate3d(0,0,0)}}
 
-  /* small floating particles canvas */
-  #particles { position:absolute; inset:0; z-index:1; pointer-events:none; }
+  #particles{position:absolute;inset:0;z-index:1;pointer-events:none}
 
-  /* central overlay UI */
-  .ui {
-    position:absolute; z-index:4; text-align:center; width:100%; display:flex; flex-direction:column; align-items:center; gap:12px; pointer-events:auto;
-  }
+  /* Three.js canvas sits above particles but below UI */
+  #three-canvas{position:absolute;inset:0;z-index:2;display:block}
 
-  .brand {
-    font-weight:800; font-size:clamp(28px,5vw,64px); letter-spacing:6px;
-    text-transform:none;
-    color:transparent;
-    -webkit-text-stroke: 1px rgba(255,255,255,0.06);
-    text-shadow: 0 6px 40px rgba(123,91,255,0.06);
-  }
-  .brand .glow { color:var(--accent); text-shadow: 0 6px 30px rgba(123,91,255,0.25); -webkit-text-stroke:0; }
+  .ui{position:absolute;z-index:6;text-align:center;width:100%;display:flex;flex-direction:column;align-items:center;gap:10px;padding-top:6vh;pointer-events:auto}
+  .brand{font-weight:800;font-size:clamp(28px,6vw,72px);letter-spacing:6px;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,0.06);text-shadow:0 6px 40px rgba(123,91,255,0.06)}
+  .brand .glow{color:var(--accent);-webkit-text-stroke:0;text-shadow:0 6px 30px rgba(123,91,255,0.25)}
+  .hud{display:flex;gap:18px;align-items:center;z-index:6;margin-top:6px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.04);padding:10px 14px;border-radius:999px;backdrop-filter:blur(6px)}
+  .hud a{color:var(--muted);text-decoration:none;font-weight:600;font-size:14px;padding:6px 8px}
+  .hud a:hover{color:var(--accent-2);transform:translateY(-3px);transition:0.25s}
 
-  /* center HUD (links & languages) */
-  .hud {
-    display:flex; gap:18px; align-items:center; z-index:6; margin-top:6px;
-    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-    border:1px solid rgba(255,255,255,0.04);
-    padding:10px 14px; border-radius:999px; backdrop-filter: blur(6px);
-  }
-  .hud a { color:var(--muted); text-decoration:none; font-weight:600; font-size:14px; padding:6px 8px; }
-  .hud a:hover{ color:var(--accent-2); transform:translateY(-3px); transition:0.25s; }
+  .side{position:absolute;left:20px;top:50%;transform:translateY(-50%);z-index:5;display:flex;flex-direction:column;gap:10px}
+  .pill{background:rgba(255,255,255,0.02);padding:8px 10px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);font-size:13px;color:var(--muted);backdrop-filter:blur(6px)}
 
-  /* left column with small vertical list */
-  .side {
-    position:absolute; left:28px; top:50%; transform:translateY(-50%); z-index:5; display:flex; flex-direction:column; gap:12px;
-  }
-  .side .pill {
-    background:var(--glass); border-radius:10px; padding:8px 10px; border:1px solid rgba(255,255,255,0.04); font-size:13px; color:var(--muted);
-    backdrop-filter: blur(6px);
-  }
+  .hint{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);z-index:6;color:rgba(255,255,255,0.45);font-size:13px;background:rgba(0,0,0,0.25);padding:8px 12px;border-radius:999px;border:1px solid rgba(255,255,255,0.03)}
 
-  /* right side floating icons */
-  .side-right {
-    position:absolute; right:26px; top:50%; transform:translateY(-50%); z-index:5; display:flex; flex-direction:column; gap:12px;
-  }
+  /* Loader (non-blocking fake loader) */
+  #loader{position:absolute;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:14px;background:linear-gradient(180deg, rgba(6,6,8,0.98), rgba(4,4,6,0.95));transition:opacity .6s ease,transform .6s ease}
+  .spinner{width:70px;height:70px;border-radius:50%;border:6px solid rgba(255,255,255,0.06);border-top-color:var(--accent-2);animation:spin 1s linear infinite;box-shadow:0 0 30px rgba(0,255,200,0.06)}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .loader-text{color:var(--muted);font-weight:600;letter-spacing:1px}
 
-  /* bottom small instruction */
-  .hint {
-    position: absolute; bottom: 18px; left:50%; transform:translateX(-50%); z-index:6; color:rgba(255,255,255,0.5); font-size:13px;
-    background:rgba(0,0,0,0.25); padding:8px 12px; border-radius:999px; border:1px solid rgba(255,255,255,0.03);
-  }
+  /* content below viewport to enable scroll */
+  .below{height:180vh;background:linear-gradient(180deg, transparent, rgba(0,0,0,0.9));position:relative;z-index:0}
 
-  /* canvas 3D area (Three.js renders here) */
-  #three-canvas { position:absolute; inset:0; z-index:2; }
-
-  /* loading overlay */
-  #loader {
-    position:absolute; inset:0; z-index:100; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:18px;
-    background:linear-gradient(180deg, rgba(10,10,12,0.9), rgba(6,6,8,0.95));
-  }
-  .spinner {
-    width:80px; height:80px; border-radius:50%; border:6px solid rgba(255,255,255,0.06); border-top-color:var(--accent-2); animation:spin 1s linear infinite;
-    box-shadow:0 0 30px rgba(0,255,200,0.06);
-  }
-  @keyframes spin{ to{ transform:rotate(360deg);} }
-
-  .loader-text { color:var(--muted); font-weight:600; letter-spacing:1px; }
-
-  /* responsive adjustments */
-  @media (max-width:900px){
-    .side{ display:none; }
-    .side-right{ display:none; }
-    .hud{ transform:translateY(6px); }
-    .brand{ letter-spacing:2px; }
-    .hint{ font-size:12px; }
+  /* sections styling */
+  section{padding:72px 6vw;color:#dfe6ff}
+  h2{color:var(--accent);margin-bottom:12px}
+  .tags{display:flex;flex-wrap:wrap;gap:10px}
+  .tag{background:#0f0f12;padding:8px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.03)}
+  @media(max-width:900px){
+    .side{display:none}
+    .hud{transform:translateY(6px)}
+    .brand{letter-spacing:2px}
   }
 </style>
 </head>
 <body>
   <div class="stage">
-    <div class="bg-grad"></div>
-    <canvas id="particles"></canvas>
+    <div class="bg-grad" aria-hidden="true"></div>
+    <canvas id="particles" aria-hidden="true"></canvas>
+    <canvas id="three-canvas" aria-hidden="true"></canvas>
 
-    <!-- Three.js canvas -->
-    <canvas id="three-canvas"></canvas>
-
-    <!-- overlay UI -->
-    <div class="ui">
+    <div class="ui" role="banner">
       <div class="brand"><span class="glow">mhlgcy</span></div>
-
-      <div class="hud">
+      <div class="hud" role="navigation">
         <a id="unityBtn" href="#">Mon jeu Unity</a>
         <a href="#skills">Langages</a>
         <a href="#projects">Projets</a>
       </div>
     </div>
 
-    <!-- side small info -->
     <div class="side" aria-hidden="true">
       <div class="pill">C#</div>
       <div class="pill">Unity</div>
@@ -140,282 +84,204 @@
       <div class="pill">Python</div>
     </div>
 
-    <div class="side-right" aria-hidden="true">
-      <div class="pill">SQL</div>
-      <div class="pill">MySQL</div>
-      <div class="pill">API</div>
-    </div>
+    <div class="hint">Scroll pour faire tourner le C#  — Déplace la souris pour parallax</div>
 
-    <div class="hint">Scroll pour faire tourner le C#</div>
-
-    <!-- loader -->
-    <div id="loader">
+    <div id="loader" aria-hidden="true">
       <div class="spinner" role="status" aria-hidden="true"></div>
       <div class="loader-text">Chargement…</div>
     </div>
   </div>
 
-  <!-- content sections (below, accessible by scroll) -->
-  <div style="height:160vh; background:linear-gradient(180deg, transparent, rgba(0,0,0,0.85)); position:relative; z-index:0;">
-    <section id="projects" style="padding:80px 6vw; color:#dfe6ff; z-index:6; position:relative;">
-      <h2 style="font-size:28px; margin-bottom:14px; color:var(--accent);">Projets & Portfolio</h2>
-      <p style="max-width:900px; line-height:1.6; color:rgba(255,255,255,0.78)">
-        (Ici apparaîtront tes projets) — tu peux ajouter des vignettes, liens, GitHub, vidéos ou builds Unity.
-      </p>
+  <div class="below">
+    <section id="projects">
+      <h2>Projets & Portfolio</h2>
+      <p style="max-width:900px;line-height:1.6">Ici tes projets : vignettes, vidéos, builds Unity ou liens GitHub. Je peux générer une grille prête si tu veux.</p>
     </section>
-
-    <section id="skills" style="padding:40px 6vw; color:#dfe6ff; position:relative;">
-      <h3 style="color:var(--accent); font-size:22px; margin-bottom:8px">Langages & Technologies</h3>
-      <div style="display:flex; flex-wrap:wrap; gap:10px;">
-        <div style="background:#0e0e12;padding:8px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.03)">C#</div>
-        <div style="background:#0e0e12;padding:8px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.03)">Unity</div>
-        <div style="background:#0e0e12;padding:8px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.03)">HTML</div>
-        <div style="background:#0e0e12;padding:8px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.03)">CSS</div>
-        <div style="background:#0e0e12;padding:8px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.03)">Python</div>
-        <div style="background:#0e0e12;padding:8px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.03)">SQL / MySQL</div>
+    <section id="skills">
+      <h2>Langages & Technologies</h2>
+      <div class="tags">
+        <div class="tag">C#</div>
+        <div class="tag">Unity</div>
+        <div class="tag">HTML</div>
+        <div class="tag">CSS</div>
+        <div class="tag">JavaScript</div>
+        <div class="tag">Python</div>
+        <div class="tag">SQL / MySQL</div>
       </div>
     </section>
   </div>
 
 <script type="module">
-/* -------------------------
-  Three.js Text3D C# + scroll-driven rotation
-   - imports from unpkg (module build)
-   - font loaded from three's example fonts on unpkg
-   - lightweight lighting and environment
---------------------------*/
+/* ============================
+  Static-friendly portfolio with:
+  - non-blocking fake loader (auto hides)
+  - particles (2D canvas)
+  - Three.js Text3D ("C#") with scroll-driven rotation
+  - simple pointer parallax
+================================= */
+
 import * as THREE from "https://unpkg.com/three@0.158.0/build/three.module.js";
 import { FontLoader } from "https://unpkg.com/three@0.158.0/examples/jsm/loaders/FontLoader.js";
 import { TextGeometry } from "https://unpkg.com/three@0.158.0/examples/jsm/geometries/TextGeometry.js";
-import { OrbitControls } from "https://unpkg.com/three@0.158.0/examples/jsm/controls/OrbitControls.js";
 
-const UNITY_LINK = "TON_LIEN_UNITY_ICI"; // <- remplace par ton vrai lien
-document.getElementById('unityBtn').addEventListener('click', e => { e.preventDefault(); window.open(UNITY_LINK, '_blank'); });
+const UNITY_LINK = "TON_LIEN_UNITY_ICI"; // <<-- remplace par ton lien
+document.getElementById('unityBtn').addEventListener('click', e=>{ e.preventDefault(); window.open(UNITY_LINK, '_blank'); });
 
-const canvas = document.getElementById('three-canvas');
-const renderer = new THREE.WebGLRenderer({ canvas, antialias:true, alpha:true });
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-renderer.shadowMap.enabled = true;
-renderer.outputEncoding = THREE.sRGBEncoding;
+/* ---------- loader: non-blocking fake loader ---------- */
+const loaderEl = document.getElementById('loader');
+// hide after 1.5s (never blocks the app)
+setTimeout(() => {
+  loaderEl.style.opacity = '0';
+  loaderEl.style.transform = 'translateY(-8px)';
+  setTimeout(()=>loaderEl.remove(), 600);
+}, 1500);
 
-const scene = new THREE.Scene();
-scene.fog = new THREE.FogExp2(0x000006, 0.0025);
-
-// camera
-const camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.1, 1000);
-camera.position.set(0, 0.6, 6);
-
-// lights
-const hemi = new THREE.HemisphereLight(0xaaaaee, 0x080820, 0.6);
-scene.add(hemi);
-
-const dir = new THREE.DirectionalLight(0xffffff, 1.2);
-dir.position.set(5, 10, 7);
-dir.castShadow = true;
-dir.shadow.mapSize.set(1024,1024);
-scene.add(dir);
-
-const amb = new THREE.AmbientLight(0xffffff, 0.12);
-scene.add(amb);
-
-// subtle environment sphere to catch colors
-const envGeo = new THREE.IcosahedronGeometry(60, 3);
-const envMat = new THREE.MeshBasicMaterial({ color: 0x0a0a12, side:THREE.BackSide, transparent:true, opacity:0.6 });
-const envSphere = new THREE.Mesh(envGeo, envMat);
-scene.add(envSphere);
-
-// Create a neon-ish material for the text
-const matNeon = new THREE.MeshStandardMaterial({
-  color: 0x111111,
-  metalness: 0.8,
-  roughness: 0.15,
-  emissive: 0x6cffff,
-  emissiveIntensity: 0.9,
-  envMapIntensity: 0.8
-});
-
-// group for C#
-const txtGroup = new THREE.Group();
-scene.add(txtGroup);
-
-let textMesh;
-const loader = new FontLoader();
-const fontUrl = 'https://unpkg.com/three@0.158.0/examples/fonts/helvetiker_bold.typeface.json';
-
-// load font & build text geometry
-loader.load(fontUrl, (font) => {
-  const geom = new TextGeometry('C#', {
-    font: font,
-    size: 1.8,
-    height: 0.35,
-    curveSegments: 12,
-    bevelEnabled: true,
-    bevelThickness: 0.03,
-    bevelSize: 0.02,
-    bevelOffset: 0,
-    bevelSegments: 5
-  });
-  geom.center();
-
-  // two materials: base + emissive rim
-  const mat1 = matNeon.clone();
-  mat1.emissive = new THREE.Color(0x7b5bff);
-  mat1.emissiveIntensity = 0.9;
-  mat1.color = new THREE.Color(0x0b0b10);
-
-  textMesh = new THREE.Mesh(geom, mat1);
-  textMesh.castShadow = true;
-  textMesh.receiveShadow = true;
-  txtGroup.add(textMesh);
-
-  // add a subtle halo ring behind text
-  const ringGeo = new THREE.RingGeometry(2.5, 3.2, 64);
-  const ringMat = new THREE.MeshBasicMaterial({ color: 0x7b5bff, transparent:true, opacity:0.06, side:THREE.DoubleSide });
-  const ring = new THREE.Mesh(ringGeo, ringMat);
-  ring.rotation.x = Math.PI / 2;
-  ring.position.z = -0.8;
-  txtGroup.add(ring);
-
-  // add small glow planes
-  for(let i=0;i<3;i++){
-    const g = new THREE.PlaneGeometry(6,2.5);
-    const m = new THREE.MeshBasicMaterial({ color: i===0?0x7b5bff:0x00ffc8, transparent:true, opacity:0.025 });
-    const p = new THREE.Mesh(g,m);
-    p.rotation.x = -0.35 - (i*0.03);
-    p.position.z = -1.2 - (i*0.2);
-    txtGroup.add(p);
-  }
-
-  // finished loading visuals
-  hideLoader();
-}, (xhr)=> {
-  // progress callback (optional)
-  // console.log((xhr.loaded / xhr.total) * 100 + "% font loaded");
-}, (err)=> {
-  console.error('Font load error', err);
-  hideLoader();
-});
-
-/* ---------- particles (canvas 2D) ---------- */
-const particlesCanvas = document.getElementById('particles');
-const pctx = particlesCanvas.getContext('2d');
+/* ---------- particles (2D canvas) ---------- */
+const pc = document.getElementById('particles');
+const pctx = pc.getContext('2d');
+let DPR = Math.min(2, window.devicePixelRatio || 1);
 function resizeParticles(){
-  particlesCanvas.width = innerWidth * devicePixelRatio;
-  particlesCanvas.height = innerHeight * devicePixelRatio;
-  particlesCanvas.style.width = innerWidth+'px';
-  particlesCanvas.style.height = innerHeight+'px';
-  pctx.scale(devicePixelRatio, devicePixelRatio);
+  pc.width = innerWidth * DPR;
+  pc.height = innerHeight * DPR;
+  pc.style.width = innerWidth + 'px';
+  pc.style.height = innerHeight + 'px';
+  pctx.setTransform(DPR,0,0,DPR,0,0);
 }
 resizeParticles();
-
-const particles = [];
-for(let i=0;i<80;i++){
-  particles.push({
-    x: Math.random()*innerWidth,
-    y: Math.random()*innerHeight,
-    r: 0.6 + Math.random()*2.6,
-    v: 0.1 + Math.random()*0.6,
-    col: Math.random() > 0.5 ? 'rgba(123,91,255,0.09)' : 'rgba(0,255,200,0.06)'
-  });
-}
+const particles = Array.from({length:90}, ()=>({
+  x: Math.random()*innerWidth,
+  y: Math.random()*innerHeight,
+  r: 0.4 + Math.random()*2.4,
+  v: 0.2 + Math.random()*0.8,
+  col: Math.random()>0.5 ? 'rgba(123,91,255,0.09)' : 'rgba(0,255,200,0.06)'
+}));
 function drawParticles(){
   pctx.clearRect(0,0,innerWidth,innerHeight);
-  particles.forEach(p=>{
+  for(const p of particles){
     p.y -= p.v;
-    if(p.y < -10) { p.y = innerHeight + 10; p.x = Math.random()*innerWidth; }
+    if(p.y < -10){ p.y = innerHeight + 10; p.x = Math.random()*innerWidth; }
     pctx.beginPath();
     pctx.fillStyle = p.col;
     pctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
     pctx.fill();
-  });
+  }
 }
+
+/* ---------- Three.js setup ---------- */
+const canvas = document.getElementById('three-canvas');
+const renderer = new THREE.WebGLRenderer({ canvas, antialias:true, alpha:true });
+renderer.setPixelRatio(DPR);
+renderer.shadowMap.enabled = true;
+renderer.outputEncoding = THREE.sRGBEncoding;
+
+const scene = new THREE.Scene();
+scene.fog = new THREE.FogExp2(0x000006, 0.0022);
+
+const camera = new THREE.PerspectiveCamera(40, innerWidth/innerHeight, 0.1, 1000);
+camera.position.set(0, 0.6, 6);
+
+const hemi = new THREE.HemisphereLight(0xddddff, 0x05050a, 0.6); scene.add(hemi);
+const dir = new THREE.DirectionalLight(0xffffff, 1.0); dir.position.set(5,8,7); scene.add(dir);
+const amb = new THREE.AmbientLight(0xffffff, 0.12); scene.add(amb);
+
+/* subtle environment */
+const env = new THREE.Mesh(new THREE.IcosahedronGeometry(55,3), new THREE.MeshBasicMaterial({ color:0x05050a, side:THREE.BackSide, transparent:true, opacity:0.6 }));
+scene.add(env);
+
+/* neon material */
+const neonMat = new THREE.MeshStandardMaterial({ color:0x0b0b10, metalness:0.8, roughness:0.15, emissive:0x7b5bff, emissiveIntensity:0.9 });
+
+let txtGroup = new THREE.Group(); scene.add(txtGroup);
+let textMesh = null;
+
+/* load font and create TextGeometry "C#" */
+const fontLoader = new FontLoader();
+fontLoader.load('https://unpkg.com/three@0.158.0/examples/fonts/helvetiker_bold.typeface.json', (font) => {
+  const geo = new TextGeometry('C#', {
+    font: font, size:1.8, height:0.36, curveSegments:12,
+    bevelEnabled:true, bevelThickness:0.03, bevelSize:0.02, bevelSegments:4
+  });
+  geo.center();
+  const mat = neonMat.clone();
+  mat.emissive = new THREE.Color(0x7b5bff);
+  mat.emissiveIntensity = 0.95;
+  const mesh = new THREE.Mesh(geo, mat);
+  mesh.castShadow = true; mesh.receiveShadow = true;
+  textMesh = mesh; txtGroup.add(textMesh);
+
+  // ring + glow planes
+  const ring = new THREE.Mesh(new THREE.RingGeometry(2.4,3.1,64), new THREE.MeshBasicMaterial({ color:0x7b5bff, transparent:true, opacity:0.06, side:THREE.DoubleSide }));
+  ring.rotation.x = Math.PI/2; ring.position.z = -0.9; txtGroup.add(ring);
+  for(let i=0;i<3;i++){
+    const p = new THREE.Mesh(new THREE.PlaneGeometry(6,2.5), new THREE.MeshBasicMaterial({ color:i===0?0x7b5bff:0x00ffc8, transparent:true, opacity:0.02 }));
+    p.rotation.x = -0.35 - (i*0.03); p.position.z = -1.2 - (i*0.2); txtGroup.add(p);
+  }
+});
 
 /* ---------- resize handler ---------- */
 function onResize(){
-  const w = innerWidth, h = innerHeight;
-  camera.aspect = w/h;
+  DPR = Math.min(2, window.devicePixelRatio || 1);
+  renderer.setPixelRatio(DPR);
+  renderer.setSize(innerWidth, innerHeight);
+  camera.aspect = innerWidth / innerHeight;
   camera.updateProjectionMatrix();
-  renderer.setSize(w,h);
   resizeParticles();
 }
 window.addEventListener('resize', onResize, {passive:true});
 onResize();
 
-/* ---------- scroll mapping to rotation ---------- */
+/* ---------- scroll to rotation mapping ---------- */
 let targetRotX = 0, targetRotY = 0;
 function onScroll(){
-  // compute scroll progress from top to bottom of document
   const docH = document.documentElement.scrollHeight - window.innerHeight;
-  const scrollPos = window.scrollY;
-  const t = docH>0 ? scrollPos / docH : 0;
-  // map to rotation values (radians)
-  targetRotY = (t - 0.5) * Math.PI * 1.2; // more rotation horizontally
-  targetRotX = (t - 0.5) * 0.5; // slight tilt
+  const t = docH>0 ? window.scrollY / docH : 0;
+  targetRotY = (t - 0.5) * Math.PI * 1.1;
+  targetRotX = (t - 0.5) * 0.5;
 }
 window.addEventListener('scroll', onScroll, {passive:true});
 onScroll();
 
-/* ---------- animation loop ---------- */
-let last = 0;
-function tick(time){
-  requestAnimationFrame(tick);
-  const dt = (time - last) * 0.001;
-  last = time;
+/* ---------- pointer parallax ---------- */
+let px=0, py=0;
+window.addEventListener('pointermove', (e)=> {
+  px = (e.clientX / innerWidth) - 0.5;
+  py = (e.clientY / innerHeight) - 0.5;
+}, {passive:true});
 
-  // gentle idle rotation
+/* ---------- render loop ---------- */
+let last=0;
+function animate(time){
+  requestAnimationFrame(animate);
+  const dt = (time - last) * 0.001; last = time;
+
   if(txtGroup){
-    txtGroup.rotation.y += 0.18 * dt;
-    // lerp to scroll-target rotation
+    // idle spin
+    txtGroup.rotation.y += 0.16 * dt;
+    // lerp to scroll-driven rotation
     txtGroup.rotation.y += (targetRotY - txtGroup.rotation.y) * Math.min(0.08, 0.3*dt);
     txtGroup.rotation.x += (targetRotX - txtGroup.rotation.x) * Math.min(0.08, 0.3*dt);
+    // pointer influence
+    txtGroup.rotation.x += (py * 0.06 - txtGroup.rotation.x) * 0.06;
+    txtGroup.rotation.y += (px * 0.7 - txtGroup.rotation.y) * 0.04;
   }
 
-  // animate env slight spin
-  envSphere.rotation.y += 0.01 * dt;
+  // environment gentle
+  env.rotation.y += 0.003;
 
-  // camera subtle bob
+  // camera smooth
   camera.position.z += (6 - camera.position.z) * 0.06;
 
-  // render
   renderer.render(scene, camera);
   drawParticles();
 }
-tick(0);
+animate(0);
 
-/* ---------- loader hide ---------- */
-function hideLoader(){
-  const loader = document.getElementById('loader');
-  if(!loader) return;
-  loader.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
-  loader.style.opacity = '0';
-  loader.style.transform = 'translateY(-6px)';
-  setTimeout(()=> loader.remove(), 900);
-}
+/* ensure renderer size on load */
+onResize();
 
-/* safety: hide loader after 6s even if font not loaded */
-setTimeout(hideLoader, 6000);
+/* safety: ensure loader removed in any case after 3s (already non-blocking) */
+setTimeout(()=>{ if(loaderEl && loaderEl.parentNode){ loaderEl.style.opacity='0'; setTimeout(()=>loaderEl.remove(),600); }}, 3000);
 
-/* ---------- optional OrbitControls for dev (comment out in prod) ---------- */
-/*
-const controls = new OrbitControls(camera, renderer.domElement);
-controls.enableDamping = true;
-controls.dampingFactor = 0.08;
-controls.minDistance = 3;
-controls.maxDistance = 12;
-*/
-
-/* ---------- simple pointer parallax effect ---------- */
-let px = 0, py = 0;
-window.addEventListener('pointermove', (e) => {
-  const x = (e.clientX / innerWidth) - 0.5;
-  const y = (e.clientY / innerHeight) - 0.5;
-  px = x; py = y;
-  if(txtGroup){
-    txtGroup.rotation.x += (py * 0.05 - txtGroup.rotation.x) * 0.08;
-    txtGroup.rotation.y += (px * 0.7 - txtGroup.rotation.y) * 0.06;
-  }
-}, {passive:true});
 </script>
-
 </body>
 </html>
