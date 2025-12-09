@@ -6,17 +6,18 @@
   <title>Portfolio Programmateur</title>
   <style>
     :root {
-      --bg: #0d0d0d;
-      --card: #1a1a1a;
-      --text: #ffffff;
-      --accent: #6c63ff;
+      --bg: #0b0b0b;
+      --card: #161616;
+      --text: #f2f2f2;
+      --accent: #7b5bff;
+      --accent-glow: rgba(123, 91, 255, 0.6);
     }
 
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: "Arial", sans-serif;
+      font-family: "Poppins", sans-serif;
     }
 
     body {
@@ -27,33 +28,53 @@
 
     header {
       width: 100%;
-      padding: 25px 0;
+      padding: 30px 0;
       text-align: center;
-      font-size: 2rem;
-      font-weight: bold;
-      background: #111;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+      font-size: 2.2rem;
+      font-weight: 800;
+      background: #0f0f0f;
+      letter-spacing: 1px;
+      text-shadow: 0 0 10px var(--accent-glow);
       animation: fadeDown 1s ease forwards;
     }
 
     @keyframes fadeDown {
-      from { opacity: 0; transform: translateY(-20px); }
+      from { opacity: 0; transform: translateY(-25px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
     .container {
-      max-width: 900px;
+      max-width: 1000px;
       margin: 40px auto;
       padding: 20px;
     }
 
     .card {
       background: var(--card);
-      border-radius: 15px;
-      padding: 25px;
-      margin-bottom: 35px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
-      animation: fadeUp 1s ease forwards;
+      border-radius: 18px;
+      padding: 30px;
+      margin-bottom: 45px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.6);
+      position: relative;
+      overflow: hidden;
+      animation: fadeUp 1.1s ease forwards;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(120deg, transparent, var(--accent-glow), transparent);
+      animation: shine 4s infinite;
+    }
+
+    @keyframes shine {
+      0% { left: -100%; }
+      50% { left: 150%; }
+      100% { left: 150%; }
     }
 
     @keyframes fadeUp {
@@ -63,85 +84,115 @@
 
     h2 {
       color: var(--accent);
-      margin-bottom: 15px;
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+      text-shadow: 0 0 8px var(--accent-glow);
     }
 
-    .portfolio-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
+    p {
+      line-height: 1.7;
+      font-size: 1.05rem;
     }
 
-    .project {
+    .skills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .skill {
       background: #222;
-      padding: 20px;
-      border-radius: 12px;
+      padding: 12px 18px;
+      border-radius: 20px;
+      font-size: 1rem;
+      border: 1px solid #333;
       transition: 0.3s;
-      cursor: pointer;
+      box-shadow: 0 0 8px rgba(0,0,0,0.5);
     }
 
-    .project:hover {
-      transform: scale(1.05);
-      background: #292929;
+    .skill:hover {
+      background: var(--accent);
+      box-shadow: 0 0 15px var(--accent-glow);
+      transform: scale(1.08);
     }
 
     .button {
       display: inline-block;
-      margin-top: 20px;
-      padding: 12px 20px;
-      font-size: 1rem;
-      border-radius: 8px;
+      margin-top: 25px;
+      padding: 14px 22px;
+      font-size: 1.1rem;
+      border-radius: 10px;
       background: var(--accent);
       color: white;
       text-decoration: none;
       transition: 0.3s;
+      font-weight: bold;
+      box-shadow: 0 0 12px var(--accent-glow);
     }
 
     .button:hover {
-      background: #554eed;
+      background: #6548ff;
+      box-shadow: 0 0 18px var(--accent-glow);
+      transform: scale(1.05);
     }
 
     @media(max-width: 600px) {
-      header { font-size: 1.6rem; }
-      .card { padding: 18px; }
+      header { font-size: 1.7rem; }
+      .card { padding: 22px; }
+      p { font-size: 0.95rem; }
     }
   </style>
 </head>
 <body>
-  <header>Mon Portfolio de Programmeur</header>
+  <header>Portfolio Moderne & Dynamique</header>
 
   <div class="container">
 
     <div class="card">
       <h2>À propos de moi</h2>
       <p>
-        Je suis un jeune programmeur passionné par le développement web, les interfaces modernes,
-        l'expérience utilisateur et la création de projets innovants.
+        Je suis un développeur passionné qui travaille sur plusieurs projets modernes
+        et adore apprendre de nouveaux langages et technologies. Mon objectif :
+        créer des expériences élégantes, dynamiques et interactives.
       </p>
     </div>
 
     <div class="card">
       <h2>Projet en cours : Parcours</h2>
       <p>
-        Je travaille actuellement sur un projet appelé <strong>Parcours</strong> : une plateforme interactive
-        permettant de suivre, comprendre et construire son évolution dans différents domaines.
-        Le but est de créer une interface fluide, moderne, avec animations et visualisations de données.
+        "Parcours" est un projet interactif sur lequel je travaille actuellement. Il vise à permettre
+        aux utilisateurs de suivre et comprendre leur évolution personnelle ou professionnelle.
+        Le design est moderne, animé et entièrement responsive.
       </p>
+
+      <a class="button" href="#" id="unityButton">Accéder à mon jeu Unity</a>
     </div>
 
     <div class="card">
-      <h2>Portfolio</h2>
-      <div class="portfolio-grid">
-        <div class="project">Projet 1 – Application Web</div>
-        <div class="project">Projet 2 – Jeu JavaScript</div>
-        <div class="project">Projet 3 – API Backend</div>
+      <h2>Mes Compétences Actuelles</h2>
+      <p>Voici les langages et technologies que j'apprends et utilise en ce moment :</p>
+      
+      <div class="skills">
+        <div class="skill">C#</div>
+        <div class="skill">Unity</div>
+        <div class="skill">HTML</div>
+        <div class="skill">CSS</div>
+        <div class="skill">JavaScript</div>
+        <div class="skill">Python</div>
+        <div class="skill">SQL</div>
+        <div class="skill">MySQL</div>
       </div>
     </div>
 
-    <div class="card" style="text-align:center;">
-      <a class="button" href="#">Me Contacter</a>
-    </div>
-
   </div>
+
+  <script>
+    // Le bouton pour ton lien Unity
+    document.getElementById("unityButton").onclick = function() {
+      // Mets ton lien ici ↓↓↓
+      window.location.href = "TON_LIEN_UNITY_ICI";
+    }
+  </script>
 </body>
 </html>
