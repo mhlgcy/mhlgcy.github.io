@@ -100,8 +100,7 @@
 
         .hero-center-text h1 {
             font-family: var(--font-serif);
-            /* TAILLE RÉDUITE ICI */
-            font-size: 5vw; 
+            font-size: 5vw; /* TAILLE RÉDUITE */
             line-height: 0.9;
             font-weight: 400;
             margin: 0;
@@ -257,7 +256,7 @@
         /* Dropdown */
         .project-dropdown {
             position: absolute;
-            top: 100%; /* Sous le bouton */
+            top: 100%; 
             left: 0;
             background-color: #1a1a1a;
             border: 1px solid var(--accent-purple);
@@ -284,6 +283,7 @@
             display: block;
             font-size: 0.9rem;
             border-left: 3px solid transparent;
+            white-space: nowrap; /* Empêche le wrapping des noms de liens */
         }
 
         .project-dropdown a:hover {
@@ -372,17 +372,17 @@
             <h1 data-key="legacy">legacy</h1>
         </div>
 
-        <a href="https://www.youtube.com/watch?v=VOTRE_VIDEO" target="_blank" class="presentation-btn" data-key="presentation-btn">Présentation</a>
+        <a href="https://www.youtube.com/watch?v=VOTRE_VIDEO_YOUTUBE" target="_blank" class="presentation-btn" data-key="presentation-btn">Présentation</a>
 
         <div class="hero-right-panel">
             <p class="bio-text" data-key="bio-text">
                 Mon rôle dépasse la simple écriture de code. Je sculpte des mécanismes de jeu inédits avec une élégance technique irréprochable. Bienvenue à la frontière du divertissement.
             </p>
             <div class="social-list">
-                <a href="#" target="_blank" class="social-link">TikTok</a>
-                <a href="#" target="_blank" class="social-link">Instagram</a>
-                <a href="#" target="_blank" class="social-link">Twitch</a>
-                <a href="#" target="_blank" class="social-link">Snapchat</a>
+                <a href="https://www.tiktok.com/@VOTRE_ID_TIKTOK" target="_blank" class="social-link">TikTok</a>
+                <a href="https://www.instagram.com/VOTRE_ID_INSTAGRAM" target="_blank" class="social-link">Instagram</a>
+                <a href="https://www.twitch.tv/VOTRE_ID_TWITCH" target="_blank" class="social-link">Twitch</a>
+                <a href="VOTRE_LIEN_SNAPCHAT" target="_blank" class="social-link">Snapchat</a>
             </div>
         </div>
 
@@ -396,50 +396,58 @@
             <div class="lang-dropdown-container">
                 <div class="lang-item" data-tech="C#" data-key="lang-csharp">C-SHARP</div>
                 <div class="project-dropdown" id="dropdown-csharp">
-                    <a href="#">Projet Unity (C#)</a>
-                    <a href="#">Simulateur Réseau (C#)</a>
-                    <a href="#">GitHub Repo (C#)</a>
+                    <a href="VOTRE_LIEN_PROJET_C1" target="_blank">1. Projet Unity (C#)</a>
+                    <a href="VOTRE_LIEN_PROJET_C2" target="_blank">2. Simulateur Réseau (C#)</a>
+                    <a href="VOTRE_LIEN_PROJET_C3" target="_blank">3. GitHub Repo (C#)</a>
                 </div>
             </div>
             
             <div class="lang-dropdown-container">
                 <div class="lang-item" data-tech="UNITY" data-key="lang-unity">UNITY</div>
                 <div class="project-dropdown" id="dropdown-unity">
-                    <a href="#">Jeu VR (Unity)</a>
-                    <a href="#">Outil de Mapping (Unity)</a>
+                    <a href="VOTRE_LIEN_PROJET_U1" target="_blank">1. Jeu VR (Unity)</a>
+                    <a href="VOTRE_LIEN_PROJET_U2" target="_blank">2. Outil de Mapping (Unity)</a>
+                    <a href="VOTRE_LIEN_PROJET_U3" target="_blank">3. Asset Store Project</a>
                 </div>
             </div>
 
             <div class="lang-dropdown-container">
                 <div class="lang-item" data-tech="HTML" data-key="lang-html">HTML / CSS</div>
                 <div class="project-dropdown" id="dropdown-html">
-                    <a href="#">Site Vitrine V1</a>
-                    <a href="#">Projet Frontend</a>
+                    <a href="VOTRE_LIEN_PROJET_H1" target="_blank">1. Site Vitrine V1</a>
+                    <a href="VOTRE_LIEN_PROJET_H2" target="_blank">2. Projet Frontend Animé</a>
+                    <a href="VOTRE_LIEN_PROJET_H3" target="_blank">3. Portfolio Web</a>
                 </div>
             </div>
             
             <div class="lang-dropdown-container">
                 <div class="lang-item" data-tech="C++" data-key="lang-cpp">C++</div>
                 <div class="project-dropdown" id="dropdown-cpp">
-                    <a href="#">Bibliothèque Algorithmique</a>
+                    <a href="VOTRE_LIEN_PROJET_CPP1" target="_blank">1. Bibliothèque Algorithmique</a>
+                    <a href="VOTRE_LIEN_PROJET_CPP2" target="_blank">2. Moteur de rendu 2D</a>
                 </div>
             </div>
+            
             <div class="lang-dropdown-container">
                 <div class="lang-item" data-tech="PYTHON" data-key="lang-python">PYTHON</div>
                 <div class="project-dropdown" id="dropdown-python">
-                    <a href="#">Script IA</a>
+                    <a href="VOTRE_LIEN_PROJET_P1" target="_blank">1. Script IA</a>
+                    <a href="VOTRE_LIEN_PROJET_P2" target="_blank">2. Data Parser</a>
                 </div>
             </div>
+            
             <div class="lang-dropdown-container">
                 <div class="lang-item" data-tech="SQL" data-key="lang-sql">SQL</div>
                 <div class="project-dropdown" id="dropdown-sql">
-                    <a href="#">Projet Base de Données</a>
+                    <a href="VOTRE_LIEN_PROJET_S1" target="_blank">1. Projet Base de Données</a>
+                    <a href="VOTRE_LIEN_PROJET_S2" target="_blank">2. Gestion de Stock SQL</a>
                 </div>
             </div>
+            
             <div class="lang-dropdown-container">
                 <div class="lang-item" data-tech="REDIS" data-key="lang-redis">REDIS</div>
                 <div class="project-dropdown" id="dropdown-redis">
-                    <a href="#">Cache Server Project</a>
+                    <a href="VOTRE_LIEN_PROJET_R1" target="_blank">1. Cache Server Project</a>
                 </div>
             </div>
 
@@ -449,7 +457,7 @@
     <section class="esports-section">
         <h2 class="esports-title" data-key="esports-title">ÉQUIPE E-SPORT MHL</h2>
         <p style="color: grey; letter-spacing: 2px;" data-key="esports-status">RECRUTEMENT EN COURS</p>
-        <a href="https://discord.com" target="_blank" class="discord-btn" data-key="discord-btn">REJOINDRE LE DISCORD</a>
+        <a href="https://discord.com/VOTRE_INVITATION" target="_blank" class="discord-btn" data-key="discord-btn">REJOINDRE LE DISCORD</a>
     </section>
 
     <script>
@@ -489,7 +497,6 @@
             document.querySelectorAll('[data-key]').forEach(element => {
                 const key = element.getAttribute('data-key');
                 if (dictionary[lang][key]) {
-                    // Les éléments du menu de langage sont mis à jour uniquement via leur `data-key`
                     if (element.classList.contains('lang-item') || element.classList.contains('presentation-btn') || element.classList.contains('discord-btn')) {
                          element.textContent = dictionary[lang][key];
                     } else if (element.tagName === 'H1' || element.tagName === 'H2' || element.tagName === 'P') {
@@ -535,37 +542,60 @@
 
             // Souris quitte pour revenir à C#
             item.addEventListener('mouseleave', () => {
-                text3d.textContent = defaultText;
-                text3d.classList.remove('active');
-                text3d.classList.add('rotate'); 
+                // S'assurer qu'aucun dropdown n'est ouvert avant de revenir à la rotation
+                const anyDropdownOpen = document.querySelector('.project-dropdown.open');
+                if (!anyDropdownOpen) {
+                    text3d.textContent = defaultText;
+                    text3d.classList.remove('active');
+                    text3d.classList.add('rotate'); 
+                }
             });
         });
         
         // --- LOGIQUE DROPDOWN AU CLIC (JS) ---
         document.querySelectorAll('.lang-item').forEach(item => {
             item.addEventListener('click', (e) => {
-                e.stopPropagation(); // Empêche le clic de fermer immédiatement
+                e.stopPropagation(); 
                 
-                // Fermer tous les autres dropdowns
-                document.querySelectorAll('.project-dropdown').forEach(d => {
-                    d.classList.remove('open');
-                });
-
-                // Trouver et ouvrir le dropdown associé
                 const container = item.closest('.lang-dropdown-container');
                 const dropdown = container ? container.querySelector('.project-dropdown') : null;
                 
                 if (dropdown) {
-                    dropdown.classList.add('open');
+                    // Fermer tous les autres dropdowns
+                    document.querySelectorAll('.project-dropdown.open').forEach(d => {
+                        if (d !== dropdown) {
+                            d.classList.remove('open');
+                        }
+                    });
+                    
+                    // Ouvrir/Fermer celui-ci
+                    dropdown.classList.toggle('open');
+                    
+                    // Mettre à jour le texte 3D au milieu quand le dropdown s'ouvre
+                    if (dropdown.classList.contains('open')) {
+                         text3d.classList.remove('rotate'); 
+                         text3d.textContent = item.getAttribute('data-tech');
+                         text3d.classList.add('active');
+                    } else {
+                         // Revenir à l'état par défaut si on ferme
+                         text3d.textContent = defaultText;
+                         text3d.classList.remove('active');
+                         text3d.classList.add('rotate'); 
+                    }
                 }
             });
         });
 
         // Fermer les dropdowns si on clique n'importe où ailleurs
         document.addEventListener('click', () => {
-            document.querySelectorAll('.project-dropdown').forEach(d => {
-                d.classList.remove('open');
-            });
+            const openDropdown = document.querySelector('.project-dropdown.open');
+            if (openDropdown) {
+                openDropdown.classList.remove('open');
+                // Revenir à l'état par défaut
+                text3d.textContent = defaultText;
+                text3d.classList.remove('active');
+                text3d.classList.add('rotate'); 
+            }
         });
         
     </script> 
