@@ -1,191 +1,350 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MHLGCY – Portfolio</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MHLGECAY STUDIO - La Nouvelle Frontière du Divertissement</title>
 
-<!-- Police premium style Dogstudio -->
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Variables pour les couleurs */
+        :root {
+            --color-bg-dark: #0f0f0f;
+            --color-text-light: #ffffff;
+            --color-accent-purple: #7f00ff; /* Violet MHL */
+            --color-accent-blue: #00ffff; /* Couleur vive de style futuriste */
+            --font-primary: 'Space Mono', monospace; /* Police plus futuriste/technique */
+        }
 
-<style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-body {
-    background: #09090c;
-    color: white;
-    font-family: "Inter", sans-serif;
-    overflow-x: hidden;
-}
+        /* Styles de base et réinitialisation */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-/* LOGO EN HAUT À GAUCHE */
-#logo {
-    position: fixed;
-    top: 25px;
-    left: 35px;
-    font-size: 1.2rem;
-    font-weight: 700;
-    letter-spacing: 2px;
-    opacity: 0.8;
-}
+        body {
+            background-color: var(--color-bg-dark);
+            color: var(--color-text-light);
+            font-family: var(--font-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+            padding: 0 5vw; 
+        }
 
-/* SECTION HERO */
-.hero {
-    height: 100vh;
-    width: 100vw;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-}
+        /* -------------------- HEADER & LANGUES -------------------- */
+        #header {
+            padding-top: 50px;
+            padding-bottom: 50px;
+            text-align: center;
+        }
 
-/* TITRE CENTRAL */
-.hero-title {
-    position: absolute;
-    text-align: center;
-    top: 20%;
-    font-family: "Playfair Display", serif;
-    font-size: 4rem;
-    line-height: 1.1;
-    color: white;
-    pointer-events: none;
-}
+        .logo-title {
+            font-size: 1.5rem;
+            letter-spacing: 0.5em;
+            font-weight: 300;
+            opacity: 0.8;
+            text-transform: uppercase;
+        }
 
-/* DESCRIPTION À DROITE */
-.hero-right {
-    position: absolute;
-    right: 6%;
-    top: 40%;
-    width: 250px;
-    font-size: 1rem;
-    line-height: 1.6;
-    opacity: 0.85;
-}
+        .language-selector {
+            position: fixed;
+            top: 50px;
+            right: 5vw; 
+            font-size: 0.8rem;
+            letter-spacing: 0.1em;
+            opacity: 0.7;
+            z-index: 100;
+        }
 
-/* CANVAS 3D AU MILIEU */
-#threejsCanvas {
-    width: 500px;
-    height: 500px;
-}
+        /* -------------------- MAIN CONTENT LAYOUT -------------------- */
+        .hero-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            min-height: 80vh; 
+            padding: 100px 0;
+            position: relative; 
+        }
 
-/* SECTIONS APRÈS SCROLL */
-.section {
-    height: 100vh;
-    padding: 80px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-}
+        .left-panel, .right-panel {
+            width: 20%;
+            position: sticky; 
+            top: 150px;
+        }
+        
+        /* Texte à droite : Je suis un développeur... */
+        .developer-info {
+            text-align: right;
+            border-right: 2px solid var(--color-accent-blue);
+            padding-right: 15px;
+            opacity: 0.8;
+            font-size: 1rem;
+        }
+        
+        .tech-stack p {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            line-height: 1.8;
+            opacity: 0.7;
+        }
 
-.btn {
-    margin: 15px;
-    padding: 15px 35px;
-    background: #00e7c0;
-    color: black;
-    font-weight: 700;
-    text-decoration: none;
-    border-radius: 8px;
-    transition: 0.3s;
-}
-.btn:hover {
-    background: #00b79a;
-}
+        /* MHLGCY - MARTIN - HANGIST - LEGACY (Colonnes de gauche) */
+        .mhlgcy-titles {
+            border-left: 2px solid var(--color-accent-purple);
+            padding-left: 15px;
+        }
+        
+        .mhlgcy-titles .name-sub {
+            font-size: 1.2rem;
+            font-weight: 200;
+            letter-spacing: 0.4em;
+            margin-bottom: 5px;
+            opacity: 0.6;
+            text-transform: uppercase;
+        }
 
-/* CONTACT */
-#contact {
-    font-size: 1.5rem;
-    opacity: 0.8;
-}
-</style>
-</head>
+        /* Texte d'innovation et boutons sociaux (Au milieu à gauche) */
+        .innovation-text {
+            position: absolute; 
+            top: 350px; 
+            left: 25%; 
+            width: 35%;
+            padding: 20px;
+            z-index: 50; /* Pour qu'il soit au-dessus des éléments latéraux */
+        }
+
+        .innovation-text h2 {
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+            color: var(--color-accent-blue);
+            font-weight: 700;
+        }
+
+        .innovation-text p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .social-links button {
+            background: none;
+            border: 1px solid var(--color-accent-purple);
+            color: var(--color-accent-purple);
+            padding: 8px 15px;
+            margin-right: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+        }
+
+        .social-links button:hover {
+            background-color: var(--color-accent-purple);
+            color: var(--color-text-light);
+            box-shadow: 0 0 15px var(--color-accent-purple);
+        }
+
+        /* Centre d'affichage dynamique (où la 3D apparaîtra) */
+        .dynamic-display {
+            width: 50%; 
+            height: 60vh;
+            position: fixed; 
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1; 
+            pointer-events: none; 
+            /* Placeholder pour la 3D */
+            font-size: 6rem;
+            font-weight: bold;
+            opacity: 0.1;
+            color: var(--color-accent-blue);
+            transition: opacity 0.3s;
+        }
+
+        /* -------------------- STATS -------------------- */
+        .stats-section {
+            display: flex;
+            justify-content: space-between;
+            padding: 150px 0;
+            width: 80%;
+            margin: 0 auto;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .stat-item {
+            text-align: center;
+            flex: 1;
+        }
+
+        .stat-number {
+            display: block;
+            font-size: 6rem;
+            font-weight: 700;
+            color: var(--color-accent-purple);
+            line-height: 1;
+        }
+
+        .stat-label {
+            display: block;
+            font-size: 1rem;
+            letter-spacing: 0.2em;
+            opacity: 0.7;
+            margin-top: 10px;
+        }
+
+        /* -------------------- BOUTONS DÉFILANTS -------------------- */
+        .scroll-interaction-section {
+            display: flex;
+            flex-direction: column; 
+            align-items: center; /* Centré pour l'effet de défilement */
+            padding: 200px 0;
+            min-height: 250vh; /* Longueur de défilement pour l'effet */
+        }
+
+        .tech-button {
+            font-size: 4rem;
+            background: none;
+            border: none;
+            color: var(--color-text-light);
+            cursor: pointer;
+            opacity: 0.3;
+            transition: opacity 0.3s, color 0.3s;
+            margin: 50px 0;
+            text-transform: uppercase;
+        }
+
+        .tech-button:hover, .tech-button.active {
+            opacity: 1;
+            color: var(--color-accent-blue);
+            text-shadow: 0 0 10px var(--color-accent-blue);
+        }
+
+        /* -------------------- E-SPORTS -------------------- */
+        .esports-section {
+            text-align: center;
+            padding: 100px 0 200px;
+        }
+
+        .esports-title {
+            font-size: 3rem;
+            font-weight: 900;
+            letter-spacing: 0.5em;
+            text-transform: uppercase;
+            color: var(--color-accent-purple);
+            text-shadow: 0 0 20px var(--color-accent-purple);
+        }
+    </style>
+    </head>
 <body>
 
-<div id="logo">mhl.</div>
+    <header id="header">
+        <h1 class="logo-title">MHLGECAY STUDIO</h1>
+    </header>
 
-<!-- SECTION HERO -->
-<section class="hero">
-
-    <!-- C# 3D -->
-    <canvas id="threejsCanvas"></canvas>
-
-    <!-- TITRE -->
-    <div class="hero-title">
-        mhlgcy<br>
+    <div class="language-selector">
+        <span>FR - EN - DE - RU - IT</span>
     </div>
 
-    <!-- TEXTE À DROITE -->
-    <div class="hero-right">
-        Je suis un développeur créatif travaillant sur plusieurs langages :
-        <br><br>
-        • C# / Unity<br>
-        • HTML / CSS / JS<br>
-        • Python<br>
-        • SQL / MySQL<br><br>
-        Actuellement en développement de mon parcours et de projets interactifs.
-    </div>
+    <main class="main-content">
+        <section class="hero-section">
+            
+            <div class="left-panel">
+                <div class="mhlgcy-titles">
+                    <p class="name-sub">mhlgcy</p>
+                    <p class="name-sub">martin</p>
+                    <p class="name-sub">hangist</p>
+                    <p class="name-sub">legacy</p>
+                </div>
+            </div>
 
-</section>
+            <div id="dynamic-display" class="dynamic-display">
+                <span class="tech-display">MHLGEC</span>
+            </div>
 
-<!-- SECTIONS SUIVANTES -->
-<section class="section">
-    <h2>Projets</h2>
-    <a class="btn" href="#">Lancer mon jeu Unity</a>
-    <a class="btn" href="#">Voir mon portfolio</a>
-</section>
+            <div class="right-panel">
+                <div class="developer-info">
+                    <p>Je suis un développeur qui travaille actuellement sur **Unity** :</p>
+                    <div class="tech-stack">
+                        <p><strong>Languages:</strong> C# - C++ - HTML - PYTHON - JAVA</p>
+                        <p><strong>Databases:</strong> SQL - NOSQL - Redis</p>
+                        <p><strong>Platforms:</strong> VSC - Unity - UE</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="innovation-text">
+                <h2>Mon Rôle : Redéfinir le Possible</h2>
+                <p>Mon rôle dépasse la simple écriture de lignes de code. Je suis là pour sculpter des **mécanismes de jeu inédits**. Mon objectif est d'insuffler dans chaque projet une élégance technique irréprochable qui sert de fondation à des concepts que l'on pensait impossibles. Je vous invite à explorer la prochaine frontière du divertissement ici.</p>
+                <div class="social-links">
+                    <button>TikTok</button>
+                    <button>Instagram</button>
+                    <button>Twitch</button>
+                    <button>Snapchat</button>
+                </div>
+            </div>
 
-<section class="section" id="contact">
-    Me contacter :<br><br>
-    <a class="btn" href="mailto:tonmail@gmail.com">Envoyer un mail</a>
-</section>
+        </section>
 
-<!-- THREE.JS 3D -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+        <section class="stats-section">
+            <div class="stat-item">
+                <span class="stat-number">20+</span>
+                <span class="stat-label">projets en cours</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">5</span>
+                <span class="stat-label">années dans l'informatique</span>
+            </div>
+        </section>
 
-<script>
-// ----- SETUP -----
-const canvas = document.getElementById("threejsCanvas");
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(50, 1, 0.1, 1000);
-camera.position.z = 5;
+        <section class="scroll-interaction-section">
+            <button class="tech-button" data-tech="UNITY" data-display="C#">Unity</button>
+            <button class="tech-button" data-tech="HTML" data-display="HTML">HTML</button>
+            <button class="tech-button" data-tech="UE" data-display="C++">Unreal Engine</button>
+            <button class="tech-button" data-tech="SQL" data-display="SQL">Databases</button>
+            </section>
+        
+        <section class="esports-section">
+            <h2 class="esports-title">FORMATION DE L'ÉQUIPE E-SPORT MHL</h2>
+        </section>
 
-const renderer = new THREE.WebGLRenderer({ canvas, alpha: true });
-renderer.setSize(500, 500);
+    </main>
+    
+    <script>
+        const techButtons = document.querySelectorAll('.tech-button');
+        const dynamicDisplay = document.querySelector('.tech-display');
 
-// ----- OBJET C# 3D -----
-const geometry = new THREE.TorusGeometry(1.5, 0.45, 16, 100);
-const material = new THREE.MeshStandardMaterial({
-    color: 0x00ffc8,
-    metalness: 0.8,
-    roughness: 0.2
-});
-const mesh = new THREE.Mesh(geometry, material);
-scene.add(mesh);
+        // Initialiser le texte d'affichage dynamique
+        dynamicDisplay.textContent = 'MHLGEC'; 
 
-// Lumière
-const light = new THREE.PointLight(0xffffff, 1);
-light.position.set(5, 5, 5);
-scene.add(light);
+        techButtons.forEach(button => {
+            // Effet au survol (mouseover)
+            button.addEventListener('mouseover', () => {
+                const displayText = button.getAttribute('data-display');
+                dynamicDisplay.textContent = displayText;
+                // Pour le style
+                button.classList.add('active');
+            });
 
-// Animation
-function animate() {
-    requestAnimationFrame(animate);
-
-    // Rotation automatique
-    mesh.rotation.x += 0.003;
-    mesh.rotation.y += 0.004;
-
-    // Rotation au scroll
-    const scrollY = window.scrollY * 0.0005;
-    mesh.rotation.y += scrollY;
-
-    renderer.render(scene, camera);
-}
-animate();
-</script>
-
+            // Effet lorsque la souris quitte (mouseout)
+            button.addEventListener('mouseout', () => {
+                // Rétablit le texte par défaut quand la souris quitte
+                dynamicDisplay.textContent = 'MHLGEC'; 
+                button.classList.remove('active');
+            });
+            
+            // Logique pour le clic (si vous voulez une action persistante)
+            button.addEventListener('click', () => {
+                console.log(`Bouton cliqué : ${button.getAttribute('data-tech')}`);
+                // Ici, vous ajouteriez la logique complexe 3D.
+            });
+        });
+        
+        // Note: La véritable animation 3D nécessiterait Three.js ou autre librairie,
+        // ainsi qu'une logique de défilement (Scroll-Trigger) bien plus avancée.
+        
+    </script> 
 </body>
 </html>
