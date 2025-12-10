@@ -3,19 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MHLGECAY STUDIO - Martin Hangist Legacy</title>
+    <title>MHLEGACY STUDIO</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 
     <style>
         /* --- CONFIGURATION GLOBALE --- */
         :root {
-            --bg-color: #0a0a0a; /* Noir profond */
-            --text-color: #ffffff;
-            --accent-color: #7f00ff; /* Violet MHL */
-            --secondary-accent: #00ffff; /* Cyan futuriste */
+            --bg-color: #050505; /* Noir très profond */
+            --text-white: #ffffff;
+            --text-grey: #a0a0a0;
+            --accent-purple: #6a00ff; /* La touche violette */
+            --font-elegant: 'Playfair Display', serif; /* Comme sur Dogstudio */
+            --font-tech: 'Manrope', sans-serif;
         }
 
         * {
@@ -26,250 +28,228 @@
 
         body {
             background-color: var(--bg-color);
-            color: var(--text-color);
-            font-family: 'Space Mono', monospace;
-            overflow-x: hidden; /* Empêche le scroll horizontal */
+            color: var(--text-white);
+            font-family: var(--font-tech);
+            height: 100vh;
             width: 100vw;
-            min-height: 100vh;
+            overflow: hidden; /* Pas de scroll pour l'effet "Ecran unique" */
+            position: relative;
         }
 
-        /* --- ARRIÈRE-PLAN ANIMÉ (Style Dogstudio) --- */
-        .background-gradient {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at 50% 50%, #1a1a1a 0%, #0a0a0a 70%);
+        /* --- FOND D'AMBIANCE (Le "Glow" bleu/violet de la capture) --- */
+        .ambient-light {
+            position: absolute;
+            top: -20%;
+            left: -10%;
+            width: 60vw;
+            height: 60vw;
+            background: radial-gradient(circle, rgba(40, 40, 90, 0.4) 0%, rgba(5, 5, 5, 0) 70%);
             z-index: -1;
+            pointer-events: none;
+        }
+        
+        .ambient-light-2 {
+            position: absolute;
+            bottom: -20%;
+            right: -10%;
+            width: 50vw;
+            height: 50vw;
+            background: radial-gradient(circle, rgba(106, 0, 255, 0.15) 0%, rgba(5, 5, 5, 0) 70%);
+            z-index: -1;
+            pointer-events: none;
         }
 
-        /* --- HEADER (Logo & Langues) --- */
-        header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            padding: 40px;
+        /* --- HEADER (Strictement en haut à gauche) --- */
+        .top-bar {
+            position: absolute;
+            top: 40px;
+            left: 50px;
+            right: 50px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             z-index: 100;
-            pointer-events: none; /* Permet de cliquer au travers si besoin */
         }
 
-        .brand-name {
-            font-family: 'Oswald', sans-serif;
-            font-size: 1.2rem;
-            letter-spacing: 2px;
-            font-weight: 700;
-            pointer-events: auto;
+        .logo {
+            font-family: var(--font-tech);
+            font-weight: 700; /* Gras */
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
         }
 
-        .lang-selector {
-            font-size: 0.8rem;
-            opacity: 0.6;
-            pointer-events: auto;
+        .menu-icon {
+            /* Simule le burger menu à droite */
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            cursor: pointer;
+        }
+        .menu-line {
+            width: 30px;
+            height: 2px;
+            background-color: white;
         }
 
-        /* --- CŒUR DU SITE (CENTRE) --- */
-        .main-container {
+        /* --- CONTENU PRINCIPAL (GRID) --- */
+        .main-stage {
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* Divise l'écran en deux colonnes */
+            height: 100vh;
+            width: 100%;
+            padding: 0 50px;
+            align-items: center; /* Centre verticalement */
+        }
+
+        /* --- COLONNE GAUCHE/CENTRE (Les titres empilés) --- */
+        .hero-titles {
             display: flex;
             flex-direction: column;
             justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            text-align: center;
-            padding: 0 10%;
-            position: relative;
-        }
-
-        /* Le Gros Titre Central */
-        .hero-title {
-            font-family: 'Oswald', sans-serif;
-            font-size: 10vw; /* Taille responsive énorme */
-            line-height: 1;
-            text-transform: uppercase;
-            color: transparent;
-            -webkit-text-stroke: 2px rgba(255, 255, 255, 0.8); /* Contour blanc */
-            position: relative;
+            align-items: flex-start; /* Aligné à gauche du centre */
+            padding-left: 10%; /* Décalage pour centrer visuellement */
             z-index: 10;
-            transition: all 0.5s ease;
-            cursor: default;
         }
 
-        .hero-title:hover {
-            color: var(--text-color); /* Se remplit au survol */
-            -webkit-text-stroke: 0px;
-            text-shadow: 0 0 30px var(--accent-color);
+        .hero-titles h1 {
+            font-family: var(--font-elegant);
+            font-size: 6vw; /* Taille responsive géante */
+            line-height: 0.9; /* Les mots sont proches comme sur le site */
+            font-weight: 400; /* Elégant, pas trop gras */
+            color: var(--text-white);
+            margin: 0;
+            opacity: 0; /* Pour l'animation d'entrée */
+            transform: translateY(20px);
+            animation: fadeUp 1s forwards;
         }
 
-        .hero-subtitle {
-            margin-top: 20px;
-            font-size: 1rem;
-            letter-spacing: 5px;
-            color: var(--accent-color);
-            text-transform: uppercase;
-        }
+        /* Délais d'animation pour l'effet "descendant" */
+        .hero-titles h1:nth-child(1) { animation-delay: 0.2s; }
+        .hero-titles h1:nth-child(2) { animation-delay: 0.4s; margin-left: 20px; /* Petit décalage stylé */ }
+        .hero-titles h1:nth-child(3) { animation-delay: 0.6s; }
+        .hero-titles h1:nth-child(4) { animation-delay: 0.8s; margin-left: 40px; }
 
-        /* Le Texte de Présentation (Bio) */
-        .bio-text {
-            margin-top: 60px;
-            max-width: 800px;
-            font-size: 1.1rem;
-            line-height: 1.8;
-            opacity: 0.8;
-            border-left: 3px solid var(--accent-color);
-            padding-left: 20px;
-            text-align: left; /* Meilleure lisibilité */
-        }
-
-        /* --- BARRE LATÉRALE DROITE (Réseaux Sociaux) --- */
-        .social-sidebar {
-            position: fixed;
-            right: 40px;
-            top: 50%;
-            transform: translateY(-50%);
+        /* --- COLONNE DROITE (Le texte explicatif et boutons) --- */
+        .info-panel {
             display: flex;
             flex-direction: column;
-            gap: 20px;
-            z-index: 200;
+            justify-content: center;
+            align-items: flex-start;
+            padding-left: 50px; /* Espace par rapport au titre */
+            max-width: 400px;
         }
 
-        /* Style des Boutons */
-        .social-btn {
-            text-decoration: none;
-            color: var(--text-color);
-            font-size: 0.9rem;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 15px 20px;
-            width: 160px; /* Largeur fixe pour l'alignement */
-            text-align: center;
-            transition: all 0.3s ease;
-            background: rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(5px);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            position: relative;
-            overflow: hidden;
+        .bio-text {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--text-grey);
+            margin-bottom: 40px;
+            font-weight: 300;
         }
 
-        /* Effet de survol stylé */
-        .social-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 0%;
-            height: 100%;
-            background-color: var(--accent-color);
-            transition: width 0.3s ease;
-            z-index: -1;
-        }
-
-        .social-btn:hover::before {
+        .social-links {
+            display: flex;
+            flex-direction: column; /* Liste verticale comme demandé */
+            gap: 15px;
             width: 100%;
         }
 
-        .social-btn:hover {
-            border-color: var(--accent-color);
-            box-shadow: 0 0 20px rgba(127, 0, 255, 0.4);
-        }
-
-        /* --- SECTION INFOS TECHNIQUES (Bas de page) --- */
-        .tech-info {
-            margin-top: 100px;
-            padding-bottom: 50px;
-            display: flex;
-            justify-content: center;
-            gap: 50px;
-            flex-wrap: wrap;
+        .social-btn {
+            text-decoration: none;
+            color: var(--text-white);
             font-size: 0.8rem;
-            opacity: 0.6;
-        }
-
-        .tech-column h3 {
-            color: var(--secondary-accent);
-            margin-bottom: 10px;
             text-transform: uppercase;
+            letter-spacing: 2px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            padding-bottom: 5px;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        /* --- RESPONSIVE --- */
+        .social-btn:hover {
+            color: var(--accent-purple);
+            border-color: var(--accent-purple);
+            padding-left: 10px; /* Petit mouvement vers la droite */
+        }
+        
+        .arrow {
+            font-size: 1.2rem;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .social-btn:hover .arrow {
+            opacity: 1;
+        }
+
+        /* --- ANIMATIONS --- */
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Mobile */
         @media (max-width: 768px) {
-            .social-sidebar {
-                position: static;
-                flex-direction: row;
-                justify-content: center;
-                margin-top: 40px;
-                transform: none;
-                flex-wrap: wrap;
-            }
-            .hero-title {
-                font-size: 15vw;
-            }
-            .header {
+            .main-stage {
+                grid-template-columns: 1fr;
                 padding: 20px;
-            }
-            .bio-text {
                 text-align: center;
-                border-left: none;
-                border-top: 3px solid var(--accent-color);
-                padding-top: 20px;
+            }
+            .hero-titles {
+                align-items: center;
                 padding-left: 0;
+                margin-top: 80px;
+            }
+            .hero-titles h1 {
+                font-size: 15vw;
+                margin-left: 0 !important; /* Annule les décalages sur mobile */
+            }
+            .info-panel {
+                padding-left: 0;
+                margin-top: 40px;
+                align-items: center;
+                text-align: center;
             }
         }
     </style>
 </head>
 <body>
 
-    <div class="background-gradient"></div>
+    <div class="ambient-light"></div>
+    <div class="ambient-light-2"></div>
 
-    <header>
-        <div class="brand-name">MHLGCY</div>
-        <div class="lang-selector">FR / EN / DE / RU / IT</div>
+    <header class="top-bar">
+        <div class="logo">MHLEGACY STUDIO</div>
+        <div class="menu-icon">
+            <div class="menu-line"></div>
+            <div class="menu-line"></div>
+        </div>
     </header>
 
-    <aside class="social-sidebar">
-        <a href="https://www.tiktok.com/@VOTRECOMPTE" target="_blank" class="social-btn">TikTok</a>
-        <a href="https://www.instagram.com/VOTRECOMPTE" target="_blank" class="social-btn">Instagram</a>
-        <a href="https://www.twitch.tv/VOTRECOMPTE" target="_blank" class="social-btn">Twitch</a>
-        <a href="https://www.snapchat.com/add/VOTRECOMPTE" target="_blank" class="social-btn">Snapchat</a>
-        <a href="https://github.com/VOTRECOMPTE" target="_blank" class="social-btn">GitHub</a>
-    </aside>
-
-    <main class="main-container">
+    <main class="main-stage">
         
-        <h1 class="hero-title">MHLGECAY<br>STUDIO</h1>
-        <p class="hero-subtitle">Martin Hangist Legacy</p>
+        <div class="hero-titles">
+            <h1>mhlgcy</h1>
+            <h1>martin</h1>
+            <h1>hangist</h1>
+            <h1>legacy</h1>
+        </div>
 
-        <div class="bio-text">
-            <p>
-                Mon rôle dépasse la simple écriture de lignes de code. Je suis là pour sculpter des <strong>mécanismes de jeu inédits</strong>. 
-                Mon objectif est d'insuffler dans chaque projet une élégance technique irréprochable qui sert de fondation à des concepts que l'on pensait impossibles. 
-                Je vous invite à explorer la prochaine frontière du divertissement.
+        <div class="info-panel">
+            <p class="bio-text">
+                Mon rôle dépasse la simple écriture de code. Je sculpte des mécanismes de jeu inédits avec une élégance technique irréprochable. Bienvenue à la frontière du divertissement.
             </p>
-        </div>
 
-        <div class="tech-info">
-            <div class="tech-column">
-                <h3>Langages</h3>
-                <p>C# / C++ / HTML / Python / Java</p>
+            <div class="social-links">
+                <a href="#" class="social-btn">TikTok <span class="arrow">→</span></a>
+                <a href="#" class="social-btn">Instagram <span class="arrow">→</span></a>
+                <a href="#" class="social-btn">Twitch <span class="arrow">→</span></a>
+                <a href="#" class="social-btn">Snapchat <span class="arrow">→</span></a>
             </div>
-            <div class="tech-column">
-                <h3>Bases de données</h3>
-                <p>SQL / NoSQL / Redis</p>
-            </div>
-            <div class="tech-column">
-                <h3>Plateformes</h3>
-                <p>Unity / Unreal Engine / VSC</p>
-            </div>
-        </div>
-
-        <div style="margin-top: 50px; text-align: center;">
-            <p style="font-size: 3rem; font-weight: bold; color: var(--accent-color);">20+</p>
-            <p style="font-size: 0.8rem; letter-spacing: 2px;">PROJETS EN COURS</p>
-            <br>
-            <p style="color: var(--accent-color); font-weight: bold;">ÉQUIPE E-SPORT MHL EN FORMATION</p>
         </div>
 
     </main>
