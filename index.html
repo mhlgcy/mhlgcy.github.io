@@ -12,247 +12,316 @@
     <style>
         /* --- CONFIGURATION GLOBALE --- */
         :root {
-            --bg-color: #050505; /* Noir très profond */
+            --bg-color: #050505;
             --text-white: #ffffff;
             --text-grey: #a0a0a0;
-            --accent-purple: #6a00ff; /* La touche violette */
-            --font-elegant: 'Playfair Display', serif; /* Comme sur Dogstudio */
-            --font-tech: 'Manrope', sans-serif;
+            --accent-purple: #6a00ff;
+            --font-serif: 'Playfair Display', serif;
+            --font-sans: 'Manrope', sans-serif;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             background-color: var(--bg-color);
             color: var(--text-white);
-            font-family: var(--font-tech);
-            height: 100vh;
-            width: 100vw;
-            overflow: hidden; /* Pas de scroll pour l'effet "Ecran unique" */
-            position: relative;
+            font-family: var(--font-sans);
+            overflow-x: hidden;
         }
 
-        /* --- FOND D'AMBIANCE (Le "Glow" bleu/violet de la capture) --- */
-        .ambient-light {
-            position: absolute;
-            top: -20%;
-            left: -10%;
-            width: 60vw;
-            height: 60vw;
-            background: radial-gradient(circle, rgba(40, 40, 90, 0.4) 0%, rgba(5, 5, 5, 0) 70%);
-            z-index: -1;
-            pointer-events: none;
-        }
-        
-        .ambient-light-2 {
-            position: absolute;
-            bottom: -20%;
-            right: -10%;
-            width: 50vw;
-            height: 50vw;
-            background: radial-gradient(circle, rgba(106, 0, 255, 0.15) 0%, rgba(5, 5, 5, 0) 70%);
+        /* --- FOND D'AMBIANCE --- */
+        .ambient-glow {
+            position: fixed;
+            width: 100vw; height: 100vh;
+            background: radial-gradient(circle at 70% 80%, rgba(106, 0, 255, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 20% 20%, rgba(40, 40, 90, 0.3) 0%, transparent 50%);
             z-index: -1;
             pointer-events: none;
         }
 
-        /* --- HEADER (Strictement en haut à gauche) --- */
-        .top-bar {
-            position: absolute;
-            top: 40px;
-            left: 50px;
-            right: 50px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 100;
+        /* --- HEADER --- */
+        header {
+            position: fixed;
+            top: 40px; left: 50px;
+            z-index: 1000;
         }
-
         .logo {
-            font-family: var(--font-tech);
-            font-weight: 700; /* Gras */
-            font-size: 0.9rem;
-            letter-spacing: 1px;
-            text-transform: uppercase;
+            font-weight: 700; letter-spacing: 2px; text-transform: uppercase; font-size: 1rem;
         }
 
-        .menu-icon {
-            /* Simule le burger menu à droite */
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            cursor: pointer;
-        }
-        .menu-line {
-            width: 30px;
-            height: 2px;
-            background-color: white;
-        }
-
-        /* --- CONTENU PRINCIPAL (GRID) --- */
-        .main-stage {
-            display: grid;
-            grid-template-columns: 1fr 1fr; /* Divise l'écran en deux colonnes */
+        /* --- SECTION 1 : HERO (100vh) --- */
+        .hero-section {
             height: 100vh;
             width: 100%;
-            padding: 0 50px;
-            align-items: center; /* Centre verticalement */
+            position: relative;
+            display: flex;
+            justify-content: center; /* Centre horizontalement */
+            align-items: center;     /* Centre verticalement */
         }
 
-        /* --- COLONNE GAUCHE/CENTRE (Les titres empilés) --- */
-        .hero-titles {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: flex-start; /* Aligné à gauche du centre */
-            padding-left: 10%; /* Décalage pour centrer visuellement */
+        /* LE TITRE AU MILIEU */
+        .hero-center-text {
+            text-align: center;
             z-index: 10;
         }
 
-        .hero-titles h1 {
-            font-family: var(--font-elegant);
-            font-size: 6vw; /* Taille responsive géante */
-            line-height: 0.9; /* Les mots sont proches comme sur le site */
-            font-weight: 400; /* Elégant, pas trop gras */
-            color: var(--text-white);
+        .hero-center-text h1 {
+            font-family: var(--font-serif);
+            font-size: 7vw; /* Taille responsive */
+            line-height: 0.9;
+            font-weight: 400;
             margin: 0;
-            opacity: 0; /* Pour l'animation d'entrée */
-            transform: translateY(20px);
-            animation: fadeUp 1s forwards;
+            opacity: 0;
+            animation: fadeIn 1s forwards;
         }
+        /* Animation d'apparition en cascade */
+        .hero-center-text h1:nth-child(1) { animation-delay: 0.1s; }
+        .hero-center-text h1:nth-child(2) { animation-delay: 0.2s; }
+        .hero-center-text h1:nth-child(3) { animation-delay: 0.3s; }
+        .hero-center-text h1:nth-child(4) { animation-delay: 0.4s; }
 
-        /* Délais d'animation pour l'effet "descendant" */
-        .hero-titles h1:nth-child(1) { animation-delay: 0.2s; }
-        .hero-titles h1:nth-child(2) { animation-delay: 0.4s; margin-left: 20px; /* Petit décalage stylé */ }
-        .hero-titles h1:nth-child(3) { animation-delay: 0.6s; }
-        .hero-titles h1:nth-child(4) { animation-delay: 0.8s; margin-left: 40px; }
-
-        /* --- COLONNE DROITE (Le texte explicatif et boutons) --- */
-        .info-panel {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: flex-start;
-            padding-left: 50px; /* Espace par rapport au titre */
-            max-width: 400px;
+        /* LE BLOC DROITE (Bio + Réseaux) */
+        .hero-right-panel {
+            position: absolute;
+            bottom: 10%;  /* Un peu en bas */
+            right: 10%;   /* A droite */
+            width: 300px;
+            text-align: left;
+            z-index: 20;
         }
 
         .bio-text {
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             line-height: 1.6;
             color: var(--text-grey);
-            margin-bottom: 40px;
-            font-weight: 300;
+            margin-bottom: 30px;
+            border-left: 2px solid var(--accent-purple);
+            padding-left: 15px;
         }
 
-        .social-links {
+        .social-list {
             display: flex;
-            flex-direction: column; /* Liste verticale comme demandé */
-            gap: 15px;
-            width: 100%;
+            flex-direction: column;
+            gap: 10px;
         }
 
-        .social-btn {
+        .social-link {
             text-decoration: none;
             color: var(--text-white);
             font-size: 0.8rem;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-            padding-bottom: 5px;
-            transition: all 0.3s ease;
+            letter-spacing: 1px;
+            transition: 0.3s;
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 5px;
+        }
+        .social-link:hover {
+            color: var(--accent-purple);
+            padding-left: 10px;
+            border-color: var(--accent-purple);
         }
 
-        .social-btn:hover {
-            color: var(--accent-purple);
+        /* --- SECTION 2 : LANGUAGES (Scroll) --- */
+        .languages-section {
+            min-height: 100vh;
+            padding: 100px 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background-color: #050505;
+        }
+
+        .section-title {
+            font-size: 1rem; color: var(--accent-purple); text-transform: uppercase; margin-bottom: 50px; letter-spacing: 3px;
+        }
+
+        .lang-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            z-index: 20; /* Devant le texte 3D */
+        }
+
+        .lang-item {
+            font-family: var(--font-sans);
+            font-size: 2rem;
+            padding: 10px 30px;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 50px;
+            cursor: pointer;
+            transition: 0.3s;
+            background: rgba(0,0,0,0.5);
+        }
+
+        .lang-item:hover {
             border-color: var(--accent-purple);
-            padding-left: 10px; /* Petit mouvement vers la droite */
+            background: var(--accent-purple);
+            color: white;
+        }
+
+        /* LE VISUALISEUR 3D AU MILIEU */
+        .display-3d-container {
+            position: fixed;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none; /* Ne bloque pas le clic */
+            z-index: 5; /* Derrière les boutons mais devant le fond */
+            perspective: 1000px; /* Clé pour la 3D */
+        }
+
+        #text-3d {
+            font-family: var(--font-serif);
+            font-size: 15vw;
+            font-weight: 700;
+            color: transparent;
+            /* Effet 3D CSS pur (Contour + Ombres portées) */
+            -webkit-text-stroke: 2px rgba(255,255,255,0.1);
+            text-transform: uppercase;
+            white-space: nowrap;
+            transition: all 0.5s ease-out;
+            transform-style: preserve-3d;
+            opacity: 0;
         }
         
-        .arrow {
-            font-size: 1.2rem;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-        .social-btn:hover .arrow {
+        /* Classe active ajoutée par JS */
+        #text-3d.visible {
             opacity: 1;
+            /* Simulation de profondeur */
+            text-shadow: 
+                1px 1px 0px #4d00bf,
+                2px 2px 0px #4d00bf,
+                3px 3px 0px #4d00bf,
+                4px 4px 0px #4d00bf,
+                10px 10px 30px rgba(0,0,0,0.5);
+            transform: rotateX(10deg) rotateY(-10deg);
         }
 
-        /* --- ANIMATIONS --- */
-        @keyframes fadeUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        /* --- SECTION 3 : E-SPORTS --- */
+        .esports-section {
+            height: 60vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.1);
         }
 
-        /* Responsive Mobile */
-        @media (max-width: 768px) {
-            .main-stage {
-                grid-template-columns: 1fr;
-                padding: 20px;
-                text-align: center;
-            }
-            .hero-titles {
-                align-items: center;
-                padding-left: 0;
-                margin-top: 80px;
-            }
-            .hero-titles h1 {
-                font-size: 15vw;
-                margin-left: 0 !important; /* Annule les décalages sur mobile */
-            }
-            .info-panel {
-                padding-left: 0;
-                margin-top: 40px;
-                align-items: center;
-                text-align: center;
-            }
+        .esports-title {
+            font-family: var(--font-serif);
+            font-size: 3rem;
+            margin-bottom: 20px;
         }
+
+        .discord-btn {
+            background-color: #5865F2; /* Couleur Discord */
+            color: white;
+            padding: 15px 40px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            letter-spacing: 1px;
+            transition: 0.3s;
+            margin-top: 20px;
+            display: inline-block;
+        }
+        .discord-btn:hover {
+            background-color: #4752c4;
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(88, 101, 242, 0.5);
+        }
+
+        @keyframes fadeIn { to { opacity: 1; } }
+        @keyframes fadeUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
     </style>
 </head>
 <body>
 
-    <div class="ambient-light"></div>
-    <div class="ambient-light-2"></div>
+    <div class="ambient-glow"></div>
 
-    <header class="top-bar">
+    <header>
         <div class="logo">MHLEGACY STUDIO</div>
-        <div class="menu-icon">
-            <div class="menu-line"></div>
-            <div class="menu-line"></div>
-        </div>
     </header>
 
-    <main class="main-stage">
+    <section class="hero-section">
         
-        <div class="hero-titles">
+        <div class="hero-center-text">
             <h1>mhlgcy</h1>
             <h1>martin</h1>
             <h1>hangist</h1>
             <h1>legacy</h1>
         </div>
 
-        <div class="info-panel">
+        <div class="hero-right-panel">
             <p class="bio-text">
-                Mon rôle dépasse la simple écriture de code. Je sculpte des mécanismes de jeu inédits avec une élégance technique irréprochable. Bienvenue à la frontière du divertissement.
+                Je sculpte des mécanismes de jeu inédits. Mon but : l'élégance technique au service d'expériences impossibles.
             </p>
-
-            <div class="social-links">
-                <a href="#" class="social-btn">TikTok <span class="arrow">→</span></a>
-                <a href="#" class="social-btn">Instagram <span class="arrow">→</span></a>
-                <a href="#" class="social-btn">Twitch <span class="arrow">→</span></a>
-                <a href="#" class="social-btn">Snapchat <span class="arrow">→</span></a>
+            <div class="social-list">
+                <a href="#" class="social-link">TikTok <span>→</span></a>
+                <a href="#" class="social-link">Instagram <span>→</span></a>
+                <a href="#" class="social-link">Twitch <span>→</span></a>
+                <a href="#" class="social-link">Snapchat <span>→</span></a>
             </div>
         </div>
 
-    </main>
+    </section>
+
+    <section class="languages-section">
+        <p class="section-title">Stack Technique</p>
+        
+        <div class="lang-grid">
+            <div class="lang-item" data-tech="C#">C-SHARP</div>
+            <div class="lang-item" data-tech="UNITY">UNITY</div>
+            <div class="lang-item" data-tech="C++">C++</div>
+            <div class="lang-item" data-tech="HTML">HTML5</div>
+            <div class="lang-item" data-tech="PYTHON">PYTHON</div>
+            <div class="lang-item" data-tech="SQL">SQL</div>
+            <div class="lang-item" data-tech="REDIS">REDIS</div>
+        </div>
+    </section>
+
+    <section class="esports-section">
+        <h2 class="esports-title">ÉQUIPE E-SPORT MHL</h2>
+        <p style="color: grey; letter-spacing: 2px;">RECRUTEMENT EN COURS</p>
+        <a href="https://discord.com" target="_blank" class="discord-btn">REJOINDRE LE DISCORD</a>
+    </section>
+
+    <div class="display-3d-container">
+        <div id="text-3d"></div>
+    </div>
+
+    <script>
+        // Logique pour l'effet 3D au survol
+        const langItems = document.querySelectorAll('.lang-item');
+        const text3d = document.getElementById('text-3d');
+
+        langItems.forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                // Change le texte
+                const techName = item.getAttribute('data-tech');
+                text3d.textContent = techName;
+                
+                // Rendre visible et appliquer l'effet
+                text3d.classList.add('visible');
+                
+                // Petit effet de rotation aléatoire pour le dynamisme
+                const randomX = (Math.random() * 20) - 10; // entre -10 et 10 deg
+                const randomY = (Math.random() * 20) - 10;
+                text3d.style.transform = `rotateX(${randomX}deg) rotateY(${randomY}deg)`;
+            });
+
+            item.addEventListener('mouseleave', () => {
+                text3d.classList.remove('visible');
+            });
+        });
+    </script>
 
 </body>
 </html>
