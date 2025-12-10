@@ -3,19 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MHLGECAY STUDIO - La Nouvelle Frontière du Divertissement</title>
+    <title>MHLGECAY STUDIO - Martin Hangist Legacy</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 
     <style>
-        /* Variables pour les couleurs */
+        /* --- CONFIGURATION GLOBALE --- */
         :root {
-            --color-bg-dark: #0f0f0f;
-            --color-text-light: #ffffff;
-            --color-accent-purple: #7f00ff; /* Violet MHL */
-            --color-accent-blue: #00ffff; /* Couleur vive de style futuriste */
-            --font-primary: 'Space Mono', monospace; /* Police plus futuriste/technique */
+            --bg-color: #0a0a0a; /* Noir profond */
+            --text-color: #ffffff;
+            --accent-color: #7f00ff; /* Violet MHL */
+            --secondary-accent: #00ffff; /* Cyan futuriste */
         }
 
-        /* Styles de base et réinitialisation */
         * {
             margin: 0;
             padding: 0;
@@ -23,328 +25,254 @@
         }
 
         body {
-            background-color: var(--color-bg-dark);
-            color: var(--color-text-light);
-            font-family: var(--font-primary);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Space Mono', monospace;
+            overflow-x: hidden; /* Empêche le scroll horizontal */
+            width: 100vw;
             min-height: 100vh;
-            overflow-x: hidden;
-            padding: 0 5vw; 
         }
 
-        /* -------------------- HEADER & LANGUES -------------------- */
-        #header {
-            padding-top: 50px;
-            padding-bottom: 50px;
-            text-align: center;
-        }
-
-        .logo-title {
-            font-size: 1.5rem;
-            letter-spacing: 0.5em;
-            font-weight: 300;
-            opacity: 0.8;
-            text-transform: uppercase;
-        }
-
-        .language-selector {
+        /* --- ARRIÈRE-PLAN ANIMÉ (Style Dogstudio) --- */
+        .background-gradient {
             position: fixed;
-            top: 50px;
-            right: 5vw; 
-            font-size: 0.8rem;
-            letter-spacing: 0.1em;
-            opacity: 0.7;
-            z-index: 100;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 50%, #1a1a1a 0%, #0a0a0a 70%);
+            z-index: -1;
         }
 
-        /* -------------------- MAIN CONTENT LAYOUT -------------------- */
-        .hero-section {
+        /* --- HEADER (Logo & Langues) --- */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 40px;
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
-            min-height: 80vh; 
-            padding: 100px 0;
-            position: relative; 
+            align-items: center;
+            z-index: 100;
+            pointer-events: none; /* Permet de cliquer au travers si besoin */
         }
 
-        .left-panel, .right-panel {
-            width: 20%;
-            position: sticky; 
-            top: 150px;
-        }
-        
-        /* Texte à droite : Je suis un développeur... */
-        .developer-info {
-            text-align: right;
-            border-right: 2px solid var(--color-accent-blue);
-            padding-right: 15px;
-            opacity: 0.8;
-            font-size: 1rem;
-        }
-        
-        .tech-stack p {
-            margin-top: 10px;
-            font-size: 0.9rem;
-            line-height: 1.8;
-            opacity: 0.7;
-        }
-
-        /* MHLGCY - MARTIN - HANGIST - LEGACY (Colonnes de gauche) */
-        .mhlgcy-titles {
-            border-left: 2px solid var(--color-accent-purple);
-            padding-left: 15px;
-        }
-        
-        .mhlgcy-titles .name-sub {
+        .brand-name {
+            font-family: 'Oswald', sans-serif;
             font-size: 1.2rem;
-            font-weight: 200;
-            letter-spacing: 0.4em;
-            margin-bottom: 5px;
-            opacity: 0.6;
-            text-transform: uppercase;
-        }
-
-        /* Texte d'innovation et boutons sociaux (Au milieu à gauche) */
-        .innovation-text {
-            position: absolute; 
-            top: 350px; 
-            left: 25%; 
-            width: 35%;
-            padding: 20px;
-            z-index: 50; /* Pour qu'il soit au-dessus des éléments latéraux */
-        }
-
-        .innovation-text h2 {
-            font-size: 2.2rem;
-            margin-bottom: 15px;
-            color: var(--color-accent-blue);
+            letter-spacing: 2px;
             font-weight: 700;
+            pointer-events: auto;
         }
 
-        .innovation-text p {
-            font-size: 1.1rem;
-            line-height: 1.6;
-            margin-bottom: 25px;
+        .lang-selector {
+            font-size: 0.8rem;
+            opacity: 0.6;
+            pointer-events: auto;
         }
 
-        .social-links button {
-            background: none;
-            border: 1px solid var(--color-accent-purple);
-            color: var(--color-accent-purple);
-            padding: 8px 15px;
-            margin-right: 10px;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-transform: uppercase;
-        }
-
-        .social-links button:hover {
-            background-color: var(--color-accent-purple);
-            color: var(--color-text-light);
-            box-shadow: 0 0 15px var(--color-accent-purple);
-        }
-
-        /* Centre d'affichage dynamique (où la 3D apparaîtra) */
-        .dynamic-display {
-            width: 50%; 
-            height: 60vh;
-            position: fixed; 
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+        /* --- CŒUR DU SITE (CENTRE) --- */
+        .main-container {
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            z-index: 1; 
-            pointer-events: none; 
-            /* Placeholder pour la 3D */
-            font-size: 6rem;
-            font-weight: bold;
-            opacity: 0.1;
-            color: var(--color-accent-blue);
-            transition: opacity 0.3s;
-        }
-
-        /* -------------------- STATS -------------------- */
-        .stats-section {
-            display: flex;
-            justify-content: space-between;
-            padding: 150px 0;
-            width: 80%;
-            margin: 0 auto;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .stat-item {
+            min-height: 100vh;
             text-align: center;
-            flex: 1;
+            padding: 0 10%;
+            position: relative;
         }
 
-        .stat-number {
-            display: block;
-            font-size: 6rem;
-            font-weight: 700;
-            color: var(--color-accent-purple);
+        /* Le Gros Titre Central */
+        .hero-title {
+            font-family: 'Oswald', sans-serif;
+            font-size: 10vw; /* Taille responsive énorme */
             line-height: 1;
+            text-transform: uppercase;
+            color: transparent;
+            -webkit-text-stroke: 2px rgba(255, 255, 255, 0.8); /* Contour blanc */
+            position: relative;
+            z-index: 10;
+            transition: all 0.5s ease;
+            cursor: default;
         }
 
-        .stat-label {
-            display: block;
+        .hero-title:hover {
+            color: var(--text-color); /* Se remplit au survol */
+            -webkit-text-stroke: 0px;
+            text-shadow: 0 0 30px var(--accent-color);
+        }
+
+        .hero-subtitle {
+            margin-top: 20px;
             font-size: 1rem;
-            letter-spacing: 0.2em;
-            opacity: 0.7;
-            margin-top: 10px;
+            letter-spacing: 5px;
+            color: var(--accent-color);
+            text-transform: uppercase;
         }
 
-        /* -------------------- BOUTONS DÉFILANTS -------------------- */
-        .scroll-interaction-section {
+        /* Le Texte de Présentation (Bio) */
+        .bio-text {
+            margin-top: 60px;
+            max-width: 800px;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            opacity: 0.8;
+            border-left: 3px solid var(--accent-color);
+            padding-left: 20px;
+            text-align: left; /* Meilleure lisibilité */
+        }
+
+        /* --- BARRE LATÉRALE DROITE (Réseaux Sociaux) --- */
+        .social-sidebar {
+            position: fixed;
+            right: 40px;
+            top: 50%;
+            transform: translateY(-50%);
             display: flex;
-            flex-direction: column; 
-            align-items: center; /* Centré pour l'effet de défilement */
-            padding: 200px 0;
-            min-height: 250vh; /* Longueur de défilement pour l'effet */
+            flex-direction: column;
+            gap: 20px;
+            z-index: 200;
         }
 
-        .tech-button {
-            font-size: 4rem;
-            background: none;
-            border: none;
-            color: var(--color-text-light);
-            cursor: pointer;
-            opacity: 0.3;
-            transition: opacity 0.3s, color 0.3s;
-            margin: 50px 0;
-            text-transform: uppercase;
-        }
-
-        .tech-button:hover, .tech-button.active {
-            opacity: 1;
-            color: var(--color-accent-blue);
-            text-shadow: 0 0 10px var(--color-accent-blue);
-        }
-
-        /* -------------------- E-SPORTS -------------------- */
-        .esports-section {
+        /* Style des Boutons */
+        .social-btn {
+            text-decoration: none;
+            color: var(--text-color);
+            font-size: 0.9rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 15px 20px;
+            width: 160px; /* Largeur fixe pour l'alignement */
             text-align: center;
-            padding: 100px 0 200px;
+            transition: all 0.3s ease;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(5px);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
         }
 
-        .esports-title {
-            font-size: 3rem;
-            font-weight: 900;
-            letter-spacing: 0.5em;
+        /* Effet de survol stylé */
+        .social-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 100%;
+            background-color: var(--accent-color);
+            transition: width 0.3s ease;
+            z-index: -1;
+        }
+
+        .social-btn:hover::before {
+            width: 100%;
+        }
+
+        .social-btn:hover {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 20px rgba(127, 0, 255, 0.4);
+        }
+
+        /* --- SECTION INFOS TECHNIQUES (Bas de page) --- */
+        .tech-info {
+            margin-top: 100px;
+            padding-bottom: 50px;
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            flex-wrap: wrap;
+            font-size: 0.8rem;
+            opacity: 0.6;
+        }
+
+        .tech-column h3 {
+            color: var(--secondary-accent);
+            margin-bottom: 10px;
             text-transform: uppercase;
-            color: var(--color-accent-purple);
-            text-shadow: 0 0 20px var(--color-accent-purple);
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 768px) {
+            .social-sidebar {
+                position: static;
+                flex-direction: row;
+                justify-content: center;
+                margin-top: 40px;
+                transform: none;
+                flex-wrap: wrap;
+            }
+            .hero-title {
+                font-size: 15vw;
+            }
+            .header {
+                padding: 20px;
+            }
+            .bio-text {
+                text-align: center;
+                border-left: none;
+                border-top: 3px solid var(--accent-color);
+                padding-top: 20px;
+                padding-left: 0;
+            }
         }
     </style>
-    </head>
+</head>
 <body>
 
-    <header id="header">
-        <h1 class="logo-title">MHLGECAY STUDIO</h1>
+    <div class="background-gradient"></div>
+
+    <header>
+        <div class="brand-name">MHLGCY</div>
+        <div class="lang-selector">FR / EN / DE / RU / IT</div>
     </header>
 
-    <div class="language-selector">
-        <span>FR - EN - DE - RU - IT</span>
-    </div>
+    <aside class="social-sidebar">
+        <a href="https://www.tiktok.com/@VOTRECOMPTE" target="_blank" class="social-btn">TikTok</a>
+        <a href="https://www.instagram.com/VOTRECOMPTE" target="_blank" class="social-btn">Instagram</a>
+        <a href="https://www.twitch.tv/VOTRECOMPTE" target="_blank" class="social-btn">Twitch</a>
+        <a href="https://www.snapchat.com/add/VOTRECOMPTE" target="_blank" class="social-btn">Snapchat</a>
+        <a href="https://github.com/VOTRECOMPTE" target="_blank" class="social-btn">GitHub</a>
+    </aside>
 
-    <main class="main-content">
-        <section class="hero-section">
-            
-            <div class="left-panel">
-                <div class="mhlgcy-titles">
-                    <p class="name-sub">mhlgcy</p>
-                    <p class="name-sub">martin</p>
-                    <p class="name-sub">hangist</p>
-                    <p class="name-sub">legacy</p>
-                </div>
-            </div>
-
-            <div id="dynamic-display" class="dynamic-display">
-                <span class="tech-display">MHLGEC</span>
-            </div>
-
-            <div class="right-panel">
-                <div class="developer-info">
-                    <p>Je suis un développeur qui travaille actuellement sur **Unity** :</p>
-                    <div class="tech-stack">
-                        <p><strong>Languages:</strong> C# - C++ - HTML - PYTHON - JAVA</p>
-                        <p><strong>Databases:</strong> SQL - NOSQL - Redis</p>
-                        <p><strong>Platforms:</strong> VSC - Unity - UE</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="innovation-text">
-                <h2>Mon Rôle : Redéfinir le Possible</h2>
-                <p>Mon rôle dépasse la simple écriture de lignes de code. Je suis là pour sculpter des **mécanismes de jeu inédits**. Mon objectif est d'insuffler dans chaque projet une élégance technique irréprochable qui sert de fondation à des concepts que l'on pensait impossibles. Je vous invite à explorer la prochaine frontière du divertissement ici.</p>
-                <div class="social-links">
-                    <button>TikTok</button>
-                    <button>Instagram</button>
-                    <button>Twitch</button>
-                    <button>Snapchat</button>
-                </div>
-            </div>
-
-        </section>
-
-        <section class="stats-section">
-            <div class="stat-item">
-                <span class="stat-number">20+</span>
-                <span class="stat-label">projets en cours</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-number">5</span>
-                <span class="stat-label">années dans l'informatique</span>
-            </div>
-        </section>
-
-        <section class="scroll-interaction-section">
-            <button class="tech-button" data-tech="UNITY" data-display="C#">Unity</button>
-            <button class="tech-button" data-tech="HTML" data-display="HTML">HTML</button>
-            <button class="tech-button" data-tech="UE" data-display="C++">Unreal Engine</button>
-            <button class="tech-button" data-tech="SQL" data-display="SQL">Databases</button>
-            </section>
+    <main class="main-container">
         
-        <section class="esports-section">
-            <h2 class="esports-title">FORMATION DE L'ÉQUIPE E-SPORT MHL</h2>
-        </section>
+        <h1 class="hero-title">MHLGECAY<br>STUDIO</h1>
+        <p class="hero-subtitle">Martin Hangist Legacy</p>
+
+        <div class="bio-text">
+            <p>
+                Mon rôle dépasse la simple écriture de lignes de code. Je suis là pour sculpter des <strong>mécanismes de jeu inédits</strong>. 
+                Mon objectif est d'insuffler dans chaque projet une élégance technique irréprochable qui sert de fondation à des concepts que l'on pensait impossibles. 
+                Je vous invite à explorer la prochaine frontière du divertissement.
+            </p>
+        </div>
+
+        <div class="tech-info">
+            <div class="tech-column">
+                <h3>Langages</h3>
+                <p>C# / C++ / HTML / Python / Java</p>
+            </div>
+            <div class="tech-column">
+                <h3>Bases de données</h3>
+                <p>SQL / NoSQL / Redis</p>
+            </div>
+            <div class="tech-column">
+                <h3>Plateformes</h3>
+                <p>Unity / Unreal Engine / VSC</p>
+            </div>
+        </div>
+
+        <div style="margin-top: 50px; text-align: center;">
+            <p style="font-size: 3rem; font-weight: bold; color: var(--accent-color);">20+</p>
+            <p style="font-size: 0.8rem; letter-spacing: 2px;">PROJETS EN COURS</p>
+            <br>
+            <p style="color: var(--accent-color); font-weight: bold;">ÉQUIPE E-SPORT MHL EN FORMATION</p>
+        </div>
 
     </main>
-    
-    <script>
-        const techButtons = document.querySelectorAll('.tech-button');
-        const dynamicDisplay = document.querySelector('.tech-display');
 
-        // Initialiser le texte d'affichage dynamique
-        dynamicDisplay.textContent = 'MHLGEC'; 
-
-        techButtons.forEach(button => {
-            // Effet au survol (mouseover)
-            button.addEventListener('mouseover', () => {
-                const displayText = button.getAttribute('data-display');
-                dynamicDisplay.textContent = displayText;
-                // Pour le style
-                button.classList.add('active');
-            });
-
-            // Effet lorsque la souris quitte (mouseout)
-            button.addEventListener('mouseout', () => {
-                // Rétablit le texte par défaut quand la souris quitte
-                dynamicDisplay.textContent = 'MHLGEC'; 
-                button.classList.remove('active');
-            });
-            
-            // Logique pour le clic (si vous voulez une action persistante)
-            button.addEventListener('click', () => {
-                console.log(`Bouton cliqué : ${button.getAttribute('data-tech')}`);
-                // Ici, vous ajouteriez la logique complexe 3D.
-            });
-        });
-        
-        // Note: La véritable animation 3D nécessiterait Three.js ou autre librairie,
-        // ainsi qu'une logique de défilement (Scroll-Trigger) bien plus avancée.
-        
-    </script> 
 </body>
 </html>
