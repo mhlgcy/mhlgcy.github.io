@@ -18,7 +18,7 @@
             --accent-purple: #6a00ff;
             --font-serif: 'Playfair Display', serif;
             --font-sans: 'Manrope', sans-serif;
-            --hero-offset-x: 10%; /* Décalage des titres principaux vers la gauche/haut */
+            --hero-offset-x: 10%; 
             --hero-offset-y: 10%;
         }
 
@@ -100,7 +100,8 @@
 
         .hero-center-text h1 {
             font-family: var(--font-serif);
-            font-size: 7vw;
+            /* TAILLE RÉDUITE ICI */
+            font-size: 5vw; 
             line-height: 0.9;
             font-weight: 400;
             margin: 0;
@@ -131,7 +132,7 @@
         /* BLOC DROIT (Description + Réseaux) */
         .hero-right-panel {
             position: absolute;
-            bottom: 25%; /* Plus haut et proche du centre que le bas de page */
+            bottom: 25%; 
             right: 25%;
             width: 350px;
             text-align: left;
@@ -141,7 +142,7 @@
         .bio-text {
             font-size: 1rem;
             line-height: 1.7;
-            color: var(--text-white); /* Police unique */
+            color: var(--text-white); 
             margin-bottom: 20px;
             font-weight: 400;
         }
@@ -175,12 +176,12 @@
             transform: translate(-50%, -50%);
             pointer-events: none;
             z-index: 5;
-            perspective: 1200px; /* Plus grand volume */
+            perspective: 1200px;
         }
 
         #text-3d {
             font-family: var(--font-sans);
-            font-size: 20vw; /* Très gros */
+            font-size: 20vw;
             font-weight: 900;
             color: transparent;
             -webkit-text-stroke: 1px var(--accent-purple);
@@ -188,15 +189,13 @@
             white-space: nowrap;
             transition: all 0.5s ease-out;
             transform-style: preserve-3d;
-            opacity: 0.1; /* Opacité de base faible */
+            opacity: 0.1; 
         }
         
-        /* C# de base (Rotation pour effet de défilement) */
         .rotate {
             animation: rotate3D 60s linear infinite;
         }
 
-        /* Classe active ajoutée par JS (Survol ou C# de base) */
         #text-3d.active {
             opacity: 0.9;
             color: transparent;
@@ -231,6 +230,12 @@
             z-index: 20;
         }
 
+        /* Conteneur pour le dropdown */
+        .lang-dropdown-container {
+            position: relative;
+            display: inline-block;
+        }
+
         .lang-item {
             font-size: 2rem;
             padding: 10px 30px;
@@ -240,12 +245,50 @@
             transition: 0.3s;
             background: rgba(0,0,0,0.5);
             text-transform: uppercase;
+            user-select: none; /* Empêche la sélection de texte */
         }
 
         .lang-item:hover {
             border-color: var(--accent-purple);
             background: var(--accent-purple);
             color: white;
+        }
+        
+        /* Dropdown */
+        .project-dropdown {
+            position: absolute;
+            top: 100%; /* Sous le bouton */
+            left: 0;
+            background-color: #1a1a1a;
+            border: 1px solid var(--accent-purple);
+            min-width: 250px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.5);
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
+            transform: translateY(10px);
+            padding: 10px 0;
+        }
+
+        .project-dropdown.open {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .project-dropdown a {
+            color: var(--text-white);
+            padding: 10px 20px;
+            text-decoration: none;
+            display: block;
+            font-size: 0.9rem;
+            border-left: 3px solid transparent;
+        }
+
+        .project-dropdown a:hover {
+            background-color: #333;
+            border-left: 3px solid var(--accent-purple);
         }
 
         /* --- SECTION 3 : E-SPORTS --- */
@@ -293,7 +336,7 @@
         @media (max-width: 768px) {
             .hero-center-text { top: 30%; left: 50%; transform: translate(-50%, -50%); }
             .hero-right-panel { right: 5%; bottom: 5%; width: 90%; text-align: center; }
-            .hero-center-text h1 { font-size: 15vw; }
+            .hero-center-text h1 { font-size: 10vw; }
             .presentation-btn { top: 80vh; right: auto; left: 50%; transform: translateX(-50%); }
             .display-3d-container { top: 40%; }
         }
@@ -309,7 +352,7 @@
             <div style="opacity: 0.6; font-size: 0.8em; letter-spacing: 1px;">STUDIO</div>
         </div>
         
-        <div class="menu-icon">
+        <div class="lang-selector">
             <a href="#lang-fr" class="lang-link active" data-lang="fr">FR</a> - 
             <a href="#lang-en" class="lang-link" data-lang="en">EN</a> - 
             <a href="#lang-ru" class="lang-link" data-lang="ru">RU</a>
@@ -349,13 +392,57 @@
         <p class="section-title" data-key="tech-stack-title">Stack Technique</p>
         
         <div class="lang-grid">
-            <div class="lang-item" data-tech="C#" data-key="lang-csharp">C-SHARP</div>
-            <div class="lang-item" data-tech="UNITY" data-key="lang-unity">UNITY</div>
-            <div class="lang-item" data-tech="C++" data-key="lang-cpp">C++</div>
-            <div class="lang-item" data-tech="HTML" data-key="lang-html">HTML / CSS</div>
-            <div class="lang-item" data-tech="PYTHON" data-key="lang-python">PYTHON</div>
-            <div class="lang-item" data-tech="SQL" data-key="lang-sql">SQL</div>
-            <div class="lang-item" data-tech="REDIS" data-key="lang-redis">REDIS</div>
+            
+            <div class="lang-dropdown-container">
+                <div class="lang-item" data-tech="C#" data-key="lang-csharp">C-SHARP</div>
+                <div class="project-dropdown" id="dropdown-csharp">
+                    <a href="#">Projet Unity (C#)</a>
+                    <a href="#">Simulateur Réseau (C#)</a>
+                    <a href="#">GitHub Repo (C#)</a>
+                </div>
+            </div>
+            
+            <div class="lang-dropdown-container">
+                <div class="lang-item" data-tech="UNITY" data-key="lang-unity">UNITY</div>
+                <div class="project-dropdown" id="dropdown-unity">
+                    <a href="#">Jeu VR (Unity)</a>
+                    <a href="#">Outil de Mapping (Unity)</a>
+                </div>
+            </div>
+
+            <div class="lang-dropdown-container">
+                <div class="lang-item" data-tech="HTML" data-key="lang-html">HTML / CSS</div>
+                <div class="project-dropdown" id="dropdown-html">
+                    <a href="#">Site Vitrine V1</a>
+                    <a href="#">Projet Frontend</a>
+                </div>
+            </div>
+            
+            <div class="lang-dropdown-container">
+                <div class="lang-item" data-tech="C++" data-key="lang-cpp">C++</div>
+                <div class="project-dropdown" id="dropdown-cpp">
+                    <a href="#">Bibliothèque Algorithmique</a>
+                </div>
+            </div>
+            <div class="lang-dropdown-container">
+                <div class="lang-item" data-tech="PYTHON" data-key="lang-python">PYTHON</div>
+                <div class="project-dropdown" id="dropdown-python">
+                    <a href="#">Script IA</a>
+                </div>
+            </div>
+            <div class="lang-dropdown-container">
+                <div class="lang-item" data-tech="SQL" data-key="lang-sql">SQL</div>
+                <div class="project-dropdown" id="dropdown-sql">
+                    <a href="#">Projet Base de Données</a>
+                </div>
+            </div>
+            <div class="lang-dropdown-container">
+                <div class="lang-item" data-tech="REDIS" data-key="lang-redis">REDIS</div>
+                <div class="project-dropdown" id="dropdown-redis">
+                    <a href="#">Cache Server Project</a>
+                </div>
+            </div>
+
         </div>
     </section>
 
@@ -366,7 +453,7 @@
     </section>
 
     <script>
-        // --- LOGIQUE MULTILINGUE (JS) ---
+        // --- DONNÉES MULTILINGUES ---
         const dictionary = {
             'fr': {
                 'presentation-btn': 'Présentation',
@@ -397,13 +484,15 @@
             }
         };
 
+        // --- FONCTION MULTILINGUE (JS) ---
         function updateContent(lang) {
             document.querySelectorAll('[data-key]').forEach(element => {
                 const key = element.getAttribute('data-key');
                 if (dictionary[lang][key]) {
-                    if (element.tagName === 'H1' || element.tagName === 'H2' || element.tagName === 'P') {
-                        element.textContent = dictionary[lang][key];
-                    } else if (element.tagName === 'A' || element.tagName === 'DIV') {
+                    // Les éléments du menu de langage sont mis à jour uniquement via leur `data-key`
+                    if (element.classList.contains('lang-item') || element.classList.contains('presentation-btn') || element.classList.contains('discord-btn')) {
+                         element.textContent = dictionary[lang][key];
+                    } else if (element.tagName === 'H1' || element.tagName === 'H2' || element.tagName === 'P') {
                         element.textContent = dictionary[lang][key];
                     }
                 }
@@ -414,7 +503,6 @@
                     link.classList.add('active');
                 }
             });
-            // Met à jour la langue principale de la page
             document.documentElement.lang = lang; 
         }
 
@@ -426,7 +514,6 @@
             });
         });
         
-        // Initialiser avec la langue par défaut (FR)
         document.addEventListener('DOMContentLoaded', () => {
              updateContent('fr');
         });
@@ -438,23 +525,46 @@
         const defaultText = text3d.getAttribute('data-default');
 
         langItems.forEach(item => {
+            // Survol pour l'effet 3D
             item.addEventListener('mouseenter', () => {
-                // Arrête la rotation de base quand on survole
                 text3d.classList.remove('rotate'); 
-
-                // Change le texte et active l'effet 3D
                 const techName = item.getAttribute('data-tech');
                 text3d.textContent = techName;
                 text3d.classList.add('active');
             });
 
+            // Souris quitte pour revenir à C#
             item.addEventListener('mouseleave', () => {
-                // Rétablit le texte par défaut
                 text3d.textContent = defaultText;
-                
-                // Désactive l'effet 3D et relance la rotation
                 text3d.classList.remove('active');
                 text3d.classList.add('rotate'); 
+            });
+        });
+        
+        // --- LOGIQUE DROPDOWN AU CLIC (JS) ---
+        document.querySelectorAll('.lang-item').forEach(item => {
+            item.addEventListener('click', (e) => {
+                e.stopPropagation(); // Empêche le clic de fermer immédiatement
+                
+                // Fermer tous les autres dropdowns
+                document.querySelectorAll('.project-dropdown').forEach(d => {
+                    d.classList.remove('open');
+                });
+
+                // Trouver et ouvrir le dropdown associé
+                const container = item.closest('.lang-dropdown-container');
+                const dropdown = container ? container.querySelector('.project-dropdown') : null;
+                
+                if (dropdown) {
+                    dropdown.classList.add('open');
+                }
+            });
+        });
+
+        // Fermer les dropdowns si on clique n'importe où ailleurs
+        document.addEventListener('click', () => {
+            document.querySelectorAll('.project-dropdown').forEach(d => {
+                d.classList.remove('open');
             });
         });
         
