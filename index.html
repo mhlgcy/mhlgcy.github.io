@@ -1,1205 +1,309 @@
 <!DOCTYPE html>
-
 <html lang="fr">
-
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>MHLEGACY STUDIO</title>
-
     
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
-
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
-
-
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
 
     <style>
-
         /* --- CONFIGURATION GLOBALE --- */
-
         :root {
-
             --bg-color: #050505;
-
             --text-white: #ffffff;
-
             --text-grey: #a0a0a0;
-
             --accent-purple: #6a00ff;
-
             --font-serif: 'Playfair Display', serif;
-
             --font-sans: 'Manrope', sans-serif;
-
-            --hero-offset-x: 10%; 
-
-            --hero-offset-y: 10%;
-
         }
-
-
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
-
-
         body {
-
             background-color: var(--bg-color);
-
             color: var(--text-white);
-
             font-family: var(--font-sans);
-
             overflow-x: hidden;
-
-            position: relative;
-
+            -webkit-font-smoothing: antialiased; /* Rend l'écriture plus lisse */
         }
-
-
 
         /* --- FOND D'AMBIANCE --- */
-
         .ambient-glow {
-
             position: fixed;
-
             width: 100vw; height: 100vh;
-
             background: radial-gradient(circle at 70% 80%, rgba(106, 0, 255, 0.1) 0%, transparent 50%),
-
-                        radial-gradient(circle at 20% 20%, rgba(40, 40, 90, 0.3) 0%, transparent 50%);
-
+                        radial-gradient(circle at 20% 20%, rgba(40, 40, 90, 0.2) 0%, transparent 50%);
             z-index: -1;
-
             pointer-events: none;
-
         }
 
-
-
-        /* --- HEADER & NAVIGATION --- */
-
+        /* --- HEADER & LOGO --- */
         .top-bar {
-
             position: fixed;
-
-            top: 40px; left: 50px;
-
-            right: 50px;
-
+            top: 40px; left: 50px; right: 50px;
             display: flex;
-
             justify-content: space-between;
-
-            align-items: flex-start;
-
+            align-items: center;
             z-index: 1000;
-
         }
 
-
-
-        .logo-block {
-
-            line-height: 1.2;
-
-            font-weight: 700; 
-
-            letter-spacing: 2px; 
-
-            text-transform: uppercase; 
-
-            font-size: 1rem;
-
+        .logo-block img {
+            height: 45px; /* Ajuste la taille de ton logo ici */
+            width: auto;
         }
 
-        
+        /* Si tu n'as pas encore de logo image, ce style gère le texte */
+        .logo-text {
+            font-weight: 800;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            line-height: 1;
+        }
 
         .lang-selector {
-
-            position: absolute;
-
-            left: 50px;
-
-            top: 80px;
-
             font-size: 0.8rem;
-
-            opacity: 0.7;
-
+            font-weight: 700;
         }
 
         .lang-link {
-
             text-decoration: none;
-
             color: var(--text-grey);
-
-            cursor: pointer;
-
-            transition: color 0.3s;
-
+            transition: 0.3s;
+            margin: 0 5px;
         }
 
-        .lang-link.active, .lang-link:hover {
+        .lang-link.active, .lang-link:hover { color: var(--text-white); }
 
-            color: var(--text-white);
-
-        }
-
-
-
-        /* --- SECTION 1 : HERO (100vh) --- */
-
+        /* --- HERO SECTION --- */
         .hero-section {
-
             height: 100vh;
-
-            width: 100%;
-
-            position: relative;
-
             display: flex;
-
-            justify-content: center;
-
             align-items: center;
-
+            position: relative;
+            padding-left: 10%;
         }
-
-
-
-        /* TITRE PRINCIPAL (Décalé HAUT-GAUCHE du centre) */
-
-        .hero-center-text {
-
-            position: absolute;
-
-            top: 40%; 
-
-            left: 50%;
-
-            transform: translate(calc(-50% - var(--hero-offset-x)), calc(-50% - var(--hero-offset-y)));
-
-            text-align: left;
-
-            z-index: 10;
-
-        }
-
-
 
         .hero-center-text h1 {
-
             font-family: var(--font-serif);
-
-            font-size: 5vw; /* TAILLE RÉDUITE */
-
-            line-height: 0.9;
-
-            font-weight: 400;
-
+            font-size: clamp(3rem, 7vw, 10rem);
+            line-height: 0.85;
+            font-weight: 700;
+            font-style: italic; /* Style signature */
+            text-transform: uppercase;
             margin: 0;
-
             opacity: 0;
-
             animation: fadeIn 1s forwards;
-
+            background: linear-gradient(to right, #fff, #666);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
+        /* --- VISUEL 3D ARRIÈRE PLAN --- */
+        .display-3d-container {
+            position: fixed;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: -1;
+            perspective: 1000px;
+        }
 
+        #text-3d {
+            font-size: 25vw;
+            font-weight: 900;
+            color: transparent;
+            -webkit-text-stroke: 1px rgba(106, 0, 255, 0.2);
+            text-transform: uppercase;
+            transition: all 0.8s ease;
+        }
 
-        /* BOUTON PRÉSENTATION (Haut-Droite du centre) */
+        #text-3d.active {
+            opacity: 0.8;
+            -webkit-text-stroke: 1px var(--accent-purple);
+            filter: drop-shadow(0 0 20px var(--accent-purple));
+        }
+
+        .rotate { animation: rotate3D 30s linear infinite; }
+
+        /* --- BIO & BOUTONS --- */
+        .hero-right-panel {
+            position: absolute;
+            bottom: 15%; right: 10%;
+            width: 350px;
+        }
+
+        .bio-text {
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: var(--text-grey);
+            margin-bottom: 30px;
+        }
 
         .presentation-btn {
-
-            position: absolute;
-
-            top: 20%; 
-
-            right: 25%;
-
-            font-size: 0.9rem;
-
-            text-decoration: none;
-
-            color: var(--accent-purple);
-
+            display: inline-block;
+            padding: 12px 30px;
             border: 1px solid var(--accent-purple);
-
-            padding: 10px 20px;
-
+            color: var(--text-white);
+            text-decoration: none;
             text-transform: uppercase;
-
             letter-spacing: 2px;
-
-            transition: all 0.3s;
-
-            z-index: 15;
-
+            font-weight: 700;
+            font-size: 0.8rem;
+            transition: 0.4s;
         }
 
         .presentation-btn:hover {
-
-            background-color: var(--accent-purple);
-
-            color: var(--bg-color);
-
+            background: var(--accent-purple);
+            box-shadow: 0 0 20px var(--accent-purple);
         }
 
-
-
-        /* BLOC DROIT (Description + Réseaux) */
-
-        .hero-right-panel {
-
-            position: absolute;
-
-            bottom: 25%; 
-
-            right: 25%;
-
-            width: 350px;
-
-            text-align: left;
-
-            z-index: 20;
-
-        }
-
-
-
-        .bio-text {
-
-            font-size: 1rem;
-
-            line-height: 1.7;
-
-            color: var(--text-white); 
-
-            margin-bottom: 20px;
-
-            font-weight: 400;
-
-        }
-
-
-
-        .social-list {
-
-            display: flex;
-
-            gap: 15px;
-
-            margin-top: 10px;
-
-            flex-wrap: wrap;
-
-        }
-
-
-
-        .social-link {
-
-            text-decoration: none;
-
-            color: var(--text-grey);
-
-            font-size: 0.8rem;
-
-            text-transform: uppercase;
-
-            transition: 0.3s;
-
-            border: 1px solid transparent;
-
-            padding: 5px 10px;
-
-            border-radius: 3px;
-
-        }
-
-        .social-link:hover {
-
-            color: var(--accent-purple);
-
-            border-color: var(--accent-purple);
-
-        }
-
-
-
-        /* --- VISUEL 3D AU MILIEU (Élément principal) --- */
-
-        .display-3d-container {
-
-            position: fixed;
-
-            top: 50%; left: 50%;
-
-            transform: translate(-50%, -50%);
-
-            pointer-events: none;
-
-            z-index: 5;
-
-            perspective: 1200px;
-
-        }
-
-
-
-        #text-3d {
-
-            font-family: var(--font-sans);
-
-            font-size: 20vw;
-
-            font-weight: 900;
-
-            color: transparent;
-
-            -webkit-text-stroke: 1px var(--accent-purple);
-
-            text-transform: uppercase;
-
-            white-space: nowrap;
-
-            transition: all 0.5s ease-out;
-
-            transform-style: preserve-3d;
-
-            opacity: 0.1; 
-
-        }
-
-        
-
-        .rotate {
-
-            animation: rotate3D 60s linear infinite;
-
-        }
-
-
-
-        #text-3d.active {
-
-            opacity: 0.9;
-
-            color: transparent;
-
-            /* Simulation de profondeur accrue */
-
-            text-shadow: 
-
-                1px 1px 0px #4d00bf, 2px 2px 0px #4d00bf, 3px 3px 0px #4d00bf, 4px 4px 0px #4d00bf, 
-
-                5px 5px 0px #4d00bf, 6px 6px 0px #4d00bf, 7px 7px 0px #4d00bf, 8px 8px 0px #4d00bf,
-
-                15px 15px 50px rgba(0,0,0,0.7);
-
-            transform: rotateX(5deg) rotateY(5deg) scale(1.1);
-
-        }
-
-
-
-        /* --- SECTION 2 : LANGUAGES (Scroll) --- */
-
-        .languages-section {
-
-            min-height: 100vh;
-
-            padding: 100px 50px;
-
-            display: flex;
-
-            flex-direction: column;
-
-            align-items: center;
-
-            justify-content: center;
-
-            position: relative;
-
-        }
-
-
-
-        .section-title {
-
-            font-size: 1rem; color: var(--accent-purple); text-transform: uppercase; margin-bottom: 50px; letter-spacing: 3px;
-
-        }
-
-
-
-        .lang-grid {
-
-            display: flex;
-
-            flex-wrap: wrap;
-
-            justify-content: center;
-
-            gap: 20px;
-
-            z-index: 20;
-
-        }
-
-
-
-        /* Conteneur pour le dropdown */
-
-        .lang-dropdown-container {
-
-            position: relative;
-
-            display: inline-block;
-
-        }
-
-
+        /* --- STACK TECHNIQUE --- */
+        .languages-section { padding: 100px 50px; text-align: center; }
 
         .lang-item {
-
-            font-size: 2rem;
-
-            padding: 10px 30px;
-
-            border: 1px solid rgba(255,255,255,0.2);
-
+            display: inline-block;
+            font-size: 1.5rem;
+            font-weight: 800;
+            padding: 15px 40px;
+            margin: 10px;
+            border: 1px solid rgba(255,255,255,0.1);
             border-radius: 50px;
-
             cursor: pointer;
-
             transition: 0.3s;
-
-            background: rgba(0,0,0,0.5);
-
-            text-transform: uppercase;
-
-            user-select: none; /* Empêche la sélection de texte */
-
         }
-
-
 
         .lang-item:hover {
-
-            border-color: var(--accent-purple);
-
             background: var(--accent-purple);
-
-            color: white;
-
+            border-color: var(--accent-purple);
         }
-
-        
-
-        /* Dropdown */
 
         .project-dropdown {
-
             position: absolute;
-
-            top: 100%; 
-
-            left: 0;
-
-            background-color: #1a1a1a;
-
+            background: #111;
             border: 1px solid var(--accent-purple);
-
-            min-width: 250px;
-
-            box-shadow: 0 8px 16px rgba(0,0,0,0.5);
-
+            padding: 10px;
+            display: none;
             z-index: 100;
-
-            opacity: 0;
-
-            visibility: hidden;
-
-            transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
-
-            transform: translateY(10px);
-
-            padding: 10px 0;
-
         }
 
-
-
-        .project-dropdown.open {
-
-            opacity: 1;
-
-            visibility: visible;
-
-            transform: translateY(0);
-
-        }
-
-
+        .project-dropdown.open { display: block; }
 
         .project-dropdown a {
-
-            color: var(--text-white);
-
-            padding: 10px 20px;
-
-            text-decoration: none;
-
-            display: block;
-
-            font-size: 0.9rem;
-
-            border-left: 3px solid transparent;
-
-            white-space: nowrap; /* Empêche le wrapping des noms de liens */
-
-        }
-
-
-
-        .project-dropdown a:hover {
-
-            background-color: #333;
-
-            border-left: 3px solid var(--accent-purple);
-
-        }
-
-
-
-        /* --- SECTION 3 : E-SPORTS --- */
-
-        .esports-section {
-
-            height: 60vh;
-
-            display: flex;
-
-            flex-direction: column;
-
-            justify-content: center;
-
-            align-items: center;
-
-            text-align: center;
-
-            border-top: 1px solid rgba(255,255,255,0.1);
-
-        }
-
-
-
-        .esports-title {
-
-            font-family: var(--font-serif);
-
-            font-size: 3rem;
-
-            margin-bottom: 20px;
-
-        }
-
-
-
-        .discord-btn {
-
-            background-color: #5865F2;
-
             color: white;
-
-            padding: 15px 40px;
-
-            border-radius: 5px;
-
             text-decoration: none;
-
-            font-weight: bold;
-
-            letter-spacing: 1px;
-
-            transition: 0.3s;
-
-            margin-top: 20px;
-
+            display: block;
+            padding: 8px;
+            font-size: 0.8rem;
         }
 
-        .discord-btn:hover {
-
-            background-color: #4752c4;
-
-            transform: scale(1.05);
-
-            box-shadow: 0 0 20px rgba(88, 101, 242, 0.5);
-
-        }
-
-
-
-        /* --- KEYFRAMES --- */
-
+        /* --- ANIMATIONS --- */
         @keyframes fadeIn { to { opacity: 1; } }
-
         @keyframes rotate3D {
-
-            from { transform: rotateY(0deg) rotateX(0deg); }
-
-            to { transform: rotateY(360deg) rotateX(360deg); }
-
+            from { transform: rotateY(0deg); }
+            to { transform: rotateY(360deg); }
         }
-
-
-
-        /* Responsive Mobile (simplification) */
 
         @media (max-width: 768px) {
-
-            .hero-center-text { top: 30%; left: 50%; transform: translate(-50%, -50%); }
-
-            .hero-right-panel { right: 5%; bottom: 5%; width: 90%; text-align: center; }
-
-            .hero-center-text h1 { font-size: 10vw; }
-
-            .presentation-btn { top: 80vh; right: auto; left: 50%; transform: translateX(-50%); }
-
-            .display-3d-container { top: 40%; }
-
+            .hero-section { padding-left: 5%; justify-content: center; }
+            .hero-right-panel { position: relative; width: 90%; right: 0; margin-top: 50px; }
+            #text-3d { font-size: 40vw; }
         }
-
     </style>
-
 </head>
-
 <body>
-
-
 
     <div class="ambient-glow"></div>
 
-
-
     <header class="top-bar">
-
         <div class="logo-block">
-
-            <div>MHLEGACY</div>
-
-            <div style="opacity: 0.6; font-size: 0.8em; letter-spacing: 1px;">STUDIO</div>
-
+            <div class="logo-text">
+                MHL<span style="color:var(--accent-purple)">EGACY</span>
+                <div style="font-size: 0.6em; opacity: 0.5; letter-spacing: 6px;">STUDIO</div>
+            </div>
         </div>
-
         
-
-        <div class="lang-selector">
-
-            <a href="#lang-fr" class="lang-link active" data-lang="fr">FR</a> - 
-
-            <a href="#lang-en" class="lang-link" data-lang="en">EN</a> - 
-
-            <a href="#lang-ru" class="lang-link" data-lang="ru">RU</a>
-
-        </div>
-
+        <nav class="lang-selector">
+            <a href="#" class="lang-link active" data-lang="fr">FR</a>
+            <a href="#" class="lang-link" data-lang="en">EN</a>
+            <a href="#" class="lang-link" data-lang="ru">RU</a>
+        </nav>
     </header>
 
-
-
     <section class="hero-section">
-
-        
-
         <div class="display-3d-container">
-
-            <div id="text-3d" class="rotate active" data-default="C#">C#</div>
-
+            <div id="text-3d" class="rotate" data-default="C#">C#</div>
         </div>
-
-
 
         <div class="hero-center-text">
-
             <h1 data-key="mhlgcy">We</h1>
-
             <h1 data-key="martin">Make</h1>
-
             <h1 data-key="hangist">Our</h1>
-
             <h1 data-key="legacy">legacy</h1>
-
         </div>
-
-
-
-        <a href="https://www.youtube.com/watch?v=VOTRE_VIDEO_YOUTUBE" target="_blank" class="presentation-btn" data-key="presentation-btn">Présentation</a>
-
-
 
         <div class="hero-right-panel">
-
             <p class="bio-text" data-key="bio-text">
-
-                Mon rôle dépasse la simple écriture de code. Je sculpte des mécanismes de jeu inédits avec une élégance technique irréprochable. Bienvenue à la frontière du divertissement.
-
+                Mon rôle dépasse la simple écriture de code. Je sculpte des mécanismes de jeu inédits avec une élégance technique irréprochable.
             </p>
-
-            <div class="social-list">
-
-                <a href="https://www.tiktok.com/@mhlgcr" target="_blank" class="social-link">TikTok</a>
-
-                <a href="https://www.twitch.tv/mhlgcy" target="_blank" class="social-link">Twitch</a>
-
-                <a href="https://www.youtube.com/@mhlgc" target="_blank" class="social-link">Youtube</a>
-
-            </div>
-
+            <a href="URL_YOUTUBE" class="presentation-btn" data-key="presentation-btn">Présentation</a>
         </div>
-
-
-
     </section>
-
-
 
     <section class="languages-section">
-
-        <p class="section-title" data-key="tech-stack-title">Stack Technique</p>
-
-        
-
         <div class="lang-grid">
-
-            
-
-            <div class="lang-dropdown-container">
-
+            <div class="lang-dropdown-container" style="position:relative; display:inline-block;">
                 <div class="lang-item" data-tech="C#" data-key="lang-csharp">C-SHARP</div>
-
-                <div class="project-dropdown" id="dropdown-csharp">
-
-                    <a href="VOTRE_LIEN_PROJET_C1" target="_blank">1. Projet Unity (C#)</a>
-
-                    <a href="VOTRE_LIEN_PROJET_C2" target="_blank">2. Simulateur Réseau (C#)</a>
-
-                    <a href="VOTRE_LIEN_PROJET_C3" target="_blank">3. GitHub Repo (C#)</a>
-
+                <div class="project-dropdown">
+                    <a href="#">Projet Unity 1</a>
+                    <a href="#">Système Réseau</a>
                 </div>
-
             </div>
-
-            
-
-            <div class="lang-dropdown-container">
-
-                <div class="lang-item" data-tech="UNITY" data-key="lang-unity">UNITY</div>
-
-                <div class="project-dropdown" id="dropdown-unity">
-
-                    <a href="VOTRE_LIEN_PROJET_U1" target="_blank">1. Jeu VR (Unity)</a>
-
-                    <a href="VOTRE_LIEN_PROJET_U2" target="_blank">2. Outil de Mapping (Unity)</a>
-
-                    <a href="VOTRE_LIEN_PROJET_U3" target="_blank">3. Asset Store Project</a>
-
-                </div>
-
-            </div>
-
-
-
-            <div class="lang-dropdown-container">
-
-                <div class="lang-item" data-tech="HTML" data-key="lang-html">HTML / CSS</div>
-
-                <div class="project-dropdown" id="dropdown-html">
-
-                    <a href="VOTRE_LIEN_PROJET_H1" target="_blank">1. Site Vitrine V1</a>
-
-                    <a href="VOTRE_LIEN_PROJET_H2" target="_blank">2. Projet Frontend Animé</a>
-
-                    <a href="VOTRE_LIEN_PROJET_H3" target="_blank">3. Portfolio Web</a>
-
-                </div>
-
-            </div>
-
-            
-
-            <div class="lang-dropdown-container">
-
-                <div class="lang-item" data-tech="C++" data-key="lang-cpp">C++</div>
-
-                <div class="project-dropdown" id="dropdown-cpp">
-
-                    <a href="VOTRE_LIEN_PROJET_CPP1" target="_blank">1. Bibliothèque Algorithmique</a>
-
-                    <a href="VOTRE_LIEN_PROJET_CPP2" target="_blank">2. Moteur de rendu 2D</a>
-
-                </div>
-
-            </div>
-
-            
-
-            <div class="lang-dropdown-container">
-
-                <div class="lang-item" data-tech="PYTHON" data-key="lang-python">PYTHON</div>
-
-                <div class="project-dropdown" id="dropdown-python">
-
-                    <a href="VOTRE_LIEN_PROJET_P1" target="_blank">1. Script IA</a>
-
-                    <a href="VOTRE_LIEN_PROJET_P2" target="_blank">2. Data Parser</a>
-
-                </div>
-
-            </div>
-
-            
-
-            <div class="lang-dropdown-container">
-
-                <div class="lang-item" data-tech="SQL" data-key="lang-sql">SQL</div>
-
-                <div class="project-dropdown" id="dropdown-sql">
-
-                    <a href="VOTRE_LIEN_PROJET_S1" target="_blank">1. Projet Base de Données</a>
-
-                    <a href="VOTRE_LIEN_PROJET_S2" target="_blank">2. Gestion de Stock SQL</a>
-
-                </div>
-
-            </div>
-
-            
-
-            <div class="lang-dropdown-container">
-
-                <div class="lang-item" data-tech="REDIS" data-key="lang-redis">REDIS</div>
-
-                <div class="project-dropdown" id="dropdown-redis">
-
-                    <a href="VOTRE_LIEN_PROJET_R1" target="_blank">1. Cache Server Project</a>
-
-                </div>
-
-            </div>
-
-
-
+            <div class="lang-item" data-tech="UNITY">UNITY</div>
+            <div class="lang-item" data-tech="C++">C++</div>
         </div>
-
     </section>
-
-
-
-    <section class="esports-section">
-
-        <h2 class="esports-title" data-key="esports-title">ÉQUIPE E-SPORT MHL</h2>
-
-        <p style="color: grey; letter-spacing: 2px;" data-key="esports-status">RECRUTEMENT EN COURS</p>
-
-        <a href="https://discord.com/VOTRE_INVITATION" target="_blank" class="discord-btn" data-key="discord-btn">REJOINDRE LE DISCORD</a>
-
-    </section>
-
-
 
     <script>
-
-        // --- DONNÉES MULTILINGUES ---
-
         const dictionary = {
-
-            'fr': {
-
-                'presentation-btn': 'Présentation',
-
-                'bio-text': 'Mon rôle dépasse la simple écriture de code. Je sculpte des mécanismes de jeu inédits avec une élégance technique irréprochable. Bienvenue à la frontière du divertissement.',
-
-                'tech-stack-title': 'Stack Technique',
-
-                'lang-csharp': 'C-SHARP', 'lang-unity': 'UNITY', 'lang-cpp': 'C++', 'lang-html': 'HTML / CSS', 'lang-python': 'PYTHON', 'lang-sql': 'SQL', 'lang-redis': 'REDIS',
-
-                'esports-title': 'ÉQUIPE E-SPORT MHL',
-
-                'esports-status': 'RECRUTEMENT EN COURS',
-
-                'discord-btn': 'REJOINDRE LE DISCORD'
-
-            },
-
-            'en': {
-
-                'presentation-btn': 'Presentation',
-
-                'bio-text': 'My role goes beyond simple code writing. I sculpt unique game mechanics with impeccable technical elegance. Welcome to the frontier of entertainment.',
-
-                'tech-stack-title': 'Technical Stack',
-
-                'lang-csharp': 'C-SHARP', 'lang-unity': 'UNITY', 'lang-cpp': 'C++', 'lang-html': 'HTML / CSS', 'lang-python': 'PYTHON', 'lang-sql': 'SQL', 'lang-redis': 'REDIS',
-
-                'esports-title': 'MHL E-SPORT TEAM',
-
-                'esports-status': 'RECRUITMENT OPEN',
-
-                'discord-btn': 'JOIN DISCORD'
-
-            },
-
-            'ru': {
-
-                'presentation-btn': 'Презентация',
-
-                'bio-text': 'Моя роль выходит за рамки простого написания кода. Я создаю уникальную игровую механику с безупречной технической элегантностью. Добро пожаловать на границу развлечений.',
-
-                'tech-stack-title': 'Технический Стек',
-
-                'lang-csharp': 'СИ-ШАРП', 'lang-unity': 'ЮНИТИ', 'lang-cpp': 'С++', 'lang-html': 'HTML / CSS', 'lang-python': 'ПИТОН', 'lang-sql': 'SQL', 'lang-redis': 'РЕДИС',
-
-                'esports-title': 'КИБЕРСПОРТИВНАЯ КОМАНДА MHL',
-
-                'esports-status': 'НАБОР ОТКРЫТ',
-
-                'discord-btn': 'ПРИСОЕДИНИТЬСЯ К DISCORD'
-
-            }
-
+            'fr': { 'presentation-btn': 'Présentation', 'bio-text': 'Mon rôle dépasse la simple écriture de code. Je sculpte des mécanismes de jeu inédits avec une élégance technique irréprochable.', 'lang-csharp': 'C-SHARP' },
+            'en': { 'presentation-btn': 'Presentation', 'bio-text': 'My role goes beyond simple code writing. I sculpt unique game mechanics with impeccable technical elegance.', 'lang-csharp': 'C-SHARP' },
+            'ru': { 'presentation-btn': 'Презентация', 'bio-text': 'Моя роль выходит за рамки простого написания кода. Я создаю уникальную игровую механику с безупречной элегантностью.', 'lang-csharp': 'СИ-ШАРП' }
         };
 
-
-
-        // --- FONCTION MULTILINGUE (JS) ---
-
         function updateContent(lang) {
-
-            document.querySelectorAll('[data-key]').forEach(element => {
-
-                const key = element.getAttribute('data-key');
-
-                if (dictionary[lang][key]) {
-
-                    if (element.classList.contains('lang-item') || element.classList.contains('presentation-btn') || element.classList.contains('discord-btn')) {
-
-                         element.textContent = dictionary[lang][key];
-
-                    } else if (element.tagName === 'H1' || element.tagName === 'H2' || element.tagName === 'P') {
-
-                        element.textContent = dictionary[lang][key];
-
-                    }
-
-                }
-
+            document.querySelectorAll('[data-key]').forEach(el => {
+                const key = el.getAttribute('data-key');
+                if(dictionary[lang][key]) el.textContent = dictionary[lang][key];
             });
-
-             document.querySelectorAll('.lang-link').forEach(link => {
-
-                link.classList.remove('active');
-
-                if (link.getAttribute('data-lang') === lang) {
-
-                    link.classList.add('active');
-
-                }
-
+            document.querySelectorAll('.lang-link').forEach(l => {
+                l.classList.toggle('active', l.dataset.lang === lang);
             });
-
-            document.documentElement.lang = lang; 
-
         }
 
-
-
         document.querySelectorAll('.lang-link').forEach(link => {
-
-            link.addEventListener('click', (e) => {
-
-                e.preventDefault();
-
-                const lang = link.getAttribute('data-lang');
-
-                updateContent(lang);
-
-            });
-
+            link.onclick = (e) => { e.preventDefault(); updateContent(link.dataset.lang); };
         });
 
-        
-
-        document.addEventListener('DOMContentLoaded', () => {
-
-             updateContent('fr');
-
-        });
-
-
-
-
-
-        // --- LOGIQUE 3D AU SURVOL (JS) ---
-
-        const langItems = document.querySelectorAll('.lang-item');
-
+        // Logique 3D
         const text3d = document.getElementById('text-3d');
-
-        const defaultText = text3d.getAttribute('data-default');
-
-
-
-        langItems.forEach(item => {
-
-            // Survol pour l'effet 3D
-
-            item.addEventListener('mouseenter', () => {
-
-                text3d.classList.remove('rotate'); 
-
-                const techName = item.getAttribute('data-tech');
-
-                text3d.textContent = techName;
-
-                text3d.classList.add('active');
-
-            });
-
-
-
-            // Souris quitte pour revenir à C#
-
-            item.addEventListener('mouseleave', () => {
-
-                // S'assurer qu'aucun dropdown n'est ouvert avant de revenir à la rotation
-
-                const anyDropdownOpen = document.querySelector('.project-dropdown.open');
-
-                if (!anyDropdownOpen) {
-
-                    text3d.textContent = defaultText;
-
-                    text3d.classList.remove('active');
-
-                    text3d.classList.add('rotate'); 
-
-                }
-
-            });
-
-        });
-
-        
-
-        // --- LOGIQUE DROPDOWN AU CLIC (JS) ---
-
         document.querySelectorAll('.lang-item').forEach(item => {
-
-            item.addEventListener('click', (e) => {
-
-                e.stopPropagation(); 
-
-                
-
-                const container = item.closest('.lang-dropdown-container');
-
-                const dropdown = container ? container.querySelector('.project-dropdown') : null;
-
-                
-
-                if (dropdown) {
-
-                    // Fermer tous les autres dropdowns
-
-                    document.querySelectorAll('.project-dropdown.open').forEach(d => {
-
-                        if (d !== dropdown) {
-
-                            d.classList.remove('open');
-
-                        }
-
-                    });
-
-                    
-
-                    // Ouvrir/Fermer celui-ci
-
-                    dropdown.classList.toggle('open');
-
-                    
-
-                    // Mettre à jour le texte 3D au milieu quand le dropdown s'ouvre
-
-                    if (dropdown.classList.contains('open')) {
-
-                         text3d.classList.remove('rotate'); 
-
-                         text3d.textContent = item.getAttribute('data-tech');
-
-                         text3d.classList.add('active');
-
-                    } else {
-
-                         // Revenir à l'état par défaut si on ferme
-
-                         text3d.textContent = defaultText;
-
-                         text3d.classList.remove('active');
-
-                         text3d.classList.add('rotate'); 
-
-                    }
-
-                }
-
-            });
-
-        });
-
-
-
-        // Fermer les dropdowns si on clique n'importe où ailleurs
-
-        document.addEventListener('click', () => {
-
-            const openDropdown = document.querySelector('.project-dropdown.open');
-
-            if (openDropdown) {
-
-                openDropdown.classList.remove('open');
-
-                // Revenir à l'état par défaut
-
-                text3d.textContent = defaultText;
-
+            item.onmouseenter = () => {
+                text3d.textContent = item.dataset.tech;
+                text3d.classList.add('active');
+                text3d.classList.remove('rotate');
+            };
+            item.onmouseleave = () => {
+                text3d.textContent = text3d.dataset.default;
                 text3d.classList.remove('active');
-
-                text3d.classList.add('rotate'); 
-
-            }
-
+                text3d.classList.add('rotate');
+            };
+            item.onclick = () => {
+                const dropdown = item.nextElementSibling;
+                if(dropdown) dropdown.classList.toggle('open');
+            };
         });
-
-        
-
-    </script> 
-
-
-
+    </script>
 </body>
-
 </html>
