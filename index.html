@@ -336,4 +336,144 @@
 
         @media (max-width: 768px) {
             .hero-center-text { top: 30%; left: 50%; transform: translate(-50%, -50%); }
-            .hero-right-panel { right: 5%; bottom: 5%; width: 90%; text
+            .hero-right-panel { right: 5%; bottom: 5%; width: 90%; text-align: center; }
+            .hero-center-text h1 { font-size: 10vw; }
+            .presentation-btn { top: 80vh; right: auto; left: 50%; transform: translateX(-50%); }
+            .display-3d-container { top: 40%; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="ambient-glow"></div>
+
+    <header class="top-bar">
+        <div class="logo-block">
+            <img src="logo.png" alt="Logo" class="logo-img"> 
+            <div>
+                <div>MHLEGACY</div>
+                <div style="opacity: 0.6; font-size: 0.8em; letter-spacing: 1px;">STUDIO</div>
+            </div>
+        </div>
+        
+        <div class="lang-selector">
+            <a href="#lang-fr" class="lang-link active" data-lang="fr">FR</a> - 
+            <a href="#lang-en" class="lang-link" data-lang="en">EN</a> - 
+            <a href="#lang-ru" class="lang-link" data-lang="ru">RU</a>
+        </div>
+    </header>
+
+    <section class="hero-section">
+        <div class="display-3d-container">
+            <div id="text-3d" class="rotate" data-default="C#">C#</div>
+        </div>
+
+        <div class="hero-center-text">
+            <h1 data-key="mhlgcy">We</h1>
+            <h1 data-key="martin">Make</h1>
+            <h1 data-key="hangist">Our</h1>
+            <h1 data-key="legacy">legacy</h1>
+        </div>
+
+        <a href="URL_YOUTUBE" target="_blank" class="presentation-btn" data-key="presentation-btn">Présentation</a>
+
+        <div class="hero-right-panel">
+            <p class="bio-text" data-key="bio-text">
+                Mon rôle dépasse la simple écriture de code. Je sculpte des mécanismes de jeu inédits avec une élégance technique irréprochable. Bienvenue à la frontière du divertissement.
+            </p>
+            <div class="social-list">
+                <a href="https://www.tiktok.com/@mhlgcr" target="_blank" class="social-link">TikTok</a>
+                <a href="https://www.twitch.tv/martin_hangist" target="_blank" class="social-link">Twitch</a>
+                <a href="https://www.youtube.com/@mhlgc" target="_blank" class="social-link">Youtube</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="languages-section">
+        <p class="section-title" data-key="tech-stack-title">Stack Technique</p>
+        <div class="lang-grid">
+            <div class="lang-dropdown-container">
+                <div class="lang-item" data-tech="C#" data-key="lang-csharp">C-SHARP</div>
+                <div class="project-dropdown">
+                    <a href="#">1. Projet Unity (C#)</a>
+                    <a href="#">2. Simulateur Réseau (C#)</a>
+                </div>
+            </div>
+            <div class="lang-dropdown-container">
+                <div class="lang-item" data-tech="UNITY" data-key="lang-unity">UNITY</div>
+                <div class="project-dropdown">
+                    <a href="#">1. Jeu VR</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="esports-section">
+        <h2 class="esports-title" data-key="esports-title">ÉQUIPE E-SPORT MHL</h2>
+        <p style="color: grey; letter-spacing: 2px;" data-key="esports-status">RECRUTEMENT EN COURS</p>
+        <a href="#" target="_blank" class="discord-btn" data-key="discord-btn">REJOINDRE LE DISCORD</a>
+    </section>
+
+    <script>
+        const dictionary = {
+            'fr': { 'presentation-btn': 'Présentation', 'bio-text': 'Mon rôle dépasse la simple écriture de code...', 'tech-stack-title': 'Stack Technique', 'lang-csharp': 'C-SHARP', 'lang-unity': 'UNITY', 'esports-title': 'ÉQUIPE E-SPORT MHL', 'esports-status': 'RECRUTEMENT EN COURS', 'discord-btn': 'REJOINDRE LE DISCORD' },
+            'en': { 'presentation-btn': 'Presentation', 'bio-text': 'My role goes beyond simple code writing...', 'tech-stack-title': 'Technical Stack', 'lang-csharp': 'C-SHARP', 'lang-unity': 'UNITY', 'esports-title': 'MHL E-SPORT TEAM', 'esports-status': 'RECRUITMENT OPEN', 'discord-btn': 'JOIN DISCORD' },
+            'ru': { 'presentation-btn': 'Презентация', 'bio-text': 'Моя роль выходит за рамки простого написания кода...', 'tech-stack-title': 'Технический Стек', 'lang-csharp': 'СИ-ШАРП', 'lang-unity': 'ЮНИТИ', 'esports-title': 'КИБЕРСПОРТИВНАЯ КОМАНДА MHL', 'esports-status': 'НАБОР ОТКРЫТ', 'discord-btn': 'ПРИСОЕДИНИТЬСЯ К DISCORD' }
+        };
+
+        function updateContent(lang) {
+            document.querySelectorAll('[data-key]').forEach(element => {
+                const key = element.getAttribute('data-key');
+                if (dictionary[lang][key]) element.textContent = dictionary[lang][key];
+            });
+            document.querySelectorAll('.lang-link').forEach(link => {
+                link.classList.toggle('active', link.getAttribute('data-lang') === lang);
+            });
+        }
+
+        document.querySelectorAll('.lang-link').forEach(link => {
+            link.addEventListener('click', (e) => { e.preventDefault(); updateContent(link.getAttribute('data-lang')); });
+        });
+
+        // LOGIQUE 3D MODIFIÉE POUR NE PAS FAIRE DISPARAÎTRE C#
+        const langItems = document.querySelectorAll('.lang-item');
+        const text3d = document.getElementById('text-3d');
+        const defaultText = text3d.getAttribute('data-default');
+
+        langItems.forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                text3d.classList.remove('rotate'); 
+                text3d.textContent = item.getAttribute('data-tech');
+                text3d.classList.add('active');
+            });
+
+            item.addEventListener('mouseleave', () => {
+                const anyDropdownOpen = document.querySelector('.project-dropdown.open');
+                if (!anyDropdownOpen) {
+                    text3d.textContent = defaultText; // Revient à C# au lieu de rien
+                    text3d.classList.remove('active');
+                    text3d.classList.add('rotate'); 
+                }
+            });
+        });
+
+        document.querySelectorAll('.lang-item').forEach(item => {
+            item.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const dropdown = item.nextElementSibling;
+                if (dropdown) {
+                    document.querySelectorAll('.project-dropdown.open').forEach(d => { if (d !== dropdown) d.classList.remove('open'); });
+                    dropdown.classList.toggle('open');
+                }
+            });
+        });
+
+        document.addEventListener('click', () => {
+            document.querySelectorAll('.project-dropdown.open').forEach(d => d.classList.remove('open'));
+            text3d.textContent = defaultText;
+            text3d.classList.remove('active');
+            text3d.classList.add('rotate');
+        });
+    </script> 
+</body>
+</html>
