@@ -7,7 +7,7 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
 
     <style>
         /* --- CONFIGURATION GLOBALE --- */
@@ -18,6 +18,8 @@
             --accent-purple: #6a00ff;
             --font-serif: 'Playfair Display', serif;
             --font-sans: 'Manrope', sans-serif;
+            --hero-offset-x: 10%; 
+            --hero-offset-y: 10%;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -27,7 +29,7 @@
             color: var(--text-white);
             font-family: var(--font-sans);
             overflow-x: hidden;
-            -webkit-font-smoothing: antialiased; /* Rend l'écriture plus lisse */
+            position: relative;
         }
 
         /* --- FOND D'AMBIANCE --- */
@@ -35,275 +37,303 @@
             position: fixed;
             width: 100vw; height: 100vh;
             background: radial-gradient(circle at 70% 80%, rgba(106, 0, 255, 0.1) 0%, transparent 50%),
-                        radial-gradient(circle at 20% 20%, rgba(40, 40, 90, 0.2) 0%, transparent 50%);
+                        radial-gradient(circle at 20% 20%, rgba(40, 40, 90, 0.3) 0%, transparent 50%);
             z-index: -1;
             pointer-events: none;
         }
 
-        /* --- HEADER & LOGO --- */
+        /* --- HEADER & NAVIGATION --- */
         .top-bar {
             position: fixed;
-            top: 40px; left: 50px; right: 50px;
+            top: 40px; left: 50px;
+            right: 50px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             z-index: 1000;
         }
 
-        .logo-block img {
-            height: 45px; /* Ajuste la taille de ton logo ici */
+        /* MODIFICATION : AJOUT DU LOGO À CÔTÉ */
+        .logo-block {
+            display: flex;
+            align-items: center;
+            gap: 15px; /* Espace entre le logo et le texte */
+            line-height: 1.2;
+            font-weight: 700; 
+            letter-spacing: 2px; 
+            text-transform: uppercase; 
+            font-size: 1rem;
+        }
+        
+        .logo-img {
+            height: 40px; /* Ajuste la taille ici */
             width: auto;
         }
 
-        /* Si tu n'as pas encore de logo image, ce style gère le texte */
-        .logo-text {
-            font-weight: 800;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            line-height: 1;
-        }
-
         .lang-selector {
+            position: absolute;
+            left: 50px;
+            top: 80px;
             font-size: 0.8rem;
-            font-weight: 700;
+            opacity: 0.7;
         }
-
         .lang-link {
             text-decoration: none;
             color: var(--text-grey);
-            transition: 0.3s;
-            margin: 0 5px;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        .lang-link.active, .lang-link:hover {
+            color: var(--text-white);
         }
 
-        .lang-link.active, .lang-link:hover { color: var(--text-white); }
-
-        /* --- HERO SECTION --- */
+        /* --- SECTION 1 : HERO (100vh) --- */
         .hero-section {
             height: 100vh;
-            display: flex;
-            align-items: center;
+            width: 100%;
             position: relative;
-            padding-left: 10%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero-center-text {
+            position: absolute;
+            top: 40%; 
+            left: 50%;
+            transform: translate(calc(-50% - var(--hero-offset-x)), calc(-50% - var(--hero-offset-y)));
+            text-align: left;
+            z-index: 10;
         }
 
         .hero-center-text h1 {
             font-family: var(--font-serif);
-            font-size: clamp(3rem, 7vw, 10rem);
-            line-height: 0.85;
-            font-weight: 700;
-            font-style: italic; /* Style signature */
-            text-transform: uppercase;
+            font-size: 5vw;
+            line-height: 0.9;
+            font-weight: 400;
             margin: 0;
             opacity: 0;
             animation: fadeIn 1s forwards;
-            background: linear-gradient(to right, #fff, #666);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
         }
 
-        /* --- VISUEL 3D ARRIÈRE PLAN --- */
+        .presentation-btn {
+            position: absolute;
+            top: 20%; 
+            right: 25%;
+            font-size: 0.9rem;
+            text-decoration: none;
+            color: var(--accent-purple);
+            border: 1px solid var(--accent-purple);
+            padding: 10px 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.3s;
+            z-index: 15;
+        }
+        .presentation-btn:hover {
+            background-color: var(--accent-purple);
+            color: var(--bg-color);
+        }
+
+        .hero-right-panel {
+            position: absolute;
+            bottom: 25%; 
+            right: 25%;
+            width: 350px;
+            text-align: left;
+            z-index: 20;
+        }
+
+        .bio-text {
+            font-size: 1rem;
+            line-height: 1.7;
+            color: var(--text-white); 
+            margin-bottom: 20px;
+            font-weight: 400;
+        }
+
+        .social-list {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        .social-link {
+            text-decoration: none;
+            color: var(--text-grey);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            transition: 0.3s;
+            border: 1px solid transparent;
+            padding: 5px 10px;
+            border-radius: 3px;
+        }
+        .social-link:hover {
+            color: var(--accent-purple);
+            border-color: var(--accent-purple);
+        }
+
+        /* --- VISUEL 3D --- */
         .display-3d-container {
             position: fixed;
             top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            z-index: -1;
-            perspective: 1000px;
+            pointer-events: none;
+            z-index: 5;
+            perspective: 1200px;
         }
 
         #text-3d {
-            font-size: 25vw;
+            font-family: var(--font-sans);
+            font-size: 20vw;
             font-weight: 900;
             color: transparent;
-            -webkit-text-stroke: 1px rgba(106, 0, 255, 0.2);
+            -webkit-text-stroke: 1px var(--accent-purple);
             text-transform: uppercase;
-            transition: all 0.8s ease;
+            white-space: nowrap;
+            transition: all 0.5s ease-out;
+            transform-style: preserve-3d;
+            opacity: 0.9; /* C# reste visible par défaut */
+        }
+        
+        .rotate {
+            animation: rotate3D 60s linear infinite;
         }
 
         #text-3d.active {
-            opacity: 0.8;
-            -webkit-text-stroke: 1px var(--accent-purple);
-            filter: drop-shadow(0 0 20px var(--accent-purple));
+            opacity: 0.9;
+            color: transparent;
+            text-shadow: 
+                1px 1px 0px #4d00bf, 2px 2px 0px #4d00bf, 3px 3px 0px #4d00bf, 4px 4px 0px #4d00bf, 
+                5px 5px 0px #4d00bf, 6px 6px 0px #4d00bf, 7px 7px 0px #4d00bf, 8px 8px 0px #4d00bf,
+                15px 15px 50px rgba(0,0,0,0.7);
+            transform: rotateX(5deg) rotateY(5deg) scale(1.1);
         }
 
-        .rotate { animation: rotate3D 30s linear infinite; }
-
-        /* --- BIO & BOUTONS --- */
-        .hero-right-panel {
-            position: absolute;
-            bottom: 15%; right: 10%;
-            width: 350px;
+        /* --- SECTION 2 : LANGUAGES --- */
+        .languages-section {
+            min-height: 100vh;
+            padding: 100px 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
         }
 
-        .bio-text {
-            font-size: 0.95rem;
-            line-height: 1.7;
-            color: var(--text-grey);
-            margin-bottom: 30px;
+        .section-title {
+            font-size: 1rem; color: var(--accent-purple); text-transform: uppercase; margin-bottom: 50px; letter-spacing: 3px;
         }
 
-        .presentation-btn {
+        .lang-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            z-index: 20;
+        }
+
+        .lang-dropdown-container {
+            position: relative;
             display: inline-block;
-            padding: 12px 30px;
-            border: 1px solid var(--accent-purple);
-            color: var(--text-white);
-            text-decoration: none;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-weight: 700;
-            font-size: 0.8rem;
-            transition: 0.4s;
         }
-
-        .presentation-btn:hover {
-            background: var(--accent-purple);
-            box-shadow: 0 0 20px var(--accent-purple);
-        }
-
-        /* --- STACK TECHNIQUE --- */
-        .languages-section { padding: 100px 50px; text-align: center; }
 
         .lang-item {
-            display: inline-block;
-            font-size: 1.5rem;
-            font-weight: 800;
-            padding: 15px 40px;
-            margin: 10px;
-            border: 1px solid rgba(255,255,255,0.1);
+            font-size: 2rem;
+            padding: 10px 30px;
+            border: 1px solid rgba(255,255,255,0.2);
             border-radius: 50px;
             cursor: pointer;
             transition: 0.3s;
+            background: rgba(0,0,0,0.5);
+            text-transform: uppercase;
+            user-select: none;
         }
 
         .lang-item:hover {
-            background: var(--accent-purple);
             border-color: var(--accent-purple);
+            background: var(--accent-purple);
+            color: white;
         }
-
+        
         .project-dropdown {
             position: absolute;
-            background: #111;
+            top: 100%; 
+            left: 0;
+            background-color: #1a1a1a;
             border: 1px solid var(--accent-purple);
-            padding: 10px;
-            display: none;
+            min-width: 250px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.5);
             z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
+            transform: translateY(10px);
+            padding: 10px 0;
         }
 
-        .project-dropdown.open { display: block; }
+        .project-dropdown.open {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
 
         .project-dropdown a {
-            color: white;
+            color: var(--text-white);
+            padding: 10px 20px;
             text-decoration: none;
             display: block;
-            padding: 8px;
-            font-size: 0.8rem;
+            font-size: 0.9rem;
+            border-left: 3px solid transparent;
+            white-space: nowrap;
         }
 
-        /* --- ANIMATIONS --- */
+        .project-dropdown a:hover {
+            background-color: #333;
+            border-left: 3px solid var(--accent-purple);
+        }
+
+        /* --- SECTION 3 : E-SPORTS --- */
+        .esports-section {
+            height: 60vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .esports-title {
+            font-family: var(--font-serif);
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .discord-btn {
+            background-color: #5865F2;
+            color: white;
+            padding: 15px 40px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            letter-spacing: 1px;
+            transition: 0.3s;
+            margin-top: 20px;
+        }
+        .discord-btn:hover {
+            background-color: #4752c4;
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(88, 101, 242, 0.5);
+        }
+
         @keyframes fadeIn { to { opacity: 1; } }
         @keyframes rotate3D {
-            from { transform: rotateY(0deg); }
-            to { transform: rotateY(360deg); }
+            from { transform: rotateY(0deg) rotateX(0deg); }
+            to { transform: rotateY(360deg) rotateX(360deg); }
         }
 
         @media (max-width: 768px) {
-            .hero-section { padding-left: 5%; justify-content: center; }
-            .hero-right-panel { position: relative; width: 90%; right: 0; margin-top: 50px; }
-            #text-3d { font-size: 40vw; }
-        }
-    </style>
-</head>
-<body>
-
-    <div class="ambient-glow"></div>
-
-    <header class="top-bar">
-        <div class="logo-block">
-            <div class="logo-text">
-                MHL<span style="color:var(--accent-purple)">EGACY</span>
-                <div style="font-size: 0.6em; opacity: 0.5; letter-spacing: 6px;">STUDIO</div>
-            </div>
-        </div>
-        
-        <nav class="lang-selector">
-            <a href="#" class="lang-link active" data-lang="fr">FR</a>
-            <a href="#" class="lang-link" data-lang="en">EN</a>
-            <a href="#" class="lang-link" data-lang="ru">RU</a>
-        </nav>
-    </header>
-
-    <section class="hero-section">
-        <div class="display-3d-container">
-            <div id="text-3d" class="rotate" data-default="C#">C#</div>
-        </div>
-
-        <div class="hero-center-text">
-            <h1 data-key="mhlgcy">We</h1>
-            <h1 data-key="martin">Make</h1>
-            <h1 data-key="hangist">Our</h1>
-            <h1 data-key="legacy">legacy</h1>
-        </div>
-
-        <div class="hero-right-panel">
-            <p class="bio-text" data-key="bio-text">
-                Mon rôle dépasse la simple écriture de code. Je sculpte des mécanismes de jeu inédits avec une élégance technique irréprochable.
-            </p>
-            <a href="URL_YOUTUBE" class="presentation-btn" data-key="presentation-btn">Présentation</a>
-        </div>
-    </section>
-
-    <section class="languages-section">
-        <div class="lang-grid">
-            <div class="lang-dropdown-container" style="position:relative; display:inline-block;">
-                <div class="lang-item" data-tech="C#" data-key="lang-csharp">C-SHARP</div>
-                <div class="project-dropdown">
-                    <a href="#">Projet Unity 1</a>
-                    <a href="#">Système Réseau</a>
-                </div>
-            </div>
-            <div class="lang-item" data-tech="UNITY">UNITY</div>
-            <div class="lang-item" data-tech="C++">C++</div>
-        </div>
-    </section>
-
-    <script>
-        const dictionary = {
-            'fr': { 'presentation-btn': 'Présentation', 'bio-text': 'Mon rôle dépasse la simple écriture de code. Je sculpte des mécanismes de jeu inédits avec une élégance technique irréprochable.', 'lang-csharp': 'C-SHARP' },
-            'en': { 'presentation-btn': 'Presentation', 'bio-text': 'My role goes beyond simple code writing. I sculpt unique game mechanics with impeccable technical elegance.', 'lang-csharp': 'C-SHARP' },
-            'ru': { 'presentation-btn': 'Презентация', 'bio-text': 'Моя роль выходит за рамки простого написания кода. Я создаю уникальную игровую механику с безупречной элегантностью.', 'lang-csharp': 'СИ-ШАРП' }
-        };
-
-        function updateContent(lang) {
-            document.querySelectorAll('[data-key]').forEach(el => {
-                const key = el.getAttribute('data-key');
-                if(dictionary[lang][key]) el.textContent = dictionary[lang][key];
-            });
-            document.querySelectorAll('.lang-link').forEach(l => {
-                l.classList.toggle('active', l.dataset.lang === lang);
-            });
-        }
-
-        document.querySelectorAll('.lang-link').forEach(link => {
-            link.onclick = (e) => { e.preventDefault(); updateContent(link.dataset.lang); };
-        });
-
-        // Logique 3D
-        const text3d = document.getElementById('text-3d');
-        document.querySelectorAll('.lang-item').forEach(item => {
-            item.onmouseenter = () => {
-                text3d.textContent = item.dataset.tech;
-                text3d.classList.add('active');
-                text3d.classList.remove('rotate');
-            };
-            item.onmouseleave = () => {
-                text3d.textContent = text3d.dataset.default;
-                text3d.classList.remove('active');
-                text3d.classList.add('rotate');
-            };
-            item.onclick = () => {
-                const dropdown = item.nextElementSibling;
-                if(dropdown) dropdown.classList.toggle('open');
-            };
-        });
-    </script>
-</body>
-</html>
+            .hero-center-text { top: 30%; left: 50%; transform: translate(-50%, -50%); }
+            .hero-right-panel { right: 5%; bottom: 5%; width: 90%; text
