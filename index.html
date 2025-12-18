@@ -49,15 +49,11 @@
             right: 50px;
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            align-items: flex-start;
             z-index: 1000;
         }
 
-        /* MODIFICATION : AJOUT DU LOGO À CÔTÉ */
         .logo-block {
-            display: flex;
-            align-items: center;
-            gap: 15px; /* Espace entre le logo et le texte */
             line-height: 1.2;
             font-weight: 700; 
             letter-spacing: 2px; 
@@ -65,11 +61,6 @@
             font-size: 1rem;
         }
         
-        .logo-img {
-            height: 40px; /* Ajuste la taille ici */
-            width: auto;
-        }
-
         .lang-selector {
             position: absolute;
             left: 50px;
@@ -87,7 +78,7 @@
             color: var(--text-white);
         }
 
-        /* --- SECTION 1 : HERO (100vh) --- */
+        /* --- SECTION 1 : HERO --- */
         .hero-section {
             height: 100vh;
             width: 100%;
@@ -169,10 +160,6 @@
             padding: 5px 10px;
             border-radius: 3px;
         }
-        .social-link:hover {
-            color: var(--accent-purple);
-            border-color: var(--accent-purple);
-        }
 
         /* --- VISUEL 3D --- */
         .display-3d-container {
@@ -194,21 +181,17 @@
             white-space: nowrap;
             transition: all 0.5s ease-out;
             transform-style: preserve-3d;
-            opacity: 0.9; /* C# reste visible par défaut */
+            opacity: 0.9; /* C# visible par défaut */
         }
         
         .rotate {
             animation: rotate3D 60s linear infinite;
         }
 
-        #text-3d.active {
-            opacity: 0.9;
-            color: transparent;
-            text-shadow: 
-                1px 1px 0px #4d00bf, 2px 2px 0px #4d00bf, 3px 3px 0px #4d00bf, 4px 4px 0px #4d00bf, 
-                5px 5px 0px #4d00bf, 6px 6px 0px #4d00bf, 7px 7px 0px #4d00bf, 8px 8px 0px #4d00bf,
-                15px 15px 50px rgba(0,0,0,0.7);
-            transform: rotateX(5deg) rotateY(5deg) scale(1.1);
+        @keyframes fadeIn { to { opacity: 1; } }
+        @keyframes rotate3D {
+            from { transform: rotateY(0deg) rotateX(0deg); }
+            to { transform: rotateY(360deg) rotateX(360deg); }
         }
 
         /* --- SECTION 2 : LANGUAGES --- */
@@ -222,21 +205,12 @@
             position: relative;
         }
 
-        .section-title {
-            font-size: 1rem; color: var(--accent-purple); text-transform: uppercase; margin-bottom: 50px; letter-spacing: 3px;
-        }
-
         .lang-grid {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
             gap: 20px;
             z-index: 20;
-        }
-
-        .lang-dropdown-container {
-            position: relative;
-            display: inline-block;
         }
 
         .lang-item {
@@ -248,98 +222,10 @@
             transition: 0.3s;
             background: rgba(0,0,0,0.5);
             text-transform: uppercase;
-            user-select: none;
         }
 
         .lang-item:hover {
-            border-color: var(--accent-purple);
             background: var(--accent-purple);
-            color: white;
-        }
-        
-        .project-dropdown {
-            position: absolute;
-            top: 100%; 
-            left: 0;
-            background-color: #1a1a1a;
-            border: 1px solid var(--accent-purple);
-            min-width: 250px;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.5);
-            z-index: 100;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
-            transform: translateY(10px);
-            padding: 10px 0;
-        }
-
-        .project-dropdown.open {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-        }
-
-        .project-dropdown a {
-            color: var(--text-white);
-            padding: 10px 20px;
-            text-decoration: none;
-            display: block;
-            font-size: 0.9rem;
-            border-left: 3px solid transparent;
-            white-space: nowrap;
-        }
-
-        .project-dropdown a:hover {
-            background-color: #333;
-            border-left: 3px solid var(--accent-purple);
-        }
-
-        /* --- SECTION 3 : E-SPORTS --- */
-        .esports-section {
-            height: 60vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            border-top: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .esports-title {
-            font-family: var(--font-serif);
-            font-size: 3rem;
-            margin-bottom: 20px;
-        }
-
-        .discord-btn {
-            background-color: #5865F2;
-            color: white;
-            padding: 15px 40px;
-            border-radius: 5px;
-            text-decoration: none;
-            font-weight: bold;
-            letter-spacing: 1px;
-            transition: 0.3s;
-            margin-top: 20px;
-        }
-        .discord-btn:hover {
-            background-color: #4752c4;
-            transform: scale(1.05);
-            box-shadow: 0 0 20px rgba(88, 101, 242, 0.5);
-        }
-
-        @keyframes fadeIn { to { opacity: 1; } }
-        @keyframes rotate3D {
-            from { transform: rotateY(0deg) rotateX(0deg); }
-            to { transform: rotateY(360deg) rotateX(360deg); }
-        }
-
-        @media (max-width: 768px) {
-            .hero-center-text { top: 30%; left: 50%; transform: translate(-50%, -50%); }
-            .hero-right-panel { right: 5%; bottom: 5%; width: 90%; text-align: center; }
-            .hero-center-text h1 { font-size: 10vw; }
-            .presentation-btn { top: 80vh; right: auto; left: 50%; transform: translateX(-50%); }
-            .display-3d-container { top: 40%; }
         }
     </style>
 </head>
@@ -349,17 +235,14 @@
 
     <header class="top-bar">
         <div class="logo-block">
-            <img src="logo.png" alt="Logo" class="logo-img"> 
-            <div>
-                <div>MHLEGACY</div>
-                <div style="opacity: 0.6; font-size: 0.8em; letter-spacing: 1px;">STUDIO</div>
-            </div>
+            <div>MHLEGACY</div>
+            <div style="opacity: 0.6; font-size: 0.8em; letter-spacing: 1px;">STUDIO</div>
         </div>
         
         <div class="lang-selector">
-            <a href="#lang-fr" class="lang-link active" data-lang="fr">FR</a> - 
-            <a href="#lang-en" class="lang-link" data-lang="en">EN</a> - 
-            <a href="#lang-ru" class="lang-link" data-lang="ru">RU</a>
+            <a href="#" class="lang-link active" data-lang="fr">FR</a> - 
+            <a href="#" class="lang-link" data-lang="en">EN</a> - 
+            <a href="#" class="lang-link" data-lang="ru">RU</a>
         </div>
     </header>
 
@@ -369,111 +252,44 @@
         </div>
 
         <div class="hero-center-text">
-            <h1 data-key="mhlgcy">We</h1>
-            <h1 data-key="martin">Make</h1>
-            <h1 data-key="hangist">Our</h1>
-            <h1 data-key="legacy">legacy</h1>
+            <h1>We</h1>
+            <h1>Make</h1>
+            <h1>Our</h1>
+            <h1>legacy</h1>
         </div>
 
-        <a href="URL_YOUTUBE" target="_blank" class="presentation-btn" data-key="presentation-btn">Présentation</a>
-
         <div class="hero-right-panel">
-            <p class="bio-text" data-key="bio-text">
-                Mon rôle dépasse la simple écriture de code. Je sculpte des mécanismes de jeu inédits avec une élégance technique irréprochable. Bienvenue à la frontière du divertissement.
-            </p>
+            <p class="bio-text">Mon rôle dépasse la simple écriture de code. Je sculpte des mécanismes de jeu inédits.</p>
             <div class="social-list">
-                <a href="https://www.tiktok.com/@mhlgcr" target="_blank" class="social-link">TikTok</a>
-                <a href="https://www.twitch.tv/martin_hangist" target="_blank" class="social-link">Twitch</a>
-                <a href="https://www.youtube.com/@mhlgc" target="_blank" class="social-link">Youtube</a>
+                <a href="#" class="social-link">TikTok</a>
+                <a href="#" class="social-link">Twitch</a>
+                <a href="#" class="social-link">Youtube</a>
             </div>
         </div>
     </section>
 
     <section class="languages-section">
-        <p class="section-title" data-key="tech-stack-title">Stack Technique</p>
         <div class="lang-grid">
-            <div class="lang-dropdown-container">
-                <div class="lang-item" data-tech="C#" data-key="lang-csharp">C-SHARP</div>
-                <div class="project-dropdown">
-                    <a href="#">1. Projet Unity (C#)</a>
-                    <a href="#">2. Simulateur Réseau (C#)</a>
-                </div>
-            </div>
-            <div class="lang-dropdown-container">
-                <div class="lang-item" data-tech="UNITY" data-key="lang-unity">UNITY</div>
-                <div class="project-dropdown">
-                    <a href="#">1. Jeu VR</a>
-                </div>
-            </div>
+            <div class="lang-item" data-tech="C#">C-SHARP</div>
+            <div class="lang-item" data-tech="UNITY">UNITY</div>
+            <div class="lang-item" data-tech="HTML">HTML / CSS</div>
         </div>
     </section>
 
-    <section class="esports-section">
-        <h2 class="esports-title" data-key="esports-title">ÉQUIPE E-SPORT MHL</h2>
-        <p style="color: grey; letter-spacing: 2px;" data-key="esports-status">RECRUTEMENT EN COURS</p>
-        <a href="#" target="_blank" class="discord-btn" data-key="discord-btn">REJOINDRE LE DISCORD</a>
-    </section>
-
     <script>
-        const dictionary = {
-            'fr': { 'presentation-btn': 'Présentation', 'bio-text': 'Mon rôle dépasse la simple écriture de code...', 'tech-stack-title': 'Stack Technique', 'lang-csharp': 'C-SHARP', 'lang-unity': 'UNITY', 'esports-title': 'ÉQUIPE E-SPORT MHL', 'esports-status': 'RECRUTEMENT EN COURS', 'discord-btn': 'REJOINDRE LE DISCORD' },
-            'en': { 'presentation-btn': 'Presentation', 'bio-text': 'My role goes beyond simple code writing...', 'tech-stack-title': 'Technical Stack', 'lang-csharp': 'C-SHARP', 'lang-unity': 'UNITY', 'esports-title': 'MHL E-SPORT TEAM', 'esports-status': 'RECRUITMENT OPEN', 'discord-btn': 'JOIN DISCORD' },
-            'ru': { 'presentation-btn': 'Презентация', 'bio-text': 'Моя роль выходит за рамки простого написания кода...', 'tech-stack-title': 'Технический Стек', 'lang-csharp': 'СИ-ШАРП', 'lang-unity': 'ЮНИТИ', 'esports-title': 'КИБЕРСПОРТИВНАЯ КОМАНДА MHL', 'esports-status': 'НАБОР ОТКРЫТ', 'discord-btn': 'ПРИСОЕДИНИТЬСЯ К DISCORD' }
-        };
-
-        function updateContent(lang) {
-            document.querySelectorAll('[data-key]').forEach(element => {
-                const key = element.getAttribute('data-key');
-                if (dictionary[lang][key]) element.textContent = dictionary[lang][key];
-            });
-            document.querySelectorAll('.lang-link').forEach(link => {
-                link.classList.toggle('active', link.getAttribute('data-lang') === lang);
-            });
-        }
-
-        document.querySelectorAll('.lang-link').forEach(link => {
-            link.addEventListener('click', (e) => { e.preventDefault(); updateContent(link.getAttribute('data-lang')); });
-        });
-
-        // LOGIQUE 3D MODIFIÉE POUR NE PAS FAIRE DISPARAÎTRE C#
-        const langItems = document.querySelectorAll('.lang-item');
         const text3d = document.getElementById('text-3d');
         const defaultText = text3d.getAttribute('data-default');
 
-        langItems.forEach(item => {
-            item.addEventListener('mouseenter', () => {
-                text3d.classList.remove('rotate'); 
-                text3d.textContent = item.getAttribute('data-tech');
-                text3d.classList.add('active');
-            });
-
-            item.addEventListener('mouseleave', () => {
-                const anyDropdownOpen = document.querySelector('.project-dropdown.open');
-                if (!anyDropdownOpen) {
-                    text3d.textContent = defaultText; // Revient à C# au lieu de rien
-                    text3d.classList.remove('active');
-                    text3d.classList.add('rotate'); 
-                }
-            });
-        });
-
         document.querySelectorAll('.lang-item').forEach(item => {
-            item.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const dropdown = item.nextElementSibling;
-                if (dropdown) {
-                    document.querySelectorAll('.project-dropdown.open').forEach(d => { if (d !== dropdown) d.classList.remove('open'); });
-                    dropdown.classList.toggle('open');
-                }
+            item.addEventListener('mouseenter', () => {
+                text3d.textContent = item.getAttribute('data-tech');
+                text3d.classList.remove('rotate');
+            });
+            item.addEventListener('mouseleave', () => {
+                text3d.textContent = defaultText; // Revient à C#
+                text3d.classList.add('rotate');
             });
         });
-
-        document.addEventListener('click', () => {
-            document.querySelectorAll('.project-dropdown.open').forEach(d => d.classList.remove('open'));
-            text3d.textContent = defaultText;
-            text3d.classList.remove('active');
-            text3d.classList.add('rotate');
-        });
-    </script> 
+    </script>
 </body>
 </html>
