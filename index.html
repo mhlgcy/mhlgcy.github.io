@@ -6,15 +6,20 @@
     <title>Mhlegacy studio</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&family=Playfair+Display:wght@900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
 
     <style>
+        /* --- TA CONFIGURATION GLOBALE ORIGINALE --- */
         :root {
             --bg-color: #050505;
             --text-white: #ffffff;
+            --text-grey: #a0a0a0;
             --accent-purple: #6a00ff;
             --font-serif: 'Playfair Display', serif;
             --font-sans: 'Manrope', sans-serif;
+            --hero-offset-x: 10%; 
+            --hero-offset-y: 10%;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -24,17 +29,10 @@
             color: var(--text-white);
             font-family: var(--font-sans);
             overflow-x: hidden;
+            position: relative;
         }
 
-        /* --- LA BARRE DE COULEURS EN HAUT (DOGSTUDIO STYLE) --- */
-        .color-bar {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 6px;
-            background: repeating-linear-gradient(90deg, #ff0055, #ff0055 10px, #00ff99 10px, #00ff99 20px, #6a00ff 20px, #6a00ff 30px, #ffcc00 30px, #ffcc00 40px);
-            z-index: 2000;
-        }
-
-        /* --- VIDÉO EN ARRIÈRE-PLAN --- */
+        /* --- AJOUT : VIDÉO DE FOND --- */
         .bg-video {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -43,110 +41,202 @@
             opacity: 0.3;
         }
 
-        /* --- NAVIGATION --- */
+        /* --- TON FOND D'AMBIANCE --- */
+        .ambient-glow {
+            position: fixed;
+            width: 100vw; height: 100vh;
+            background: radial-gradient(circle at 70% 80%, rgba(106, 0, 255, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 20% 20%, rgba(40, 40, 90, 0.3) 0%, transparent 50%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* --- TA BARRE DE NAVIGATION --- */
         .top-bar {
             position: fixed;
-            top: 30px; left: 40px; right: 40px;
+            top: 40px; left: 50px;
+            right: 50px;
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            align-items: flex-start;
             z-index: 1000;
-            text-transform: uppercase;
-            font-size: 0.75rem;
-            letter-spacing: 2px;
         }
 
-        /* MENU DÉROULANT ÉPURÉ */
-        .dropdown { position: relative; }
-        .dropbtn { background: none; border: none; color: white; cursor: pointer; font-size: 1.2rem; }
-        .dropdown-content { display: none; position: absolute; right: 0; background: #000; min-width: 150px; border: 1px solid #222; }
-        .dropdown-content a { color: white; padding: 12px; text-decoration: none; display: block; }
+        .logo-block {
+            line-height: 1.2;
+            font-weight: 700; 
+            letter-spacing: 2px; 
+            text-transform: uppercase; 
+            font-size: 1rem;
+        }
+
+        /* --- AJOUT : MENU DÉROULANT (SANS CASSER LE LOGO) --- */
+        .nav-container { display: flex; align-items: center; gap: 20px; }
+        .dropdown { position: relative; display: inline-block; }
+        .dropbtn { background: none; border: 1px solid var(--accent-purple); color: white; padding: 5px 15px; cursor: pointer; font-size: 0.8rem; }
+        .dropdown-content { display: none; position: absolute; right: 0; background: #000; min-width: 120px; border: 1px solid #333; }
+        .dropdown-content a { color: white; padding: 10px; text-decoration: none; display: block; font-size: 0.8rem; }
         .dropdown-content a:hover { background: var(--accent-purple); }
         .dropdown:hover .dropdown-content { display: block; }
+        
+        .lang-selector {
+            position: absolute;
+            left: 50px;
+            top: 80px;
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+        .lang-link {
+            text-decoration: none;
+            color: var(--text-grey);
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        .lang-link.active, .lang-link:hover {
+            color: var(--text-white);
+        }
 
-        /* --- SECTION HERO (STYLE EXACT DE L'IMAGE) --- */
+        /* --- TA SECTION 1 : HERO --- */
         .hero-section {
             height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding-left: 10%;
+            width: 100%;
             position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-        .hero-title {
+        .hero-center-text {
+            position: absolute;
+            top: 40%; 
+            left: 50%;
+            transform: translate(calc(-50% - var(--hero-offset-x)), calc(-50% - var(--hero-offset-y)));
+            text-align: left;
+            z-index: 10;
+        }
+
+        .hero-center-text h1 {
             font-family: var(--font-serif);
-            font-size: 10vw;
-            line-height: 0.8;
-            font-weight: 900;
-            z-index: 10;
+            font-size: 5vw;
+            line-height: 0.9;
+            font-weight: 400;
+            margin: 0;
+            opacity: 0;
+            animation: fadeIn 1s forwards;
         }
 
-        .hero-title span { display: block; }
+        .hero-right-panel {
+            position: absolute;
+            bottom: 25%; 
+            right: 25%;
+            width: 350px;
+            text-align: left;
+            z-index: 20;
+        }
 
-        .hero-description {
-            margin-top: 40px;
-            max-width: 450px;
+        .bio-text {
             font-size: 1rem;
-            line-height: 1.6;
-            opacity: 0.8;
-            z-index: 10;
+            line-height: 1.7;
+            color: var(--text-white); 
+            margin-bottom: 20px;
+            font-weight: 400;
         }
 
-        /* TEXTE 3D EN ARRIÈRE-PLAN */
+        .social-list {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        .social-link {
+            text-decoration: none;
+            color: var(--text-grey);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            transition: 0.3s;
+            border: 1px solid transparent;
+            padding: 5px 10px;
+            border-radius: 3px;
+        }
+
+        /* --- TON VISUEL 3D --- */
         .display-3d-container {
             position: fixed;
-            top: 50%; right: 10%;
-            transform: translateY(-50%);
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
             z-index: 5;
-            perspective: 1000px;
+            perspective: 1200px;
         }
 
         #text-3d {
-            font-size: 18vw;
+            font-family: var(--font-sans);
+            font-size: 20vw;
             font-weight: 900;
             color: transparent;
-            -webkit-text-stroke: 1px rgba(255,255,255,0.1);
+            -webkit-text-stroke: 1px var(--accent-purple);
             text-transform: uppercase;
+            white-space: nowrap;
+            transition: all 0.5s ease-out;
+            transform-style: preserve-3d;
+            opacity: 0.9;
         }
         
-        .rotate { animation: rotate3D 30s linear infinite; }
-
-        /* --- LISTE DES RÉSEAUX (BAS GAUCHE) --- */
-        .bottom-links {
-            position: absolute;
-            bottom: 40px; left: 10%;
-            display: flex;
-            gap: 20px;
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+        .rotate {
+            animation: rotate3D 60s linear infinite;
         }
-        .bottom-links a { color: white; text-decoration: none; opacity: 0.6; transition: 0.3s; }
-        .bottom-links a:hover { opacity: 1; }
 
-        /* --- SECTION 2 : LANGAGES (SCROLL CONSERVÉ) --- */
+        @keyframes fadeIn { to { opacity: 1; } }
+        @keyframes rotate3D {
+            from { transform: rotateY(0deg) rotateX(0deg); }
+            to { transform: rotateY(360deg) rotateX(360deg); }
+        }
+
+        /* --- TA SECTION 2 : LANGUAGES --- */
         .languages-section {
             min-height: 100vh;
+            padding: 100px 50px;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            background: #000;
+            position: relative;
         }
-        .lang-grid { display: flex; gap: 20px; }
-        .lang-item { font-size: 1.5rem; padding: 20px 40px; border: 1px solid #333; border-radius: 50px; cursor: pointer; transition: 0.3s; }
-        .lang-item:hover { background: var(--accent-purple); }
 
-        /* DISCORD & AUDIO */
-        .discord-btn { position: fixed; bottom: 30px; right: 40px; background: #5865F2; color: white; padding: 12px 24px; text-decoration: none; border-radius: 4px; font-weight: bold; font-size: 0.75rem; z-index: 1000; }
+        .lang-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            z-index: 20;
+        }
+
+        .lang-item {
+            font-size: 2rem;
+            padding: 10px 30px;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 50px;
+            cursor: pointer;
+            transition: 0.3s;
+            background: rgba(0,0,0,0.5);
+            text-transform: uppercase;
+        }
+
+        .lang-item:hover {
+            background: var(--accent-purple);
+        }
+
+        /* --- AJOUT : DISCORD ET MUSIQUE --- */
+        .discord-btn { 
+            position: fixed; bottom: 30px; right: 30px; 
+            background: #5865F2; color: white; padding: 10px 20px; 
+            text-decoration: none; border-radius: 5px; font-weight: bold; z-index: 1000; 
+        }
         #bg-music { display: none; }
-
-        @keyframes rotate3D { from { transform: rotateY(0deg); } to { transform: rotateY(360deg); } }
     </style>
 </head>
 <body>
-
-    <div class="color-bar"></div>
 
     <audio id="bg-music" loop>
         <source src="https://www.chosic.com/wp-content/uploads/2021/04/Rainy-Day-Ambient-Music.mp3" type="audio/mpeg">
@@ -156,38 +246,50 @@
         <source src="https://assets.mixkit.co/videos/preview/mixkit-abstract-dark-ink-swirling-in-water-4330-large.mp4" type="video/mp4">
     </video>
 
+    <div class="ambient-glow"></div>
+
     <header class="top-bar">
-        <div class="logo">MHLEGACY STUDIO / DEPT.</div>
-        <div class="dropdown">
-            <button class="dropbtn">☰</button>
-            <div class="dropdown-content">
-                <a href="#">PROJECTS</a>
-                <a href="#">SERVICES</a>
-                <a href="#">ABOUT</a>
+        <div class="logo-block">
+            <div>MHLEGACY</div>
+            <div style="opacity: 0.6; font-size: 0.8em; letter-spacing: 1px;">STUDIO</div>
+        </div>
+        
+        <div class="nav-container">
+            <div class="dropdown">
+                <button class="dropbtn">MENU ▾</button>
+                <div class="dropdown-content">
+                    <a href="#">PROJETS</a>
+                    <a href="#">SERVICES</a>
+                </div>
             </div>
+        </div>
+
+        <div class="lang-selector">
+            <a href="#" class="lang-link active" data-lang="fr">FR</a> - 
+            <a href="#" class="lang-link" data-lang="en">EN</a> - 
+            <a href="#" class="lang-link" data-lang="ru">RU</a>
         </div>
     </header>
 
-    <div class="display-3d-container">
-        <div id="text-3d" class="rotate" data-default="C#">C#</div>
-    </div>
-
     <section class="hero-section">
-        <div class="hero-title">
-            <span>We</span>
-            <span>Make</span>
-            <span>Our</span>
-            <span style="color: var(--accent-purple);">Legacy</span>
+        <div class="display-3d-container">
+            <div id="text-3d" class="rotate" data-default="C#">C#</div>
         </div>
 
-        <div class="hero-description">
-            <p>Je sculpte des mécanismes de jeu inédits pour créer des héritages numériques à l'intersection de l'art et du code.</p>
+        <div class="hero-center-text">
+            <h1>We</h1>
+            <h1>Make</h1>
+            <h1>Our</h1>
+            <h1>legacy</h1>
         </div>
 
-        <div class="bottom-links">
-            <a href="#">TikTok</a>
-            <a href="#">Twitch</a>
-            <a href="#">Youtube</a>
+        <div class="hero-right-panel">
+            <p class="bio-text">Mon rôle dépasse la simple écriture de code. Je sculpte des mécanismes de jeu inédits.</p>
+            <div class="social-list">
+                <a href="#" class="social-link">TikTok</a>
+                <a href="#" class="social-link">Twitch</a>
+                <a href="#" class="social-link">Youtube</a>
+            </div>
         </div>
     </section>
 
@@ -195,16 +297,17 @@
         <div class="lang-grid">
             <div class="lang-item" data-tech="C#">C-SHARP</div>
             <div class="lang-item" data-tech="UNITY">UNITY</div>
-            <div class="lang-item" data-tech="HTML">WEB DESIGN</div>
+            <div class="lang-item" data-tech="HTML">HTML / CSS</div>
         </div>
     </section>
 
-    <a href="https://discord.gg/votre-lien" class="discord-btn" target="_blank">JOIN DISCORD</a>
+    <a href="https://discord.gg/VOTRE_LIEN" class="discord-btn" target="_blank">DISCORD</a>
 
     <script>
         const text3d = document.getElementById('text-3d');
         const defaultText = text3d.getAttribute('data-default');
 
+        // Musique au clic
         document.body.addEventListener('click', () => {
             document.getElementById('bg-music').play();
         }, { once: true });
