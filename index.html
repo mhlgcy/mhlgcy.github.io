@@ -7,10 +7,10 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&family=Playfair+Display:wght@900&display=swap" rel="stylesheet">
 
     <style>
-        /* --- TA CONFIGURATION GLOBALE (INCHANGÉE) --- */
+        /* --- CONFIGURATION GLOBALE ORIGINALE --- */
         :root {
             --bg-color: #050505;
             --text-white: #ffffff;
@@ -32,116 +32,86 @@
             position: relative;
         }
 
-        /* --- AJOUT : VIDÉO DE FOND --- */
+        /* --- LA GUIRLANDE DE LUMIÈRES (Haut de l'image) --- */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 5px;
+            background: radial-gradient(circle, #ff0055 10%, #00ff99 30%, #6a00ff 50%, #ffcc00 70%, #ff0055 90%);
+            background-size: 50px 100%;
+            z-index: 2000;
+        }
+
+        /* --- VIDÉO DE FOND --- */
         .bg-video {
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
             object-fit: cover;
             z-index: -3;
-            opacity: 0.3;
+            opacity: 0.35;
         }
 
-        /* --- TON FOND D'AMBIANCE --- */
+        /* --- FOND D'AMBIANCE --- */
         .ambient-glow {
             position: fixed;
             width: 100vw; height: 100vh;
-            background: radial-gradient(circle at 70% 80%, rgba(106, 0, 255, 0.1) 0%, transparent 50%),
-                        radial-gradient(circle at 20% 20%, rgba(40, 40, 90, 0.3) 0%, transparent 50%);
+            background: radial-gradient(circle at 70% 80%, rgba(106, 0, 255, 0.15) 0%, transparent 50%);
             z-index: -1;
             pointer-events: none;
         }
 
-        /* --- TA BARRE DE NAVIGATION + MENU DÉROULANT --- */
+        /* --- HEADER & NAVIGATION --- */
         .top-bar {
             position: fixed;
-            top: 40px; left: 50px;
-            right: 50px;
+            top: 40px; left: 50px; right: 50px;
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
+            align-items: center;
             z-index: 1000;
         }
 
-        .logo-block {
-            line-height: 1.2;
-            font-weight: 700; 
-            letter-spacing: 2px; 
-            text-transform: uppercase; 
-            font-size: 1rem;
-        }
+        .logo-block { font-weight: 800; letter-spacing: 1px; text-transform: uppercase; font-size: 0.8rem; }
 
-        /* AJOUT LISTE DÉROULANTE */
+        /* LISTE DÉROULANTE STYLE DISCRET */
         .dropdown { position: relative; display: inline-block; }
-        .dropbtn { background: none; border: 1px solid var(--accent-purple); color: white; padding: 5px 15px; cursor: pointer; }
-        .dropdown-content { display: none; position: absolute; right: 0; background: #000; min-width: 120px; border: 1px solid #333; }
-        .dropdown-content a { color: white; padding: 10px; text-decoration: none; display: block; font-size: 0.8rem; }
+        .dropbtn { background: none; border: none; color: white; cursor: pointer; font-size: 1.2rem; }
+        .dropdown-content { display: none; position: absolute; right: 0; background: #000; min-width: 150px; border: 1px solid #222; }
+        .dropdown-content a { color: white; padding: 12px; text-decoration: none; display: block; font-size: 0.8rem; }
         .dropdown-content a:hover { background: var(--accent-purple); }
         .dropdown:hover .dropdown-content { display: block; }
-        
-        .lang-selector {
-            position: absolute;
-            left: 50px;
-            top: 80px;
-            font-size: 0.8rem;
-            opacity: 0.7;
-        }
-        .lang-link { text-decoration: none; color: var(--text-grey); cursor: pointer; transition: color 0.3s; }
-        .lang-link.active, .lang-link:hover { color: var(--text-white); }
 
-        /* --- TA SECTION 1 : HERO --- */
+        .lang-selector { position: absolute; left: 50px; top: 80px; font-size: 0.7rem; opacity: 0.5; }
+
+        /* --- SECTION 1 : HERO (LE TEXTE COMME SUR L'IMAGE) --- */
         .hero-section {
             height: 100vh;
             width: 100%;
-            position: relative;
             display: flex;
-            justify-content: center;
             align-items: center;
+            padding-left: 15%; /* Décale le texte à gauche comme sur l'image */
         }
 
         .hero-center-text {
-            position: absolute;
-            top: 45%; 
-            left: 45%;
-            transform: translate(calc(-50% - var(--hero-offset-x)), calc(-50% - var(--hero-offset-y)));
-            text-align: left;
+            position: relative;
             z-index: 10;
         }
 
         .hero-center-text h1 {
             font-family: var(--font-serif);
-            font-size: 8vw; /* Ajusté pour ressembler à l'image */
-            line-height: 0.85;
+            font-size: 9vw; /* Taille massive */
+            line-height: 0.8;
             font-weight: 900;
             margin: 0;
+            letter-spacing: -3px; /* Resserre les lettres comme sur l'image */
             opacity: 0;
-            animation: fadeIn 1s forwards;
+            animation: fadeIn 1.5s forwards;
         }
 
-        .hero-right-panel {
-            position: absolute;
-            bottom: 25%; 
-            right: 25%;
-            width: 350px;
-            text-align: left;
-            z-index: 20;
-        }
-
-        .bio-text {
-            font-size: 1rem;
-            line-height: 1.7;
-            color: var(--text-white); 
-            margin-bottom: 20px;
-            font-weight: 400;
-        }
-
-        .social-list { display: flex; gap: 15px; margin-top: 10px; flex-wrap: wrap; }
-        .social-link { text-decoration: none; color: var(--text-grey); font-size: 0.8rem; text-transform: uppercase; transition: 0.3s; border: 1px solid transparent; padding: 5px 10px; border-radius: 3px; }
-
-        /* --- TON VISUEL 3D --- */
+        /* VISUEL 3D */
         .display-3d-container {
             position: fixed;
-            top: 50%; left: 50%;
+            top: 50%; left: 60%; /* Placé derrière et sur le côté */
             transform: translate(-50%, -50%);
             pointer-events: none;
             z-index: 5;
@@ -149,45 +119,41 @@
         }
 
         #text-3d {
-            font-family: var(--font-sans);
-            font-size: 20vw;
+            font-size: 15vw;
             font-weight: 900;
             color: transparent;
-            -webkit-text-stroke: 1px var(--accent-purple);
+            -webkit-text-stroke: 1px rgba(255,255,255,0.1);
             text-transform: uppercase;
-            white-space: nowrap;
-            transition: all 0.5s ease-out;
-            transform-style: preserve-3d;
-            opacity: 0.5; /* Baissé pour laisser lire le texte de devant */
         }
         
         .rotate { animation: rotate3D 60s linear infinite; }
 
-        @keyframes fadeIn { to { opacity: 1; } }
-        @keyframes rotate3D {
-            from { transform: rotateY(0deg) rotateX(0deg); }
-            to { transform: rotateY(360deg) rotateX(360deg); }
+        /* BIO ET RÉSEAUX */
+        .hero-right-panel {
+            position: absolute;
+            bottom: 15%; left: 15%; /* Aligné sous le gros titre */
+            max-width: 400px;
+            z-index: 20;
         }
+        .bio-text { font-size: 0.95rem; line-height: 1.6; margin-bottom: 20px; opacity: 0.8; }
 
-        /* --- TA SECTION 2 : LANGUAGES (DÉFILEMENT PRÉSERVÉ) --- */
+        /* --- SECTION 2 : LANGUAGES --- */
         .languages-section {
             min-height: 100vh;
-            padding: 100px 50px;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
-            position: relative;
         }
+        .lang-grid { display: flex; gap: 20px; z-index: 20; }
+        .lang-item { font-size: 1.5rem; padding: 15px 40px; border: 1px solid rgba(255,255,255,0.15); border-radius: 50px; cursor: pointer; transition: 0.3s; }
+        .lang-item:hover { background: var(--accent-purple); border-color: var(--accent-purple); }
 
-        .lang-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; z-index: 20; }
-        .lang-item { font-size: 2rem; padding: 10px 30px; border: 1px solid rgba(255,255,255,0.2); border-radius: 50px; cursor: pointer; transition: 0.3s; background: rgba(0,0,0,0.5); text-transform: uppercase; }
-        .lang-item:hover { background: var(--accent-purple); }
-
-        /* AJOUT DISCORD FIXÉ */
-        .discord-btn { position: fixed; bottom: 30px; right: 30px; background: #5865F2; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold; z-index: 1000; }
-
+        /* DISCORD & MUSIQUE */
+        .discord-btn { position: fixed; bottom: 30px; right: 30px; background: #5865F2; color: white; padding: 12px 20px; text-decoration: none; border-radius: 4px; font-weight: bold; font-size: 0.8rem; z-index: 1000; }
         #bg-music { display: none; }
+
+        @keyframes fadeIn { to { opacity: 1; } }
+        @keyframes rotate3D { from { transform: rotateY(0deg); } to { transform: rotateY(360deg); } }
     </style>
 </head>
 <body>
@@ -197,50 +163,42 @@
     </audio>
 
     <video class="bg-video" autoplay muted loop playsinline>
-        <source src="https://assets.mixkit.co/videos/preview/mixkit-stars-in-space-background-1610-large.mp4" type="video/mp4">
+        <source src="https://assets.mixkit.co/videos/preview/mixkit-abstract-dark-ink-swirling-in-water-4330-large.mp4" type="video/mp4">
     </video>
 
     <div class="ambient-glow"></div>
 
     <header class="top-bar">
-        <div class="logo-block">
-            <div>MHLEGACY</div>
-            <div style="opacity: 0.6; font-size: 0.8em; letter-spacing: 1px;">STUDIO</div>
-        </div>
+        <div class="logo-block">MHLEGACY STUDIO / 2024</div>
         
         <div class="dropdown">
-            <button class="dropbtn">MENU ▾</button>
+            <button class="dropbtn">☰</button>
             <div class="dropdown-content">
+                <a href="#">PROJECTS</a>
                 <a href="#">SERVICES</a>
-                <a href="#">PROJETS</a>
+                <a href="#">ABOUT</a>
             </div>
-        </div>
-
-        <div class="lang-selector">
-            <a href="#" class="lang-link active" data-lang="fr">FR</a> - 
-            <a href="#" class="lang-link" data-lang="en">EN</a> - 
-            <a href="#" class="lang-link" data-lang="ru">RU</a>
         </div>
     </header>
 
-    <section class="hero-section">
-        <div class="display-3d-container">
-            <div id="text-3d" class="rotate" data-default="C#">C#</div>
-        </div>
+    <div class="display-3d-container">
+        <div id="text-3d" class="rotate" data-default="C#">C#</div>
+    </div>
 
+    <section class="hero-section">
         <div class="hero-center-text">
             <h1>We</h1>
             <h1>Make</h1>
             <h1>Our</h1>
-            <h1>legacy</h1>
+            <h1>Legacy</h1>
         </div>
 
         <div class="hero-right-panel">
-            <p class="bio-text">Mon rôle dépasse la simple écriture de code. Je sculpte des mécanismes de jeu inédits.</p>
-            <div class="social-list">
-                <a href="#" class="social-link">TikTok</a>
-                <a href="#" class="social-link">Twitch</a>
-                <a href="#" class="social-link">Youtube</a>
+            <p class="bio-text">Mon rôle dépasse la simple écriture de code. Je sculpte des mécanismes de jeu inédits pour créer des héritages numériques.</p>
+            <div style="display: flex; gap: 20px; font-size: 0.7rem; letter-spacing: 1px; text-transform: uppercase;">
+                <a href="#" style="color:white; text-decoration:none">TikTok</a>
+                <a href="#" style="color:white; text-decoration:none">Twitch</a>
+                <a href="#" style="color:white; text-decoration:none">Youtube</a>
             </div>
         </div>
     </section>
@@ -249,11 +207,11 @@
         <div class="lang-grid">
             <div class="lang-item" data-tech="C#">C-SHARP</div>
             <div class="lang-item" data-tech="UNITY">UNITY</div>
-            <div class="lang-item" data-tech="HTML">HTML / CSS</div>
+            <div class="lang-item" data-tech="HTML">WEB DESIGN</div>
         </div>
     </section>
 
-    <a href="https://discord.gg/votre-lien" class="discord-btn" target="_blank">DISCORD</a>
+    <a href="https://discord.gg/votre-lien" class="discord-btn" target="_blank">JOIN DISCORD</a>
 
     <script>
         const text3d = document.getElementById('text-3d');
