@@ -7,10 +7,10 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
 
     <style>
-        /* --- TA CONFIGURATION GLOBALE ORIGINALE --- */
+        /* --- CONFIGURATION GLOBALE ORIGINALE --- */
         :root {
             --bg-color: #050505;
             --text-white: #ffffff;
@@ -18,8 +18,6 @@
             --accent-purple: #6a00ff;
             --font-serif: 'Playfair Display', serif;
             --font-sans: 'Manrope', sans-serif;
-            --hero-offset-x: 10%; 
-            --hero-offset-y: 10%;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -32,14 +30,24 @@
             position: relative;
         }
 
-        /* --- AJOUT : VIDÉO DE FOND --- */
+        /* --- EFFET GUIRLANDE LUMINEUSE (Haut de l'image) --- */
+        header::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 4px;
+            background: linear-gradient(90deg, #ff0000, #ff00ff, #00ffff, #ffff00, #ff0000);
+            z-index: 1001;
+            filter: blur(1px);
+        }
+
+        /* --- VIDÉO DE FOND --- */
         .bg-video {
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
             object-fit: cover;
             z-index: -3;
-            opacity: 0.3;
+            opacity: 0.4;
         }
 
         /* --- TON FOND D'AMBIANCE --- */
@@ -52,126 +60,61 @@
             pointer-events: none;
         }
 
-        /* --- TA BARRE DE NAVIGATION --- */
+        /* --- HEADER --- */
         .top-bar {
             position: fixed;
-            top: 40px; left: 50px;
-            right: 50px;
+            top: 30px; left: 50px; right: 50px;
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
+            align-items: center;
             z-index: 1000;
         }
 
-        .logo-block {
-            line-height: 1.2;
-            font-weight: 700; 
-            letter-spacing: 2px; 
-            text-transform: uppercase; 
-            font-size: 1rem;
-        }
+        .logo-block { font-weight: 800; letter-spacing: 1px; font-size: 0.9rem; }
 
-        /* --- AJOUT : MENU DÉROULANT --- */
-        .dropdown { position: relative; display: inline-block; margin-left: 20px; }
+        /* LISTE DÉROULANTE */
+        .dropdown { position: relative; }
         .dropbtn {
-            background: none; border: 1px solid var(--accent-purple);
-            color: white; padding: 8px 15px; cursor: pointer; font-size: 0.8rem;
+            background: none; border: none; color: white;
+            cursor: pointer; font-size: 1.5rem; font-weight: bold;
         }
         .dropdown-content {
-            display: none; position: absolute; right: 0;
-            background: #111; min-width: 150px; border: 1px solid #333;
+            display: none; position: absolute; right: 0; top: 100%;
+            background: #111; min-width: 180px; border: 1px solid #333;
         }
-        .dropdown-content a {
-            color: white; padding: 10px; text-decoration: none; display: block; font-size: 0.8rem;
-        }
+        .dropdown-content a { color: white; padding: 12px; text-decoration: none; display: block; }
         .dropdown-content a:hover { background: var(--accent-purple); }
         .dropdown:hover .dropdown-content { display: block; }
 
-        .lang-selector {
-            position: absolute;
-            left: 50px;
-            top: 80px;
-            font-size: 0.8rem;
-            opacity: 0.7;
-        }
-        .lang-link {
-            text-decoration: none;
-            color: var(--text-grey);
-            cursor: pointer;
-            transition: color 0.3s;
-        }
-        .lang-link.active, .lang-link:hover {
-            color: var(--text-white);
-        }
-
-        /* --- TA SECTION 1 : HERO --- */
+        /* --- SECTION 1 : HERO (STYLE IMAGE UPLOADÉE) --- */
         .hero-section {
             height: 100vh;
             width: 100%;
-            position: relative;
             display: flex;
-            justify-content: center;
             align-items: center;
+            padding-left: 10%; /* Aligné à gauche comme l'image */
         }
 
         .hero-center-text {
-            position: absolute;
-            top: 40%; 
-            left: 50%;
-            transform: translate(calc(-50% - var(--hero-offset-x)), calc(-50% - var(--hero-offset-y)));
-            text-align: left;
             z-index: 10;
+            max-width: 600px;
         }
 
         .hero-center-text h1 {
             font-family: var(--font-serif);
-            font-size: 5vw;
-            line-height: 0.9;
-            font-weight: 400;
+            font-size: 8vw; /* Texte beaucoup plus gros */
+            line-height: 0.85;
+            font-weight: 900;
             margin: 0;
             opacity: 0;
             animation: fadeIn 1s forwards;
+            letter-spacing: -2px;
         }
 
-        .hero-right-panel {
-            position: absolute;
-            bottom: 25%; 
-            right: 25%;
-            width: 350px;
-            text-align: left;
-            z-index: 20;
-        }
-
-        .bio-text {
-            font-size: 1rem;
-            line-height: 1.7;
-            color: var(--text-white); 
-            margin-bottom: 20px;
-            font-weight: 400;
-        }
-
-        .social-list {
-            display: flex;
-            gap: 15px;
-            margin-top: 10px;
-            flex-wrap: wrap;
-        }
-
-        .social-link {
-            text-decoration: none;
-            color: var(--text-grey);
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            transition: 0.3s;
-            border: 1px solid transparent;
-            padding: 5px 10px;
-            border-radius: 3px;
-        }
-
-        /* --- TON VISUEL 3D --- */
+        /* TON VISUEL 3D (Derrière le texte) */
         .display-3d-container {
             position: fixed;
-            top: 50%; left: 50%;
+            top: 50%; left: 55%; /* Décalé à droite pour ne pas cacher le texte */
             transform: translate(-50%, -50%);
             pointer-events: none;
             z-index: 5;
@@ -179,70 +122,57 @@
         }
 
         #text-3d {
-            font-family: var(--font-sans);
-            font-size: 20vw;
+            font-size: 18vw;
             font-weight: 900;
             color: transparent;
-            -webkit-text-stroke: 1px var(--accent-purple);
+            -webkit-text-stroke: 1px rgba(106, 0, 255, 0.4);
             text-transform: uppercase;
-            white-space: nowrap;
-            transition: all 0.5s ease-out;
-            transform-style: preserve-3d;
-            opacity: 0.9;
         }
         
-        .rotate {
-            animation: rotate3D 60s linear infinite;
+        .rotate { animation: rotate3D 60s linear infinite; }
+
+        /* --- PANNEAU DE BIO (Sous le titre comme dans l'image) --- */
+        .hero-info-sub {
+            margin-top: 30px;
+            max-width: 400px;
+            font-size: 1rem;
+            color: var(--text-white);
+            line-height: 1.6;
+        }
+
+        /* --- SECTION 2 : LANGUAGES (DÉFILEMENT CONSERVÉ) --- */
+        .languages-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0,0,0,0.5);
+        }
+
+        .lang-grid { display: flex; gap: 20px; z-index: 20; }
+        .lang-item {
+            font-size: 1.5rem; padding: 15px 40px;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 50px; cursor: pointer; transition: 0.3s;
+        }
+        .lang-item:hover { background: var(--accent-purple); }
+
+        /* --- DISCORD FIXÉ EN BAS --- */
+        .discord-bar {
+            position: fixed;
+            bottom: 30px; right: 50px;
+            z-index: 1000;
+        }
+        .discord-btn {
+            background: #5865F2; color: white; text-decoration: none;
+            padding: 12px 25px; border-radius: 4px; font-weight: bold;
+            font-size: 0.8rem; transition: 0.3s;
         }
 
         @keyframes fadeIn { to { opacity: 1; } }
         @keyframes rotate3D {
-            from { transform: rotateY(0deg) rotateX(0deg); }
-            to { transform: rotateY(360deg) rotateX(360deg); }
-        }
-
-        /* --- TA SECTION 2 : LANGUAGES (DÉFILEMENT CONSERVÉ) --- */
-        .languages-section {
-            min-height: 100vh;
-            padding: 100px 50px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-        }
-
-        .lang-grid {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;
-            z-index: 20;
-        }
-
-        .lang-item {
-            font-size: 2rem;
-            padding: 10px 30px;
-            border: 1px solid rgba(255,255,255,0.2);
-            border-radius: 50px;
-            cursor: pointer;
-            transition: 0.3s;
-            background: rgba(0,0,0,0.5);
-            text-transform: uppercase;
-        }
-
-        .lang-item:hover {
-            background: var(--accent-purple);
-        }
-
-        /* --- AJOUT : BOUTON DISCORD EN BAS --- */
-        .discord-footer {
-            text-align: center;
-            padding: 50px;
-        }
-        .discord-btn {
-            background: #5865F2; color: white; text-decoration: none;
-            padding: 15px 30px; border-radius: 5px; font-weight: bold;
+            from { transform: rotateY(0deg); }
+            to { transform: rotateY(360deg); }
         }
 
         #bg-music { display: none; }
@@ -261,45 +191,36 @@
     <div class="ambient-glow"></div>
 
     <header class="top-bar">
-        <div class="logo-block">
-            <div>MHLEGACY</div>
-            <div style="opacity: 0.6; font-size: 0.8em; letter-spacing: 1px;">STUDIO</div>
-        </div>
+        <div class="logo-block">MHLEGACY / STUDIO</div>
         
         <div class="dropdown">
-            <button class="dropbtn">MENU ▾</button>
+            <button class="dropbtn">☰</button>
             <div class="dropdown-content">
                 <a href="#">PROJETS</a>
                 <a href="#">SERVICES</a>
-                <a href="#">CONTACT</a>
+                <a href="https://discord.gg/votre-lien">DISCORD</a>
             </div>
-        </div>
-
-        <div class="lang-selector">
-            <a href="#" class="lang-link active" data-lang="fr">FR</a> - 
-            <a href="#" class="lang-link" data-lang="en">EN</a> - 
-            <a href="#" class="lang-link" data-lang="ru">RU</a>
         </div>
     </header>
 
-    <section class="hero-section">
-        <div class="display-3d-container">
-            <div id="text-3d" class="rotate" data-default="C#">C#</div>
-        </div>
+    <div class="display-3d-container">
+        <div id="text-3d" class="rotate" data-default="C#">C#</div>
+    </div>
 
+    <section class="hero-section">
         <div class="hero-center-text">
             <h1>We</h1>
             <h1>Make</h1>
             <h1>Our</h1>
-            <h1>legacy</h1>
-        </div>
-
-        <div class="hero-right-panel">
-            <p class="bio-text">Mon rôle dépasse la simple écriture de code. Je sculpte des mécanismes de jeu inédits.</p>
-            <div class="social-list">
-                <a href="#" class="social-link">TikTok</a>
-                <a href="#" class="social-link">Twitch</a>
-                <a href="#" class="social-link">Youtube</a>
+            <h1>Legacy</h1>
+            
+            <div class="hero-info-sub">
+                <p>Mon rôle dépasse la simple écriture de code. Je sculpte des mécanismes de jeu inédits pour créer des expériences mémorables.</p>
+                <div style="margin-top: 20px; font-size: 0.8rem; display: flex; gap: 15px;">
+                    <a href="#" style="color:white">TikTok</a>
+                    <a href="#" style="color:white">Twitch</a>
+                    <a href="#" style="color:white">Youtube</a>
+                </div>
             </div>
         </div>
     </section>
@@ -308,19 +229,18 @@
         <div class="lang-grid">
             <div class="lang-item" data-tech="C#">C-SHARP</div>
             <div class="lang-item" data-tech="UNITY">UNITY</div>
-            <div class="lang-item" data-tech="HTML">HTML / CSS</div>
+            <div class="lang-item" data-tech="HTML">WEB</div>
         </div>
     </section>
 
-    <footer class="discord-footer">
-        <a href="https://discord.gg/votre-lien" class="discord-btn">REJOINDRE LE DISCORD</a>
-    </footer>
+    <div class="discord-bar">
+        <a href="https://discord.gg/votre-lien" class="discord-btn" target="_blank">REJOINDRE LE DISCORD</a>
+    </div>
 
     <script>
         const text3d = document.getElementById('text-3d');
         const defaultText = text3d.getAttribute('data-default');
 
-        // Gestion musique au clic
         document.body.addEventListener('click', () => {
             document.getElementById('bg-music').play();
         }, { once: true });
