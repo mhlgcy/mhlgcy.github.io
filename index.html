@@ -23,19 +23,26 @@
             background-color: var(--bg-color);
             color: var(--text-white);
             font-family: var(--font-sans);
-            overflow: hidden; /* Empêche le scroll pour le test de la page 1 */
+            overflow: hidden;
             height: 100vh;
-            cursor: pointer; /* Indique qu'il faut cliquer */
         }
 
-        /* VIDÉO DE CODE */
+        /* VIDÉO DE CODE INFORMATIQUE */
         .bg-video {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             object-fit: cover;
             z-index: -5;
-            opacity: 0.2; 
+            opacity: 0.25; 
             filter: grayscale(100%) brightness(40%);
+        }
+
+        /* LECTEUR YOUTUBE CACHÉ */
+        #youtube-player {
+            position: absolute;
+            width: 1px; height: 1px;
+            opacity: 0;
+            pointer-events: none;
         }
 
         .top-bar {
@@ -47,26 +54,36 @@
 
         .hero-section {
             height: 100vh; display: flex; justify-content: center; align-items: center;
+            text-align: center;
         }
 
         .hero-center-text h1 {
-            font-family: var(--font-serif); font-size: 5vw; line-height: 0.9;
+            font-family: var(--font-serif); font-size: 6vw; line-height: 1.1; font-weight: 700;
         }
 
         #text-3d {
             position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            font-size: 20vw; font-weight: 900; color: transparent;
+            font-size: 22vw; font-weight: 900; color: transparent;
             -webkit-text-stroke: 1px var(--accent-purple);
-            text-transform: uppercase; z-index: 5; opacity: 0.5;
-            animation: rotate3D 20s linear infinite;
+            text-transform: uppercase; z-index: 5; opacity: 0.3;
+            animation: rotate3D 25s linear infinite;
         }
 
-        @keyframes rotate3D { from { transform: translate(-50%, -50%) rotateY(0deg); } to { transform: translate(-50%, -50%) rotateY(360deg); } }
+        @keyframes rotate3D { 
+            from { transform: translate(-50%, -50%) rotateY(0deg); } 
+            to { transform: translate(-50%, -50%) rotateY(360deg); } 
+        }
 
         .discord-btn {
             position: fixed; bottom: 30px; right: 30px;
-            background: #5865F2; color: white; padding: 12px 24px;
+            background: #5865F2; color: white; padding: 14px 28px;
             text-decoration: none; border-radius: 5px; font-weight: bold; z-index: 1000;
+        }
+
+        /* Indication pour l'utilisateur */
+        .click-hint {
+            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+            font-size: 0.7rem; opacity: 0.5; letter-spacing: 2px;
         }
     </style>
 </head>
@@ -76,9 +93,7 @@
         <source src="https://cdn.pixabay.com/vimeo/472002344/programming-54602.mp4?width=1280&hash=8568e65839446864f1e067c2e9263909772a083a" type="video/mp4">
     </video>
 
-    <audio id="audio-player" preload="auto" loop>
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-    </audio>
+    <div id="youtube-player"></div>
 
     <header class="top-bar">
         <div class="logo-block">MHLEGACY STUDIO</div>
@@ -88,30 +103,42 @@
 
     <section class="hero-section">
         <div class="hero-center-text">
-            <h1>We</h1>
-            <h1>Make</h1>
-            <h1>Our</h1>
-            <h1 style="color: var(--accent-purple);">legacy</h1>
+            <h1>We Make</h1>
+            <h1>Our <span style="color: var(--accent-purple);">legacy</span></h1>
         </div>
     </section>
 
+    <div class="click-hint">CLIQUE N'IMPORTE OÙ POUR ACTIVER LE SON</div>
+
     <a href="#" class="discord-btn">DISCORD</a>
 
+    <script src="https://www.youtube.com/iframe_api"></script>
     <script>
-        const audio = document.getElementById('audio-player');
+        let player;
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('youtube-player', {
+                height: '0',
+                width: '0',
+                videoId: '0a8lUmG8p_Y', // ID de l'instrumentale de La League
+                playerVars: {
+                    'autoplay': 0,
+                    'controls': 0,
+                    'loop': 1,
+                    'playlist': '0a8lUmG8p_Y'
+                },
+                events: {
+                    'onReady': onPlayerReady
+                }
+            });
+        }
 
-        // FORCE LA LECTURE SUR TOUT L'ÉCRAN
-        window.addEventListener('click', () => {
-            console.log("Tentative de lecture...");
-            audio.play()
-                .then(() => { console.log("Musique lancée !"); })
-                .catch(err => { console.error("Erreur :", err); });
-        }, { once: true });
-
-        // SECURITÉ : Débloquer l'audio au toucher (pour mobile)
-        window.addEventListener('touchstart', () => {
-            audio.play();
-        }, { once: true });
+        function onPlayerReady(event) {
+            // Le son est prêt, on attend le clic
+            window.addEventListener('click', () => {
+                player.playVideo();
+                document.querySelector('.click-hint').style.display = 'none';
+            }, { once: true });
+        }
     </script>
 
 </body>
