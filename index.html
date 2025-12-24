@@ -3,168 +3,248 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mhlegacy Studio | Créateurs de Mondes</title>
+    <title>Mhlegacy studio</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&family=Playfair+Display:ital,wght@0,400;0,700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
 
     <style>
+        /* --- TA CONFIGURATION GLOBALE ORIGINALE --- */
         :root {
             --bg-color: #050505;
             --text-white: #ffffff;
             --text-grey: #a0a0a0;
-            --accent-purple: #8126ff;
+            --accent-purple: #6a00ff;
             --font-serif: 'Playfair Display', serif;
             --font-sans: 'Manrope', sans-serif;
+            --hero-offset-x: 10%; 
+            --hero-offset-y: 10%;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             background-color: var(--bg-color);
             color: var(--text-white);
             font-family: var(--font-sans);
             overflow-x: hidden;
+            position: relative;
         }
 
-        /* --- VIDEO & OVERLAY --- */
-        .video-background {
+        /* --- AJOUT : VIDÉO DE FOND --- */
+        .bg-video {
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
-            z-index: -2;
             object-fit: cover;
-            opacity: 0.4; /* Ajuste l'opacité ici */
+            z-index: -3;
+            opacity: 0.3;
         }
 
+        /* --- TON FOND D'AMBIANCE --- */
         .ambient-glow {
             position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: radial-gradient(circle at center, transparent 0%, var(--bg-color) 90%);
+            width: 100vw; height: 100vh;
+            background: radial-gradient(circle at 70% 80%, rgba(106, 0, 255, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 20% 20%, rgba(40, 40, 90, 0.3) 0%, transparent 50%);
             z-index: -1;
             pointer-events: none;
         }
 
-        /* --- HEADER --- */
+        /* --- TA BARRE DE NAVIGATION --- */
         .top-bar {
             position: fixed;
-            top: 0; left: 0; width: 100%;
-            padding: 30px 50px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 1000;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
-        }
-
-        .logo-block { font-weight: 800; letter-spacing: 3px; font-size: 1.2rem; }
-
-        /* --- MENU DÉROULANT --- */
-        .dropdown {
-            position: relative;
-            display: inline-block;
-        }
-
-        .dropbtn {
-            background: none;
-            border: 1px solid var(--accent-purple);
-            color: white;
-            padding: 10px 25px;
-            font-family: var(--font-sans);
-            cursor: pointer;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: 0.3s;
-        }
-
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            right: 0;
-            background-color: rgba(15, 15, 15, 0.95);
-            min-width: 160px;
-            box-shadow: 0px 8px 16px rgba(0,0,0,0.5);
-            z-index: 1;
-            backdrop-filter: blur(10px);
-            border: 1px solid #333;
-        }
-
-        .dropdown-content a {
-            color: white;
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
-            font-size: 0.9rem;
-            transition: 0.3s;
-        }
-
-        .dropdown-content a:hover { background-color: var(--accent-purple); }
-        .dropdown:hover .dropdown-content { display: block; }
-        .dropdown:hover .dropbtn { background: var(--accent-purple); }
-
-        /* --- HERO --- */
-        .hero-section {
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            padding: 0 10%;
-        }
-
-        .hero-title h1 {
-            font-family: var(--font-serif);
-            font-size: 7vw;
-            line-height: 0.85;
-            font-weight: 700;
-        }
-
-        .display-3d-container {
-            position: fixed;
-            top: 50%; left: 60%;
-            transform: translate(-50%, -50%);
-            z-index: -1;
-            perspective: 1000px;
-        }
-
-        #text-3d {
-            font-size: 15vw;
-            font-weight: 900;
-            color: transparent;
-            -webkit-text-stroke: 1px rgba(255,255,255,0.2);
-            text-transform: uppercase;
-            transition: 0.5s;
-        }
-
-        .rotate { animation: rotateY 15s linear infinite; }
-        @keyframes rotateY { from { transform: rotateY(0deg); } to { transform: rotateY(360deg); } }
-
-        /* --- FOOTER & DISCORD --- */
-        .footer-fixed {
-            position: fixed;
-            bottom: 40px;
-            left: 50px;
+            top: 40px; left: 50px;
             right: 50px;
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            align-items: flex-start;
+            z-index: 1000;
         }
 
-        .discord-btn {
-            background: #5865F2;
-            color: white;
-            padding: 12px 25px;
+        .logo-block {
+            line-height: 1.2;
+            font-weight: 700; 
+            letter-spacing: 2px; 
+            text-transform: uppercase; 
+            font-size: 1rem;
+        }
+
+        /* --- AJOUT : MENU DÉROULANT --- */
+        .dropdown { position: relative; display: inline-block; margin-left: 20px; }
+        .dropbtn {
+            background: none; border: 1px solid var(--accent-purple);
+            color: white; padding: 8px 15px; cursor: pointer; font-size: 0.8rem;
+        }
+        .dropdown-content {
+            display: none; position: absolute; right: 0;
+            background: #111; min-width: 150px; border: 1px solid #333;
+        }
+        .dropdown-content a {
+            color: white; padding: 10px; text-decoration: none; display: block; font-size: 0.8rem;
+        }
+        .dropdown-content a:hover { background: var(--accent-purple); }
+        .dropdown:hover .dropdown-content { display: block; }
+
+        .lang-selector {
+            position: absolute;
+            left: 50px;
+            top: 80px;
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+        .lang-link {
             text-decoration: none;
-            border-radius: 5px;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transition: transform 0.3s;
+            color: var(--text-grey);
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        .lang-link.active, .lang-link:hover {
+            color: var(--text-white);
         }
 
-        .discord-btn:hover { transform: translateY(-5px); background: #4752c4; }
+        /* --- TA SECTION 1 : HERO --- */
+        .hero-section {
+            height: 100vh;
+            width: 100%;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
-        /* Audio Player hidden */
+        .hero-center-text {
+            position: absolute;
+            top: 40%; 
+            left: 50%;
+            transform: translate(calc(-50% - var(--hero-offset-x)), calc(-50% - var(--hero-offset-y)));
+            text-align: left;
+            z-index: 10;
+        }
+
+        .hero-center-text h1 {
+            font-family: var(--font-serif);
+            font-size: 5vw;
+            line-height: 0.9;
+            font-weight: 400;
+            margin: 0;
+            opacity: 0;
+            animation: fadeIn 1s forwards;
+        }
+
+        .hero-right-panel {
+            position: absolute;
+            bottom: 25%; 
+            right: 25%;
+            width: 350px;
+            text-align: left;
+            z-index: 20;
+        }
+
+        .bio-text {
+            font-size: 1rem;
+            line-height: 1.7;
+            color: var(--text-white); 
+            margin-bottom: 20px;
+            font-weight: 400;
+        }
+
+        .social-list {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        .social-link {
+            text-decoration: none;
+            color: var(--text-grey);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            transition: 0.3s;
+            border: 1px solid transparent;
+            padding: 5px 10px;
+            border-radius: 3px;
+        }
+
+        /* --- TON VISUEL 3D --- */
+        .display-3d-container {
+            position: fixed;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 5;
+            perspective: 1200px;
+        }
+
+        #text-3d {
+            font-family: var(--font-sans);
+            font-size: 20vw;
+            font-weight: 900;
+            color: transparent;
+            -webkit-text-stroke: 1px var(--accent-purple);
+            text-transform: uppercase;
+            white-space: nowrap;
+            transition: all 0.5s ease-out;
+            transform-style: preserve-3d;
+            opacity: 0.9;
+        }
+        
+        .rotate {
+            animation: rotate3D 60s linear infinite;
+        }
+
+        @keyframes fadeIn { to { opacity: 1; } }
+        @keyframes rotate3D {
+            from { transform: rotateY(0deg) rotateX(0deg); }
+            to { transform: rotateY(360deg) rotateX(360deg); }
+        }
+
+        /* --- TA SECTION 2 : LANGUAGES (DÉFILEMENT CONSERVÉ) --- */
+        .languages-section {
+            min-height: 100vh;
+            padding: 100px 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .lang-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            z-index: 20;
+        }
+
+        .lang-item {
+            font-size: 2rem;
+            padding: 10px 30px;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 50px;
+            cursor: pointer;
+            transition: 0.3s;
+            background: rgba(0,0,0,0.5);
+            text-transform: uppercase;
+        }
+
+        .lang-item:hover {
+            background: var(--accent-purple);
+        }
+
+        /* --- AJOUT : BOUTON DISCORD EN BAS --- */
+        .discord-footer {
+            text-align: center;
+            padding: 50px;
+        }
+        .discord-btn {
+            background: #5865F2; color: white; text-decoration: none;
+            padding: 15px 30px; border-radius: 5px; font-weight: bold;
+        }
+
         #bg-music { display: none; }
     </style>
 </head>
@@ -174,65 +254,86 @@
         <source src="https://www.chosic.com/wp-content/uploads/2021/04/Rainy-Day-Ambient-Music.mp3" type="audio/mpeg">
     </audio>
 
-    <video class="video-background" autoplay muted loop playsinline>
-        <source src="https://assets.mixkit.co/videos/preview/mixkit-abstract-dark-ink-swirling-in-water-4330-large.mp4" type="video/mp4">
+    <video class="bg-video" autoplay muted loop playsinline>
+        <source src="https://assets.mixkit.co/videos/preview/mixkit-stars-in-space-background-1610-large.mp4" type="video/mp4">
     </video>
 
     <div class="ambient-glow"></div>
 
     <header class="top-bar">
         <div class="logo-block">
-            MHLEGACY <span style="color:var(--accent-purple)">STUDIO</span>
+            <div>MHLEGACY</div>
+            <div style="opacity: 0.6; font-size: 0.8em; letter-spacing: 1px;">STUDIO</div>
         </div>
         
         <div class="dropdown">
-            <button class="dropbtn">Projets ▾</button>
+            <button class="dropbtn">MENU ▾</button>
             <div class="dropdown-content">
-                <a href="#">Jeux Vidéos</a>
-                <a href="#">Web Design</a>
-                <a href="#">Scripts C#</a>
-                <a href="#">Contact</a>
+                <a href="#">PROJETS</a>
+                <a href="#">SERVICES</a>
+                <a href="#">CONTACT</a>
             </div>
+        </div>
+
+        <div class="lang-selector">
+            <a href="#" class="lang-link active" data-lang="fr">FR</a> - 
+            <a href="#" class="lang-link" data-lang="en">EN</a> - 
+            <a href="#" class="lang-link" data-lang="ru">RU</a>
         </div>
     </header>
 
-    <div class="display-3d-container">
-        <div id="text-3d" class="rotate">C#</div>
-    </div>
-
     <section class="hero-section">
-        <div class="hero-title">
-            <h1>WE<br>MAKE<br>OUR<br><span style="color:var(--accent-purple)">LEGACY</span></h1>
+        <div class="display-3d-container">
+            <div id="text-3d" class="rotate" data-default="C#">C#</div>
+        </div>
+
+        <div class="hero-center-text">
+            <h1>We</h1>
+            <h1>Make</h1>
+            <h1>Our</h1>
+            <h1>legacy</h1>
+        </div>
+
+        <div class="hero-right-panel">
+            <p class="bio-text">Mon rôle dépasse la simple écriture de code. Je sculpte des mécanismes de jeu inédits.</p>
+            <div class="social-list">
+                <a href="#" class="social-link">TikTok</a>
+                <a href="#" class="social-link">Twitch</a>
+                <a href="#" class="social-link">Youtube</a>
+            </div>
         </div>
     </section>
 
-    <div class="footer-fixed">
-        <div class="social-links">
-            <small style="color:var(--text-grey); display:block; margin-bottom:5px;">Suivez-nous</small>
-            <a href="#" style="color:white; margin-right:15px; text-decoration:none;">YT</a>
-            <a href="#" style="color:white; margin-right:15px; text-decoration:none;">TW</a>
-            <a href="#" style="color:white; text-decoration:none;">TK</a>
+    <section class="languages-section">
+        <div class="lang-grid">
+            <div class="lang-item" data-tech="C#">C-SHARP</div>
+            <div class="lang-item" data-tech="UNITY">UNITY</div>
+            <div class="lang-item" data-tech="HTML">HTML / CSS</div>
         </div>
+    </section>
 
-        <a href="https://discord.gg/TON_LIEN" target="_blank" class="discord-btn">
-            <span>Rejoindre le Discord</span>
-        </a>
-    </div>
+    <footer class="discord-footer">
+        <a href="https://discord.gg/votre-lien" class="discord-btn">REJOINDRE LE DISCORD</a>
+    </footer>
 
     <script>
         const text3d = document.getElementById('text-3d');
-        const music = document.getElementById('bg-music');
+        const defaultText = text3d.getAttribute('data-default');
 
-        // Jouer la musique au premier clic sur la page (contrainte navigateur)
+        // Gestion musique au clic
         document.body.addEventListener('click', () => {
-            music.play();
+            document.getElementById('bg-music').play();
         }, { once: true });
 
-        // Interaction avec le texte 3D au scroll
-        window.addEventListener('scroll', () => {
-            let value = window.scrollY;
-            text3d.style.letterSpacing = value * 0.1 + 'px';
-            text3d.style.opacity = 1 - (value / 500);
+        document.querySelectorAll('.lang-item').forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                text3d.textContent = item.getAttribute('data-tech');
+                text3d.classList.remove('rotate');
+            });
+            item.addEventListener('mouseleave', () => {
+                text3d.textContent = defaultText; 
+                text3d.classList.add('rotate');
+            });
         });
     </script>
 </body>
