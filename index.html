@@ -12,12 +12,9 @@
         :root {
             --bg-color: #050505;
             --text-white: #ffffff;
-            --text-grey: #a0a0a0;
             --accent-purple: #6a00ff;
             --font-serif: 'Playfair Display', serif;
             --font-sans: 'Manrope', sans-serif;
-            --hero-offset-x: 10%; 
-            --hero-offset-y: 10%;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -26,11 +23,12 @@
             background-color: var(--bg-color);
             color: var(--text-white);
             font-family: var(--font-sans);
-            overflow-x: hidden;
-            position: relative;
+            overflow: hidden; /* Empêche le scroll pour le test de la page 1 */
+            height: 100vh;
+            cursor: pointer; /* Indique qu'il faut cliquer */
         }
 
-        /* --- VIDÉO DE CODE INFORMATIQUE --- */
+        /* VIDÉO DE CODE */
         .bg-video {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -40,66 +38,36 @@
             filter: grayscale(100%) brightness(40%);
         }
 
-        .ambient-glow {
-            position: fixed;
-            width: 100vw; height: 100vh;
-            background: radial-gradient(circle at 70% 80%, rgba(106, 0, 255, 0.15) 0%, transparent 50%);
-            z-index: -1;
-            pointer-events: none;
-        }
-
-        /* --- NAVIGATION --- */
         .top-bar {
             position: fixed;
             top: 40px; left: 50px; right: 50px;
-            display: flex; justify-content: space-between; align-items: flex-start;
+            display: flex; justify-content: space-between;
             z-index: 1000;
         }
 
-        .logo-block {
-            font-weight: 700; letter-spacing: 2px; text-transform: uppercase; font-size: 1rem;
-        }
-
-        /* --- HERO SECTION --- */
         .hero-section {
-            height: 100vh; width: 100%; display: flex; justify-content: center; align-items: center;
-        }
-
-        .hero-center-text {
-            position: absolute; top: 40%; left: 50%;
-            transform: translate(calc(-50% - var(--hero-offset-x)), calc(-50% - var(--hero-offset-y)));
-            z-index: 10;
+            height: 100vh; display: flex; justify-content: center; align-items: center;
         }
 
         .hero-center-text h1 {
-            font-family: var(--font-serif); font-size: 5vw; line-height: 0.9; font-weight: 400;
-        }
-
-        /* --- VISUEL 3D --- */
-        .display-3d-container {
-            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            z-index: 5; perspective: 1200px; pointer-events: none;
+            font-family: var(--font-serif); font-size: 5vw; line-height: 0.9;
         }
 
         #text-3d {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
             font-size: 20vw; font-weight: 900; color: transparent;
-            -webkit-text-stroke: 1px var(--accent-purple); text-transform: uppercase;
+            -webkit-text-stroke: 1px var(--accent-purple);
+            text-transform: uppercase; z-index: 5; opacity: 0.5;
+            animation: rotate3D 20s linear infinite;
         }
-        
-        .rotate { animation: rotate3D 60s linear infinite; }
 
-        @keyframes rotate3D { from { transform: rotateY(0deg); } to { transform: rotateY(360deg); } }
+        @keyframes rotate3D { from { transform: translate(-50%, -50%) rotateY(0deg); } to { transform: translate(-50%, -50%) rotateY(360deg); } }
 
-        /* --- BOUTON DISCORD --- */
         .discord-btn {
             position: fixed; bottom: 30px; right: 30px;
             background: #5865F2; color: white; padding: 12px 24px;
             text-decoration: none; border-radius: 5px; font-weight: bold; z-index: 1000;
-            transition: 0.3s;
         }
-        .discord-btn:hover { background: #4752c4; transform: scale(1.05); }
-
-        #audio-player { display: none; }
     </style>
 </head>
 <body>
@@ -108,22 +76,15 @@
         <source src="https://cdn.pixabay.com/vimeo/472002344/programming-54602.mp4?width=1280&hash=8568e65839446864f1e067c2e9263909772a083a" type="video/mp4">
     </video>
 
-    <audio id="audio-player" loop>
-        <source src="la-league.mp3" type="audio/mpeg">
+    <audio id="audio-player" preload="auto" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
     </audio>
 
-    <div class="ambient-glow"></div>
-
     <header class="top-bar">
-        <div class="logo-block">
-            <div>MHLEGACY</div>
-            <div style="opacity: 0.6; font-size: 0.8em;">STUDIO</div>
-        </div>
+        <div class="logo-block">MHLEGACY STUDIO</div>
     </header>
 
-    <div class="display-3d-container">
-        <div id="text-3d" class="rotate">C#</div>
-    </div>
+    <div id="text-3d">C#</div>
 
     <section class="hero-section">
         <div class="hero-center-text">
@@ -134,15 +95,22 @@
         </div>
     </section>
 
-    <a href="https://discord.gg/votre-lien" class="discord-btn" target="_blank">REJOINDRE LE DISCORD</a>
+    <a href="#" class="discord-btn">DISCORD</a>
 
     <script>
-        // Active la musique au premier clic n'importe où sur la page
-        document.body.addEventListener('click', function() {
-            const audio = document.getElementById('audio-player');
-            audio.play().catch(function(error) {
-                console.log("Le navigateur bloque la lecture : ", error);
-            });
+        const audio = document.getElementById('audio-player');
+
+        // FORCE LA LECTURE SUR TOUT L'ÉCRAN
+        window.addEventListener('click', () => {
+            console.log("Tentative de lecture...");
+            audio.play()
+                .then(() => { console.log("Musique lancée !"); })
+                .catch(err => { console.error("Erreur :", err); });
+        }, { once: true });
+
+        // SECURITÉ : Débloquer l'audio au toucher (pour mobile)
+        window.addEventListener('touchstart', () => {
+            audio.play();
         }, { once: true });
     </script>
 
