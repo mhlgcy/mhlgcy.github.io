@@ -36,8 +36,8 @@
             top: 0; left: 0; width: 100%; height: 100%;
             object-fit: cover;
             z-index: -5;
-            opacity: 0.25; /* Légèrement plus sombre pour bien lire ton texte */
-            filter: grayscale(100%) brightness(50%); /* Look Matrix/Tech */
+            opacity: 0.2; /* Très discret pour l'ambiance */
+            filter: grayscale(100%) brightness(40%);
         }
 
         .ambient-glow {
@@ -48,7 +48,7 @@
             pointer-events: none;
         }
 
-        /* --- TA STRUCTURE ORIGINALE --- */
+        /* --- STRUCTURE ORIGINALE --- */
         .top-bar {
             position: fixed;
             top: 40px; left: 50px; right: 50px;
@@ -88,15 +88,11 @@
 
         @keyframes rotate3D { from { transform: rotateY(0deg); } to { transform: rotateY(360deg); } }
 
-        /* --- BOUTON DISCORD --- */
         .discord-btn {
             position: fixed; bottom: 30px; right: 30px;
             background: #5865F2; color: white; padding: 12px 24px;
             text-decoration: none; border-radius: 5px; font-weight: bold; z-index: 1000;
         }
-
-        /* --- CACHER L'AUDIO --- */
-        #bg-music { display: none; }
     </style>
 </head>
 <body>
@@ -104,10 +100,6 @@
     <video class="bg-video" autoplay muted loop playsinline>
         <source src="https://cdn.pixabay.com/vimeo/472002344/programming-54602.mp4?width=1280&hash=8568e65839446864f1e067c2e9263909772a083a" type="video/mp4">
     </video>
-
-    <audio id="bg-music" loop>
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3" type="audio/mpeg">
-    </audio>
 
     <div class="ambient-glow"></div>
 
@@ -133,14 +125,5 @@
 
     <a href="https://discord.gg/votre-lien" class="discord-btn" target="_blank">DISCORD</a>
 
-    <script>
-        // Lancer la musique au premier clic sur la page
-        document.body.addEventListener('click', function() {
-            var audio = document.getElementById('bg-music');
-            // On force le démarrage au milieu (par exemple à la 60ème seconde)
-            audio.currentTime = 60; 
-            audio.play();
-        }, { once: true });
-    </script>
 </body>
 </html>
