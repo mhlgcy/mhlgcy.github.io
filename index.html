@@ -36,7 +36,7 @@
             top: 0; left: 0; width: 100%; height: 100%;
             object-fit: cover;
             z-index: -5;
-            opacity: 0.2; /* Très discret pour l'ambiance */
+            opacity: 0.2; 
             filter: grayscale(100%) brightness(40%);
         }
 
@@ -48,7 +48,7 @@
             pointer-events: none;
         }
 
-        /* --- STRUCTURE ORIGINALE --- */
+        /* --- TA STRUCTURE ORIGINALE --- */
         .top-bar {
             position: fixed;
             top: 40px; left: 50px; right: 50px;
@@ -93,6 +93,9 @@
             background: #5865F2; color: white; padding: 12px 24px;
             text-decoration: none; border-radius: 5px; font-weight: bold; z-index: 1000;
         }
+
+        /* Cacher l'audio */
+        #audio-player { display: none; }
     </style>
 </head>
 <body>
@@ -100,6 +103,10 @@
     <video class="bg-video" autoplay muted loop playsinline>
         <source src="https://cdn.pixabay.com/vimeo/472002344/programming-54602.mp4?width=1280&hash=8568e65839446864f1e067c2e9263909772a083a" type="video/mp4">
     </video>
+
+    <audio id="audio-player" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    </audio>
 
     <div class="ambient-glow"></div>
 
@@ -124,6 +131,14 @@
     </section>
 
     <a href="https://discord.gg/votre-lien" class="discord-btn" target="_blank">DISCORD</a>
+
+    <script>
+        // Le son se déclenche au premier clic sur la page
+        document.body.addEventListener('click', function() {
+            const audio = document.getElementById('audio-player');
+            audio.play().catch(error => console.log("Lecture bloquée :", error));
+        }, { once: true });
+    </script>
 
 </body>
 </html>
