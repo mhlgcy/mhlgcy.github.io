@@ -30,7 +30,7 @@
             position: relative;
         }
 
-        /* --- VIDÉO DE CODE EN FOND --- */
+        /* --- VIDÉO DE CODE INFORMATIQUE --- */
         .bg-video {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -48,7 +48,7 @@
             pointer-events: none;
         }
 
-        /* --- TA STRUCTURE ORIGINALE --- */
+        /* --- NAVIGATION --- */
         .top-bar {
             position: fixed;
             top: 40px; left: 50px; right: 50px;
@@ -60,6 +60,7 @@
             font-weight: 700; letter-spacing: 2px; text-transform: uppercase; font-size: 1rem;
         }
 
+        /* --- HERO SECTION --- */
         .hero-section {
             height: 100vh; width: 100%; display: flex; justify-content: center; align-items: center;
         }
@@ -74,6 +75,7 @@
             font-family: var(--font-serif); font-size: 5vw; line-height: 0.9; font-weight: 400;
         }
 
+        /* --- VISUEL 3D --- */
         .display-3d-container {
             position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
             z-index: 5; perspective: 1200px; pointer-events: none;
@@ -88,13 +90,15 @@
 
         @keyframes rotate3D { from { transform: rotateY(0deg); } to { transform: rotateY(360deg); } }
 
+        /* --- BOUTON DISCORD --- */
         .discord-btn {
             position: fixed; bottom: 30px; right: 30px;
             background: #5865F2; color: white; padding: 12px 24px;
             text-decoration: none; border-radius: 5px; font-weight: bold; z-index: 1000;
+            transition: 0.3s;
         }
+        .discord-btn:hover { background: #4752c4; transform: scale(1.05); }
 
-        /* Cacher l'audio */
         #audio-player { display: none; }
     </style>
 </head>
@@ -105,7 +109,7 @@
     </video>
 
     <audio id="audio-player" loop>
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+        <source src="la-league.mp3" type="audio/mpeg">
     </audio>
 
     <div class="ambient-glow"></div>
@@ -130,13 +134,15 @@
         </div>
     </section>
 
-    <a href="https://discord.gg/votre-lien" class="discord-btn" target="_blank">DISCORD</a>
+    <a href="https://discord.gg/votre-lien" class="discord-btn" target="_blank">REJOINDRE LE DISCORD</a>
 
     <script>
-        // Le son se déclenche au premier clic sur la page
+        // Active la musique au premier clic n'importe où sur la page
         document.body.addEventListener('click', function() {
             const audio = document.getElementById('audio-player');
-            audio.play().catch(error => console.log("Lecture bloquée :", error));
+            audio.play().catch(function(error) {
+                console.log("Le navigateur bloque la lecture : ", error);
+            });
         }, { once: true });
     </script>
 
