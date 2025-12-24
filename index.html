@@ -6,20 +6,15 @@
     <title>Mhlegacy studio</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&family=Playfair+Display:wght@900&display=swap" rel="stylesheet">
 
     <style>
-        /* --- CONFIGURATION GLOBALE ORIGINALE --- */
         :root {
             --bg-color: #050505;
             --text-white: #ffffff;
-            --text-grey: #a0a0a0;
             --accent-purple: #6a00ff;
             --font-serif: 'Playfair Display', serif;
             --font-sans: 'Manrope', sans-serif;
-            --hero-offset-x: 10%; 
-            --hero-offset-y: 10%;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -29,134 +24,129 @@
             color: var(--text-white);
             font-family: var(--font-sans);
             overflow-x: hidden;
-            position: relative;
         }
 
-        /* --- LA GUIRLANDE DE LUMIÈRES (Haut de l'image) --- */
-        body::before {
-            content: "";
+        /* --- LA BARRE DE COULEURS EN HAUT (DOGSTUDIO STYLE) --- */
+        .color-bar {
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 5px;
-            background: radial-gradient(circle, #ff0055 10%, #00ff99 30%, #6a00ff 50%, #ffcc00 70%, #ff0055 90%);
-            background-size: 50px 100%;
+            top: 0; left: 0; width: 100%; height: 6px;
+            background: repeating-linear-gradient(90deg, #ff0055, #ff0055 10px, #00ff99 10px, #00ff99 20px, #6a00ff 20px, #6a00ff 30px, #ffcc00 30px, #ffcc00 40px);
             z-index: 2000;
         }
 
-        /* --- VIDÉO DE FOND --- */
+        /* --- VIDÉO EN ARRIÈRE-PLAN --- */
         .bg-video {
             position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
+            top: 0; left: 0; width: 100%; height: 100%;
             object-fit: cover;
             z-index: -3;
-            opacity: 0.35;
+            opacity: 0.3;
         }
 
-        /* --- FOND D'AMBIANCE --- */
-        .ambient-glow {
-            position: fixed;
-            width: 100vw; height: 100vh;
-            background: radial-gradient(circle at 70% 80%, rgba(106, 0, 255, 0.15) 0%, transparent 50%);
-            z-index: -1;
-            pointer-events: none;
-        }
-
-        /* --- HEADER & NAVIGATION --- */
+        /* --- NAVIGATION --- */
         .top-bar {
             position: fixed;
-            top: 40px; left: 50px; right: 50px;
+            top: 30px; left: 40px; right: 40px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             z-index: 1000;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 2px;
         }
 
-        .logo-block { font-weight: 800; letter-spacing: 1px; text-transform: uppercase; font-size: 0.8rem; }
-
-        /* LISTE DÉROULANTE STYLE DISCRET */
-        .dropdown { position: relative; display: inline-block; }
+        /* MENU DÉROULANT ÉPURÉ */
+        .dropdown { position: relative; }
         .dropbtn { background: none; border: none; color: white; cursor: pointer; font-size: 1.2rem; }
         .dropdown-content { display: none; position: absolute; right: 0; background: #000; min-width: 150px; border: 1px solid #222; }
-        .dropdown-content a { color: white; padding: 12px; text-decoration: none; display: block; font-size: 0.8rem; }
+        .dropdown-content a { color: white; padding: 12px; text-decoration: none; display: block; }
         .dropdown-content a:hover { background: var(--accent-purple); }
         .dropdown:hover .dropdown-content { display: block; }
 
-        .lang-selector { position: absolute; left: 50px; top: 80px; font-size: 0.7rem; opacity: 0.5; }
-
-        /* --- SECTION 1 : HERO (LE TEXTE COMME SUR L'IMAGE) --- */
+        /* --- SECTION HERO (STYLE EXACT DE L'IMAGE) --- */
         .hero-section {
             height: 100vh;
-            width: 100%;
             display: flex;
-            align-items: center;
-            padding-left: 15%; /* Décale le texte à gauche comme sur l'image */
+            flex-direction: column;
+            justify-content: center;
+            padding-left: 10%;
+            position: relative;
         }
 
-        .hero-center-text {
-            position: relative;
+        .hero-title {
+            font-family: var(--font-serif);
+            font-size: 10vw;
+            line-height: 0.8;
+            font-weight: 900;
             z-index: 10;
         }
 
-        .hero-center-text h1 {
-            font-family: var(--font-serif);
-            font-size: 9vw; /* Taille massive */
-            line-height: 0.8;
-            font-weight: 900;
-            margin: 0;
-            letter-spacing: -3px; /* Resserre les lettres comme sur l'image */
-            opacity: 0;
-            animation: fadeIn 1.5s forwards;
+        .hero-title span { display: block; }
+
+        .hero-description {
+            margin-top: 40px;
+            max-width: 450px;
+            font-size: 1rem;
+            line-height: 1.6;
+            opacity: 0.8;
+            z-index: 10;
         }
 
-        /* VISUEL 3D */
+        /* TEXTE 3D EN ARRIÈRE-PLAN */
         .display-3d-container {
             position: fixed;
-            top: 50%; left: 60%; /* Placé derrière et sur le côté */
-            transform: translate(-50%, -50%);
-            pointer-events: none;
+            top: 50%; right: 10%;
+            transform: translateY(-50%);
             z-index: 5;
-            perspective: 1200px;
+            perspective: 1000px;
         }
 
         #text-3d {
-            font-size: 15vw;
+            font-size: 18vw;
             font-weight: 900;
             color: transparent;
             -webkit-text-stroke: 1px rgba(255,255,255,0.1);
             text-transform: uppercase;
         }
         
-        .rotate { animation: rotate3D 60s linear infinite; }
+        .rotate { animation: rotate3D 30s linear infinite; }
 
-        /* BIO ET RÉSEAUX */
-        .hero-right-panel {
+        /* --- LISTE DES RÉSEAUX (BAS GAUCHE) --- */
+        .bottom-links {
             position: absolute;
-            bottom: 15%; left: 15%; /* Aligné sous le gros titre */
-            max-width: 400px;
-            z-index: 20;
+            bottom: 40px; left: 10%;
+            display: flex;
+            gap: 20px;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
-        .bio-text { font-size: 0.95rem; line-height: 1.6; margin-bottom: 20px; opacity: 0.8; }
+        .bottom-links a { color: white; text-decoration: none; opacity: 0.6; transition: 0.3s; }
+        .bottom-links a:hover { opacity: 1; }
 
-        /* --- SECTION 2 : LANGUAGES --- */
+        /* --- SECTION 2 : LANGAGES (SCROLL CONSERVÉ) --- */
         .languages-section {
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
+            background: #000;
         }
-        .lang-grid { display: flex; gap: 20px; z-index: 20; }
-        .lang-item { font-size: 1.5rem; padding: 15px 40px; border: 1px solid rgba(255,255,255,0.15); border-radius: 50px; cursor: pointer; transition: 0.3s; }
-        .lang-item:hover { background: var(--accent-purple); border-color: var(--accent-purple); }
+        .lang-grid { display: flex; gap: 20px; }
+        .lang-item { font-size: 1.5rem; padding: 20px 40px; border: 1px solid #333; border-radius: 50px; cursor: pointer; transition: 0.3s; }
+        .lang-item:hover { background: var(--accent-purple); }
 
-        /* DISCORD & MUSIQUE */
-        .discord-btn { position: fixed; bottom: 30px; right: 30px; background: #5865F2; color: white; padding: 12px 20px; text-decoration: none; border-radius: 4px; font-weight: bold; font-size: 0.8rem; z-index: 1000; }
+        /* DISCORD & AUDIO */
+        .discord-btn { position: fixed; bottom: 30px; right: 40px; background: #5865F2; color: white; padding: 12px 24px; text-decoration: none; border-radius: 4px; font-weight: bold; font-size: 0.75rem; z-index: 1000; }
         #bg-music { display: none; }
 
-        @keyframes fadeIn { to { opacity: 1; } }
         @keyframes rotate3D { from { transform: rotateY(0deg); } to { transform: rotateY(360deg); } }
     </style>
 </head>
 <body>
+
+    <div class="color-bar"></div>
 
     <audio id="bg-music" loop>
         <source src="https://www.chosic.com/wp-content/uploads/2021/04/Rainy-Day-Ambient-Music.mp3" type="audio/mpeg">
@@ -166,11 +156,8 @@
         <source src="https://assets.mixkit.co/videos/preview/mixkit-abstract-dark-ink-swirling-in-water-4330-large.mp4" type="video/mp4">
     </video>
 
-    <div class="ambient-glow"></div>
-
     <header class="top-bar">
-        <div class="logo-block">MHLEGACY STUDIO / 2024</div>
-        
+        <div class="logo">MHLEGACY STUDIO / DEPT.</div>
         <div class="dropdown">
             <button class="dropbtn">☰</button>
             <div class="dropdown-content">
@@ -186,20 +173,21 @@
     </div>
 
     <section class="hero-section">
-        <div class="hero-center-text">
-            <h1>We</h1>
-            <h1>Make</h1>
-            <h1>Our</h1>
-            <h1>Legacy</h1>
+        <div class="hero-title">
+            <span>We</span>
+            <span>Make</span>
+            <span>Our</span>
+            <span style="color: var(--accent-purple);">Legacy</span>
         </div>
 
-        <div class="hero-right-panel">
-            <p class="bio-text">Mon rôle dépasse la simple écriture de code. Je sculpte des mécanismes de jeu inédits pour créer des héritages numériques.</p>
-            <div style="display: flex; gap: 20px; font-size: 0.7rem; letter-spacing: 1px; text-transform: uppercase;">
-                <a href="#" style="color:white; text-decoration:none">TikTok</a>
-                <a href="#" style="color:white; text-decoration:none">Twitch</a>
-                <a href="#" style="color:white; text-decoration:none">Youtube</a>
-            </div>
+        <div class="hero-description">
+            <p>Je sculpte des mécanismes de jeu inédits pour créer des héritages numériques à l'intersection de l'art et du code.</p>
+        </div>
+
+        <div class="bottom-links">
+            <a href="#">TikTok</a>
+            <a href="#">Twitch</a>
+            <a href="#">Youtube</a>
         </div>
     </section>
 
