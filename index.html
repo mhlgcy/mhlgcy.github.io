@@ -9,7 +9,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
 
     <style>
-        /* TES STYLES ORIGINAUX (INCHANGÉS) */
         :root {
             --bg-color: #050505;
             --text-white: #ffffff;
@@ -28,104 +27,120 @@
             color: var(--text-white);
             font-family: var(--font-sans);
             overflow-x: hidden;
+            position: relative;
         }
 
-        /* --- TEST VIDÉO --- */
+        /* --- VIDÉO DE CODE EN FOND --- */
         .bg-video {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             object-fit: cover;
-            z-index: -5; /* Tout au fond */
-            opacity: 0.4;
-            background: black; /* Si la vidéo rate, le fond reste noir */
+            z-index: -5;
+            opacity: 0.25; /* Légèrement plus sombre pour bien lire ton texte */
+            filter: grayscale(100%) brightness(50%); /* Look Matrix/Tech */
         }
 
         .ambient-glow {
             position: fixed;
             width: 100vw; height: 100vh;
-            background: radial-gradient(circle at 70% 80%, rgba(106, 0, 255, 0.1) 0%, transparent 50%);
+            background: radial-gradient(circle at 70% 80%, rgba(106, 0, 255, 0.15) 0%, transparent 50%);
             z-index: -1;
             pointer-events: none;
         }
 
+        /* --- TA STRUCTURE ORIGINALE --- */
         .top-bar {
             position: fixed;
             top: 40px; left: 50px; right: 50px;
-            display: flex; justify-content: space-between; z-index: 1000;
+            display: flex; justify-content: space-between; align-items: flex-start;
+            z-index: 1000;
+        }
+
+        .logo-block {
+            font-weight: 700; letter-spacing: 2px; text-transform: uppercase; font-size: 1rem;
         }
 
         .hero-section {
-            height: 100vh; display: flex; justify-content: center; align-items: center;
+            height: 100vh; width: 100%; display: flex; justify-content: center; align-items: center;
+        }
+
+        .hero-center-text {
+            position: absolute; top: 40%; left: 50%;
+            transform: translate(calc(-50% - var(--hero-offset-x)), calc(-50% - var(--hero-offset-y)));
+            z-index: 10;
         }
 
         .hero-center-text h1 {
-            font-family: var(--font-serif); font-size: 5vw; line-height: 0.9;
+            font-family: var(--font-serif); font-size: 5vw; line-height: 0.9; font-weight: 400;
         }
 
         .display-3d-container {
             position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            z-index: 5; pointer-events: none;
+            z-index: 5; perspective: 1200px; pointer-events: none;
         }
 
         #text-3d {
             font-size: 20vw; font-weight: 900; color: transparent;
             -webkit-text-stroke: 1px var(--accent-purple); text-transform: uppercase;
         }
+        
+        .rotate { animation: rotate3D 60s linear infinite; }
 
-        /* LOG POUR LE TEST */
-        #debug-console {
-            position: fixed; bottom: 10px; left: 10px; background: rgba(0,0,0,0.8);
-            color: #0f0; font-family: monospace; font-size: 10px; padding: 5px; z-index: 9999;
+        @keyframes rotate3D { from { transform: rotateY(0deg); } to { transform: rotateY(360deg); } }
+
+        /* --- BOUTON DISCORD --- */
+        .discord-btn {
+            position: fixed; bottom: 30px; right: 30px;
+            background: #5865F2; color: white; padding: 12px 24px;
+            text-decoration: none; border-radius: 5px; font-weight: bold; z-index: 1000;
         }
+
+        /* --- CACHER L'AUDIO --- */
+        #bg-music { display: none; }
     </style>
 </head>
 <body>
 
-    <div id="debug-console">Statut : Chargement...</div>
-
-    <video id="test-video" class="bg-video" autoplay muted loop playsinline>
-        <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
-        Ta vidéo ne charge pas.
+    <video class="bg-video" autoplay muted loop playsinline>
+        <source src="https://cdn.pixabay.com/vimeo/472002344/programming-54602.mp4?width=1280&hash=8568e65839446864f1e067c2e9263909772a083a" type="video/mp4">
     </video>
 
-    <audio id="test-audio" loop>
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    <audio id="bg-music" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3" type="audio/mpeg">
     </audio>
 
     <div class="ambient-glow"></div>
 
     <header class="top-bar">
-        <div class="logo-block">MHLEGACY STUDIO</div>
+        <div class="logo-block">
+            <div>MHLEGACY</div>
+            <div style="opacity: 0.6; font-size: 0.8em;">STUDIO</div>
+        </div>
     </header>
 
     <div class="display-3d-container">
-        <div id="text-3d">C#</div>
+        <div id="text-3d" class="rotate">C#</div>
     </div>
 
     <section class="hero-section">
         <div class="hero-center-text">
-            <h1>We Make</h1>
-            <h1 style="color: var(--accent-purple);">Legacy</h1>
+            <h1>We</h1>
+            <h1>Make</h1>
+            <h1>Our</h1>
+            <h1 style="color: var(--accent-purple);">legacy</h1>
         </div>
     </section>
 
+    <a href="https://discord.gg/votre-lien" class="discord-btn" target="_blank">DISCORD</a>
+
     <script>
-        const video = document.getElementById('test-video');
-        const audio = document.getElementById('test-audio');
-        const debug = document.getElementById('debug-console');
-
-        // TEST VIDÉO
-        video.oncanplay = () => debug.innerHTML += "<br>✅ Vidéo chargée";
-        video.onerror = () => debug.innerHTML += "<br>❌ Erreur Vidéo";
-
-        // TEST AUDIO (Nécessite une interaction)
-        window.addEventListener('click', () => {
-            audio.play()
-                .then(() => debug.innerHTML += "<br>✅ Son activé")
-                .catch(e => debug.innerHTML += "<br>❌ Erreur Son : " + e.message);
+        // Lancer la musique au premier clic sur la page
+        document.body.addEventListener('click', function() {
+            var audio = document.getElementById('bg-music');
+            // On force le démarrage au milieu (par exemple à la 60ème seconde)
+            audio.currentTime = 60; 
+            audio.play();
         }, { once: true });
-
-        debug.innerHTML = "Clique n'importe où pour activer le son.";
     </script>
 </body>
 </html>
