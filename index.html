@@ -6,15 +6,20 @@
     <title>Mhlegacy studio</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
 
     <style>
+        /* --- TA CONFIGURATION ORIGINALE --- */
         :root {
             --bg-color: #050505;
             --text-white: #ffffff;
+            --text-grey: #a0a0a0;
             --accent-purple: #6a00ff;
             --font-serif: 'Playfair Display', serif;
             --font-sans: 'Manrope', sans-serif;
+            --hero-offset-x: 10%; 
+            --hero-offset-y: 10%;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -23,67 +28,93 @@
             background-color: var(--bg-color);
             color: var(--text-white);
             font-family: var(--font-sans);
-            overflow: hidden;
-            height: 100vh;
+            overflow-x: hidden;
+            position: relative;
         }
 
-        /* VIDÉO DE CODE INFORMATIQUE */
+        /* VIDÉO DE CODE EN FOND */
         .bg-video {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             object-fit: cover;
             z-index: -5;
-            opacity: 0.25; 
+            opacity: 0.2; 
             filter: grayscale(100%) brightness(40%);
         }
 
-        /* LECTEUR YOUTUBE CACHÉ */
-        #youtube-player {
-            position: absolute;
-            width: 1px; height: 1px;
-            opacity: 0;
+        #youtube-player { position: absolute; width: 1px; height: 1px; opacity: 0; }
+
+        .ambient-glow {
+            position: fixed;
+            width: 100vw; height: 100vh;
+            background: radial-gradient(circle at 70% 80%, rgba(106, 0, 255, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 20% 20%, rgba(40, 40, 90, 0.3) 0%, transparent 50%);
+            z-index: -1;
             pointer-events: none;
         }
 
+        /* --- TA BARRE DE NAVIGATION --- */
         .top-bar {
             position: fixed;
             top: 40px; left: 50px; right: 50px;
-            display: flex; justify-content: space-between;
+            display: flex; justify-content: space-between; align-items: flex-start;
             z-index: 1000;
         }
 
+        .logo-block {
+            line-height: 1.2; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; font-size: 1rem;
+        }
+
+        /* --- TON STYLE HERO --- */
         .hero-section {
-            height: 100vh; display: flex; justify-content: center; align-items: center;
-            text-align: center;
+            height: 100vh; width: 100%; position: relative;
+            display: flex; justify-content: center; align-items: center;
+        }
+
+        .hero-center-text {
+            position: absolute;
+            top: 40%; left: 50%;
+            transform: translate(calc(-50% - var(--hero-offset-x)), calc(-50% - var(--hero-offset-y)));
+            text-align: left; z-index: 10;
         }
 
         .hero-center-text h1 {
-            font-family: var(--font-serif); font-size: 6vw; line-height: 1.1; font-weight: 700;
+            font-family: var(--font-serif); font-size: 5vw; line-height: 0.9; font-weight: 400; margin: 0;
+        }
+
+        .hero-right-panel {
+            position: absolute;
+            bottom: 25%; right: 25%;
+            width: 350px; text-align: left; z-index: 20;
+        }
+
+        .bio-text { font-size: 1rem; line-height: 1.7; margin-bottom: 20px; }
+
+        .social-list { display: flex; gap: 15px; margin-top: 10px; }
+        .social-link { text-decoration: none; color: var(--text-grey); font-size: 0.8rem; text-transform: uppercase; transition: 0.3s; }
+
+        /* --- TON VISUEL 3D --- */
+        .display-3d-container {
+            position: fixed; top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none; z-index: 5; perspective: 1200px;
         }
 
         #text-3d {
-            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            font-size: 22vw; font-weight: 900; color: transparent;
-            -webkit-text-stroke: 1px var(--accent-purple);
-            text-transform: uppercase; z-index: 5; opacity: 0.3;
-            animation: rotate3D 25s linear infinite;
+            font-family: var(--font-sans); font-size: 20vw; font-weight: 900;
+            color: transparent; -webkit-text-stroke: 1px var(--accent-purple);
+            text-transform: uppercase; white-space: nowrap; transform-style: preserve-3d;
         }
+        
+        .rotate { animation: rotate3D 60s linear infinite; }
 
-        @keyframes rotate3D { 
-            from { transform: translate(-50%, -50%) rotateY(0deg); } 
-            to { transform: translate(-50%, -50%) rotateY(360deg); } 
-        }
+        @keyframes rotate3D { from { transform: rotateY(0deg); } to { transform: rotateY(360deg); } }
 
+        /* --- DISCORD --- */
         .discord-btn {
             position: fixed; bottom: 30px; right: 30px;
-            background: #5865F2; color: white; padding: 14px 28px;
+            background: #5865F2; color: white; padding: 12px 24px;
             text-decoration: none; border-radius: 5px; font-weight: bold; z-index: 1000;
-        }
-
-        /* Indication pour l'utilisateur */
-        .click-hint {
-            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
-            font-size: 0.7rem; opacity: 0.5; letter-spacing: 2px;
         }
     </style>
 </head>
@@ -95,51 +126,53 @@
 
     <div id="youtube-player"></div>
 
+    <div class="ambient-glow"></div>
+
     <header class="top-bar">
-        <div class="logo-block">MHLEGACY STUDIO</div>
+        <div class="logo-block">
+            <div>MHLEGACY</div>
+            <div style="opacity: 0.6; font-size: 0.8em;">STUDIO</div>
+        </div>
     </header>
 
-    <div id="text-3d">C#</div>
+    <div class="display-3d-container">
+        <div id="text-3d" class="rotate">C#</div>
+    </div>
 
     <section class="hero-section">
         <div class="hero-center-text">
-            <h1>We Make</h1>
-            <h1>Our <span style="color: var(--accent-purple);">legacy</span></h1>
+            <h1>We</h1>
+            <h1>Make</h1>
+            <h1>Our</h1>
+            <h1 style="color: var(--accent-purple);">legacy</h1>
+        </div>
+
+        <div class="hero-right-panel">
+            <p class="bio-text">Mon rôle dépasse la simple écriture de code. Je sculpte des mécanismes de jeu inédits.</p>
+            <div class="social-list">
+                <a href="#" class="social-link">TikTok</a>
+                <a href="#" class="social-link">Twitch</a>
+                <a href="#" class="social-link">Youtube</a>
+            </div>
         </div>
     </section>
 
-    <div class="click-hint">CLIQUE N'IMPORTE OÙ POUR ACTIVER LE SON</div>
-
-    <a href="#" class="discord-btn">DISCORD</a>
+    <a href="https://discord.gg/votre-lien" class="discord-btn" target="_blank">DISCORD</a>
 
     <script src="https://www.youtube.com/iframe_api"></script>
     <script>
         let player;
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('youtube-player', {
-                height: '0',
-                width: '0',
-                videoId: 's7cCVdDRaHA', // ID de l'instrumentale de La League
-                playerVars: {
-                    'autoplay': 0,
-                    'controls': 0,
-                    'loop': 1,
-                    'playlist': 's7cCVdDRaHA'
-                },
-                events: {
-                    'onReady': onPlayerReady
-                }
+                height: '0', width: '0',
+                videoId: 's7cCVdDRaHA', 
+                playerVars: { 'autoplay': 0, 'controls': 0, 'loop': 1, 'playlist': 's7cCVdDRaHA' },
+                events: { 'onReady': onPlayerReady }
             });
         }
-
-        function onPlayerReady(event) {
-            // Le son est prêt, on attend le clic
-            window.addEventListener('click', () => {
-                player.playVideo();
-                document.querySelector('.click-hint').style.display = 'none';
-            }, { once: true });
+        function onPlayerReady() {
+            window.addEventListener('click', () => { player.playVideo(); }, { once: true });
         }
     </script>
-
 </body>
 </html>
