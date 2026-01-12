@@ -53,6 +53,37 @@
             pointer-events: none;
         }
 
+        /* --- NOUVEAU : BOUTON JAMAL --- */
+        .jamal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            display: flex; justify-content: center; align-items: center;
+            z-index: 9999; /* Par-dessus tout au début */
+            background: rgba(0,0,0,0.5); /* Optionnel : assombrit un peu le fond au début */
+            transition: opacity 0.5s ease, visibility 0.5s;
+        }
+
+        #jamal-btn {
+            background: transparent;
+            color: var(--text-white);
+            border: 4px solid var(--accent-purple);
+            padding: 20px 60px;
+            font-size: 5rem; /* Écrit en gros */
+            font-weight: 900;
+            text-transform: uppercase;
+            cursor: pointer;
+            font-family: var(--font-sans);
+            letter-spacing: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 20px rgba(106, 0, 255, 0.4);
+        }
+
+        #jamal-btn:hover {
+            background: var(--accent-purple);
+            transform: scale(1.1);
+            box-shadow: 0 0 50px rgba(106, 0, 255, 0.8);
+        }
+
         /* --- TA BARRE DE NAVIGATION --- */
         .top-bar {
             position: fixed;
@@ -120,6 +151,10 @@
 </head>
 <body>
 
+    <div class="jamal-overlay" id="overlay">
+        <button id="jamal-btn">JAMAL</button>
+    </div>
+
     <video class="bg-video" autoplay muted loop playsinline>
         <source src="https://cdn.pixabay.com/vimeo/472002344/programming-54602.mp4?width=1280&hash=8568e65839446864f1e067c2e9263909772a083a" type="video/mp4">
     </video>
@@ -162,6 +197,9 @@
     <script src="https://www.youtube.com/iframe_api"></script>
     <script>
         let player;
+        const jamalBtn = document.getElementById('jamal-btn');
+        const overlay = document.getElementById('overlay');
+
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('youtube-player', {
                 height: '0', width: '0',
@@ -170,8 +208,18 @@
                 events: { 'onReady': onPlayerReady }
             });
         }
+
         function onPlayerReady() {
-            window.addEventListener('click', () => { player.playVideo(); }, { once: true });
+            // La musique se lance au clic sur le bouton JAMAL
+            jamalBtn.addEventListener('click', () => {
+                player.playVideo();
+                // On cache le bouton et l'overlay avec une petite animation
+                overlay.style.opacity = '0';
+                overlay.style.visibility = 'hidden';
+                setTimeout(() => {
+                    overlay.style.display = 'none';
+                }, 500);
+            });
         }
     </script>
 </body>
