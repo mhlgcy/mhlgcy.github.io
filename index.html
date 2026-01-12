@@ -11,77 +11,75 @@
         :root {
             --bg-color: #050505;
             --accent-purple: #6a00ff;
-            --text-white: #ffffff;
         }
 
-        /* On permet le scroll ici en augmentant la hauteur du body */
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-white);
-            font-family: 'Manrope', sans-serif;
+        /* IMPORTANT : On définit une grande hauteur pour pouvoir défiler */
+        html, body {
             margin: 0;
-            height: 300vh; /* 3x la hauteur de l'écran pour pouvoir défiler */
-            overflow-x: hidden;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: white;
+            font-family: 'Manrope', sans-serif;
+            min-height: 300vh; /* Permet le scroll */
         }
 
-        /* --- OVERLAY DE DÉPART --- */
+        /* OVERLAY QUI DISPARAÎT AU CLIC */
         #jamal-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--bg-color);
+            background: #000;
             display: flex; justify-content: center; align-items: center;
-            z-index: 10000;
-            transition: opacity 0.8s ease;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
         }
 
         #jamal-btn {
             background: transparent;
             color: white;
-            border: 5px solid var(--accent-purple);
-            padding: 20px 50px;
-            font-size: 60px;
+            border: 4px solid var(--accent-purple);
+            padding: 20px 40px;
+            font-size: clamp(2rem, 10vw, 5rem);
             font-weight: 900;
             cursor: pointer;
             text-transform: uppercase;
             box-shadow: 0 0 20px var(--accent-purple);
         }
 
-        /* --- ÉLÉMENT 3D FIXE AU CENTRE --- */
-        .display-3d-container {
-            position: fixed; /* Reste au milieu pendant le scroll */
+        /* TEXTE 3D FIXE AU MILIEU */
+        .container-3d {
+            position: fixed;
             top: 50%; left: 50%;
             transform: translate(-50%, -50%);
             perspective: 1000px;
-            z-index: 5;
-            pointer-events: none;
+            z-index: 1;
+            pointer-events: none; /* Pour ne pas gêner le clic ailleurs */
         }
 
         #text-3d {
             font-size: 15vw;
             font-weight: 900;
             color: transparent;
-            -webkit-text-stroke: 2px var(--accent-purple);
+            -webkit-text-stroke: 1px var(--accent-purple);
             text-transform: uppercase;
             white-space: nowrap;
-            transition: transform 0.1s ease-out; /* Fluidité du mouvement */
+            will-change: transform;
         }
 
-        /* --- CONTENU --- */
-        .bg-video { position: fixed; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -5; opacity: 0.15; }
-        
+        /* CONTENU DES SECTIONS */
         .section {
             height: 100vh;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
             position: relative;
             z-index: 10;
         }
 
-        .hero-title { font-family: 'Playfair Display', serif; font-size: 6vw; text-align: center; }
+        .hero-title { font-family: 'Playfair Display', serif; font-size: 8vw; text-align: center; pointer-events: none; }
         
-        .discord-btn { position: fixed; bottom: 30px; right: 30px; background: #5865F2; color: white; padding: 15px 25px; text-decoration: none; border-radius: 8px; font-weight: bold; z-index: 100; }
+        .bg-video { position: fixed; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1; opacity: 0.2; }
+
+        #youtube-player { position: absolute; top: -1000px; }
     </style>
 </head>
 <body>
@@ -96,7 +94,7 @@
 
     <div id="youtube-player"></div>
 
-    <div class="display-3d-container">
+    <div class="container-3d">
         <div id="text-3d">JAMAL</div>
     </div>
 
@@ -105,10 +103,12 @@
     </section>
 
     <section class="section">
-        <p style="font-size: 1.5rem; max-width: 600px; text-align: center;">Défile pour faire tourner l'héritage.</p>
+        <h2 style="font-size: 3rem;">SCROLLE POUR VOIR</h2>
     </section>
 
-    <a href="https://discord.gg/votre-lien" class="discord-btn" target="_blank">DISCORD</a>
+    <section class="section">
+        <h2 style="font-size: 3rem;">MHLEGACY STUDIO</h2>
+    </section>
 
     <script src="https://www.youtube.com/iframe_api"></script>
     <script>
@@ -125,19 +125,16 @@
             });
         }
 
-        // Action au clic (Lancement musique + disparition overlay)
         btn.onclick = function() {
             if(player && player.playVideo) player.playVideo();
             overlay.style.opacity = '0';
-            setTimeout(() => overlay.style.display = 'none', 800);
+            setTimeout(() => overlay.style.display = 'none', 500);
         };
 
-        // --- GESTION DU SCROLL POUR LA ROTATION ---
+        // ROTATION AU SCROLL
         window.addEventListener('scroll', () => {
-            const scrollValue = window.scrollY; // Récupère la position du défilement
-            // On fait tourner le texte sur l'axe Y en fonction du scroll
-            // Le "0.2" sert à régler la vitesse de rotation
-            text3d.style.transform = `rotateY(${scrollValue * 0.2}deg) rotateX(${scrollValue * 0.05}deg)`;
+            const rotation = window.scrollY * 0.15; // Vitesse de rotation
+            text3d.style.transform = `rotateY(${rotation}deg) rotateX(${rotation * 0.2}deg)`;
         });
     </script>
 </body>
