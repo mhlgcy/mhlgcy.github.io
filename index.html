@@ -5,81 +5,131 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mhlegacy studio</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;900&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
 
     <style>
         :root {
             --bg-color: #050505;
+            --text-white: #ffffff;
+            --text-grey: #a0a0a0;
             --accent-purple: #6a00ff;
+            --font-serif: 'Playfair Display', serif;
+            --font-sans: 'Manrope', sans-serif;
+            --hero-offset-x: 10%; 
+            --hero-offset-y: 10%;
         }
 
-        /* IMPORTANT : On définit une grande hauteur pour pouvoir défiler */
-        html, body {
-            margin: 0;
-            padding: 0;
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
             background-color: var(--bg-color);
-            color: white;
-            font-family: 'Manrope', sans-serif;
-            min-height: 300vh; /* Permet le scroll */
+            color: var(--text-white);
+            font-family: var(--font-sans);
+            overflow-x: hidden;
+            position: relative;
+            min-height: 200vh; /* Permet de scroller */
         }
 
-        /* OVERLAY QUI DISPARAÎT AU CLIC */
+        /* --- STYLE DU BOUTON JAMAL --- */
         #jamal-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: #000;
+            background: var(--bg-color);
             display: flex; justify-content: center; align-items: center;
-            z-index: 9999;
+            z-index: 10000;
             transition: opacity 0.5s ease;
         }
 
         #jamal-btn {
             background: transparent;
-            color: white;
-            border: 4px solid var(--accent-purple);
-            padding: 20px 40px;
-            font-size: clamp(2rem, 10vw, 5rem);
+            color: var(--text-white);
+            border: 5px solid var(--accent-purple);
+            padding: 30px 60px;
+            font-size: 5rem;
             font-weight: 900;
             cursor: pointer;
             text-transform: uppercase;
+            font-family: var(--font-sans);
+            letter-spacing: 10px;
             box-shadow: 0 0 20px var(--accent-purple);
         }
 
-        /* TEXTE 3D FIXE AU MILIEU */
-        .container-3d {
+        /* --- TES ÉLÉMENTS D'ORIGINE --- */
+        .bg-video {
             position: fixed;
-            top: 50%; left: 50%;
+            top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: cover;
+            z-index: -5;
+            opacity: 0.2; 
+            filter: grayscale(100%) brightness(40%);
+        }
+
+        #youtube-player { position: absolute; width: 1px; height: 1px; opacity: 0; }
+
+        .ambient-glow {
+            position: fixed;
+            width: 100vw; height: 100vh;
+            background: radial-gradient(circle at 70% 80%, rgba(106, 0, 255, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 20% 20%, rgba(40, 40, 90, 0.3) 0%, transparent 50%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .top-bar {
+            position: fixed;
+            top: 40px; left: 50px; right: 50px;
+            display: flex; justify-content: space-between; align-items: flex-start;
+            z-index: 1000;
+        }
+
+        .logo-block {
+            line-height: 1.2; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; font-size: 1rem;
+        }
+
+        .hero-section {
+            height: 100vh; width: 100%; position: relative;
+            display: flex; justify-content: center; align-items: center;
+        }
+
+        .hero-center-text {
+            position: absolute;
+            top: 40%; left: 50%;
+            transform: translate(calc(-50% - var(--hero-offset-x)), calc(-50% - var(--hero-offset-y)));
+            text-align: left; z-index: 10;
+        }
+
+        .hero-center-text h1 {
+            font-family: var(--font-serif); font-size: 5vw; line-height: 0.9; font-weight: 400; margin: 0;
+        }
+
+        .hero-right-panel {
+            position: absolute;
+            bottom: 25%; right: 25%;
+            width: 350px; text-align: left; z-index: 20;
+        }
+
+        .bio-text { font-size: 1rem; line-height: 1.7; margin-bottom: 20px; }
+
+        .display-3d-container {
+            position: fixed; top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            perspective: 1000px;
-            z-index: 1;
-            pointer-events: none; /* Pour ne pas gêner le clic ailleurs */
+            pointer-events: none; z-index: 5; perspective: 1200px;
         }
 
         #text-3d {
-            font-size: 15vw;
-            font-weight: 900;
-            color: transparent;
-            -webkit-text-stroke: 1px var(--accent-purple);
-            text-transform: uppercase;
-            white-space: nowrap;
-            will-change: transform;
+            font-family: var(--font-sans); font-size: 20vw; font-weight: 900;
+            color: transparent; -webkit-text-stroke: 1px var(--accent-purple);
+            text-transform: uppercase; white-space: nowrap; transform-style: preserve-3d;
+            /* L'animation auto est enlevée pour laisser place au scroll */
         }
 
-        /* CONTENU DES SECTIONS */
-        .section {
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            z-index: 10;
+        .discord-btn {
+            position: fixed; bottom: 30px; right: 30px;
+            background: #5865F2; color: white; padding: 12px 24px;
+            text-decoration: none; border-radius: 5px; font-weight: bold; z-index: 1000;
         }
-
-        .hero-title { font-family: 'Playfair Display', serif; font-size: 8vw; text-align: center; pointer-events: none; }
-        
-        .bg-video { position: fixed; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1; opacity: 0.2; }
-
-        #youtube-player { position: absolute; top: -1000px; }
     </style>
 </head>
 <body>
@@ -93,22 +143,33 @@
     </video>
 
     <div id="youtube-player"></div>
+    <div class="ambient-glow"></div>
 
-    <div class="container-3d">
+    <header class="top-bar">
+        <div class="logo-block">
+            <div>MHLEGACY</div>
+            <div style="opacity: 0.6; font-size: 0.8em;">STUDIO</div>
+        </div>
+    </header>
+
+    <div class="display-3d-container">
         <div id="text-3d">JAMAL</div>
     </div>
 
-    <section class="section">
-        <h1 class="hero-title">WE MAKE<br>OUR <span style="color: var(--accent-purple);">LEGACY</span></h1>
+    <section class="hero-section">
+        <div class="hero-center-text">
+            <h1>We</h1>
+            <h1>Make</h1>
+            <h1>Our</h1>
+            <h1 style="color: var(--accent-purple);">legacy</h1>
+        </div>
+
+        <div class="hero-right-panel">
+            <p class="bio-text">Mon rôle dépasse la simple écriture de code. Je sculpte des mécanismes de jeu inédits.</p>
+        </div>
     </section>
 
-    <section class="section">
-        <h2 style="font-size: 3rem;">SCROLLE POUR VOIR</h2>
-    </section>
-
-    <section class="section">
-        <h2 style="font-size: 3rem;">MHLEGACY STUDIO</h2>
-    </section>
+    <a href="https://discord.gg/votre-lien" class="discord-btn" target="_blank">DISCORD</a>
 
     <script src="https://www.youtube.com/iframe_api"></script>
     <script>
@@ -120,21 +181,23 @@
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('youtube-player', {
                 height: '0', width: '0',
-                videoId: 's7cCVdDRaHA',
-                playerVars: { 'autoplay': 0, 'loop': 1, 'playlist': 's7cCVdDRaHA' }
+                videoId: 's7cCVdDRaHA', 
+                playerVars: { 'autoplay': 0, 'controls': 0, 'loop': 1, 'playlist': 's7cCVdDRaHA' }
             });
         }
 
         btn.onclick = function() {
             if(player && player.playVideo) player.playVideo();
             overlay.style.opacity = '0';
-            setTimeout(() => overlay.style.display = 'none', 500);
+            setTimeout(() => { overlay.style.display = 'none'; }, 500);
         };
 
-        // ROTATION AU SCROLL
+        // GESTION DU SCROLL
         window.addEventListener('scroll', () => {
-            const rotation = window.scrollY * 0.15; // Vitesse de rotation
-            text3d.style.transform = `rotateY(${rotation}deg) rotateX(${rotation * 0.2}deg)`;
+            const rotation = window.scrollY * 0.2; // Règle la vitesse ici
+            if(text3d) {
+                text3d.style.transform = `rotateY(${rotation}deg)`;
+            }
         });
     </script>
 </body>
